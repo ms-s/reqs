@@ -285,9 +285,10 @@ ul.toc li {
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
 <link href="#rfc.section.2" rel="Chapter" title="2 Problem description">
 <link href="#rfc.section.2.1" rel="Chapter" title="2.1 Credentials">
-<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Crypto Agility">
-<link href="#rfc.section.2.3" rel="Chapter" title="2.3 AKE for OSCORE">
-<link href="#rfc.section.2.4" rel="Chapter" title="2.4 Lightweight">
+<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Identity Protection">
+<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Crypto Agility">
+<link href="#rfc.section.2.4" rel="Chapter" title="2.4 AKE for OSCORE">
+<link href="#rfc.section.2.5" rel="Chapter" title="2.5 Lightweight">
 <link href="#rfc.section.3" rel="Chapter" title="3 Requirements Summary">
 <link href="#rfc.section.4" rel="Chapter" title="4 Security Considerations">
 <link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations">
@@ -295,12 +296,12 @@ ul.toc li {
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.33.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.34.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Vucinic, M., Selander, G., and J. Mattsson" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-selander-lake-reqs-latest" />
-  <meta name="dct.issued" scheme="ISO8601" content="2019-10-23" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-10-31" />
   <meta name="dct.abstract" content="This document compiles the requirements for a lightweight authenticated key exchange protocol for OSCORE." />
   <meta name="description" content="This document compiles the requirements for a lightweight authenticated key exchange protocol for OSCORE." />
 
@@ -324,7 +325,7 @@ ul.toc li {
 <td class="right">G. Selander</td>
 </tr>
 <tr>
-<td class="left">Expires: April 25, 2020</td>
+<td class="left">Expires: May 3, 2020</td>
 <td class="right">J. Mattsson</td>
 </tr>
 <tr>
@@ -333,7 +334,7 @@ ul.toc li {
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">October 23, 2019</td>
+<td class="right">October 31, 2019</td>
 </tr>
 
     	
@@ -349,7 +350,7 @@ ul.toc li {
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on April 25, 2020.</p>
+<p>This Internet-Draft will expire on May 3, 2020.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -365,11 +366,13 @@ ul.toc li {
 </li>
 <ul><li>2.1.   <a href="#rfc.section.2.1">Credentials</a>
 </li>
-<li>2.2.   <a href="#rfc.section.2.2">Crypto Agility</a>
+<li>2.2.   <a href="#rfc.section.2.2">Identity Protection</a>
 </li>
-<li>2.3.   <a href="#rfc.section.2.3">AKE for OSCORE</a>
+<li>2.3.   <a href="#rfc.section.2.3">Crypto Agility</a>
 </li>
-<li>2.4.   <a href="#rfc.section.2.4">Lightweight</a>
+<li>2.4.   <a href="#rfc.section.2.4">AKE for OSCORE</a>
+</li>
+<li>2.5.   <a href="#rfc.section.2.5">Lightweight</a>
 </li>
 </ul><li>3.   <a href="#rfc.section.3">Requirements Summary</a>
 </li>
@@ -388,37 +391,8 @@ ul.toc li {
   <h1 id="rfc.section.1">
 <a href="#rfc.section.1">1.</a> <a href="#intro" id="intro">Introduction</a>
 </h1>
-<p id="rfc.section.1.p.1">OSCORE <a href="#RFC8613" class="xref">[RFC8613]</a> is a lightweight communication security protocol providing end-to-end security on application layer for constrained IoT settings (cf. <a href="#RFC7228" class="xref">[RFC7228]</a>). It is expected to be deployed with standards and frameworks using CoAP such as 6TiSCH, LPWAN, OMA Specworks LwM2M, Fairhair Alliance and Open Connectivity Foundation. OSCORE lacks a matching authenticated key exchange protocol (AKE). This document compiles the requirements for such an AKE.</p>
-<h1 id="rfc.section.2">
-<a href="#rfc.section.2">2.</a> <a href="#prob-desc" id="prob-desc">Problem description</a>
-</h1>
-<h1 id="rfc.section.2.1">
-<a href="#rfc.section.2.1">2.1.</a> <a href="#credentials" id="credentials">Credentials</a>
-</h1>
-<p id="rfc.section.2.1.p.1">IoT deployments differ in terms of what credentials can be supported. Currently many systems use pre-shared keys (PSK) provisioned out of band, for various reasons. PSK are often used in a first deployment because of its percieved simplicity. The use of PSK allows for protection of communication without major additional security processing, and also enables the use of symmetric crypto algorithms only, reducing the implementation and computational effort in the endpoints.</p>
-<p id="rfc.section.2.1.p.2">However, PSK based provisioning has inherent weaknesses. There has been reports of massive breaches of PSK provisioning systems, and as many systems use PSK without perfect forward secrecy (PFS) they are vulnerable to passive pervasive monitoring. The security of these systems can be improved by adding PFS through an AKE authenticated by the provisioned PSK.</p>
-<p id="rfc.section.2.1.p.3">Shared keys can alternatively be established in the endpoints using an AKE protocol authenticated with asymmetric public keys instead of symmetric secret keys. Raw public keys (RPK) can be provisioned with the same scheme as PSKs, and allows a more relaxed trust model since RPKs need not be secret.</p>
-<p id="rfc.section.2.1.p.4">By running the same asymmetric key AKE with public key certificates instead of RPK, key provisioning can be omitted, leading to a more automated bootstrapping procedure.</p>
-<p id="rfc.section.2.1.p.5">These steps provide an example of a migration path in limited scoped steps from simple to more robust security bootstrapping and provisioning schemes where each step improves the overall security and/or simplicity of deployment of the IoT system, although not all steps are necessarily feasible for the most constrained settings.</p>
-<p id="rfc.section.2.1.p.6">In order to allow for these different schemes, the AKE must support PSK, RPK and certificate based authentication.</p>
-<p id="rfc.section.2.1.p.7">Considering the wide variety of deployments it is desirable to support different schemes for transporting and identifying credentials, see Section 2 of <a href="#I-D.ietf-cose-x509" class="xref">[I-D.ietf-cose-x509]</a>.</p>
-<h1 id="rfc.section.2.2">
-<a href="#rfc.section.2.2">2.2.</a> <a href="#crypto-agility" id="crypto-agility">Crypto Agility</a>
-</h1>
-<p id="rfc.section.2.2.p.1">Motivated by long deployment lifetimes, the AKE is required to support crypto agility, including modularity of COSE crypto algorithms and negotiation of preferred crypto algorithms for OSCORE and the AKE. The AKE negotiation must be protected against downgrade attacks.</p>
-<h1 id="rfc.section.2.3">
-<a href="#rfc.section.2.3">2.3.</a> <a href="#AKE-OSCORE" id="AKE-OSCORE">AKE for OSCORE</a>
-</h1>
-<p id="rfc.section.2.3.p.1">In order to be suitable for OSCORE, at the end of the AKE protocol run the two parties must agree on (see Section 3.2 of <a href="#RFC8613" class="xref">[RFC8613]</a>):</p>
-<p></p>
-
-<ul>
-<li>a shared secret (OSCORE Master Secret) with PFS and a good amount of randomness. (The term &#8220;good amount of randomness&#8221; is borrowed from <a href="#HKDF" class="xref">[HKDF]</a> to signify not necessarily uniformly distributed randomness.)</li>
-<li>identifiers providing a hint to the receiver of what security context to use when decrypting the message (OSCORE Sender IDs of peer endpoints), arbitrarily short</li>
-<li>COSE algorithms to use with OSCORE</li>
-</ul>
-<p id="rfc.section.2.3.p.3">Moreover, the AKE must support the same transport as OSCORE, in particular any protocol where CoAP can be transported.</p>
-<p id="rfc.section.2.3.p.4">To ensure that the AKE is efficient for the expected applications of OSCORE, we list the relevant public specifications of technologies where OSCORE is included:</p>
+<p id="rfc.section.1.p.1">OSCORE <a href="#RFC8613" class="xref">[RFC8613]</a> is a lightweight communication security protocol providing end-to-end security on application layer for constrained IoT settings (cf. <a href="#RFC7228" class="xref">[RFC7228]</a>). OSCORE lacks a matching authenticated key exchange protocol (AKE).</p>
+<p id="rfc.section.1.p.2">To ensure that the AKE is efficient for the expected applications of OSCORE, we list the relevant public specifications of technologies where OSCORE is included:</p>
 <p></p>
 
 <ul>
@@ -426,50 +400,100 @@ ul.toc li {
 <li>The IETF LPWAN WG charter (-01) identifies the need to improve the transport capabilities of LPWA networks such as NB-IoT and LoRa whose &#8220;common traits include &#8230; frame sizes &#8230; [on] the order of tens of bytes transmitted a few times per day at ultra-low speeds&#8221;. The application of OSCORE is described in <a href="#I-D.ietf-lpwan-coap-static-context-hc" class="xref">[I-D.ietf-lpwan-coap-static-context-hc]</a>.</li>
 <li>OMA Specworks LwM2M version 1.1 <a href="#LwM2M" class="xref">[LwM2M]</a> defines bindings to two challenging radio technologies where OSCORE will be deployed: LoRaWAN and NB-IoT.</li>
 </ul>
-<p id="rfc.section.2.3.p.6">Other industry fora which plan to use OSCORE:</p>
+<p id="rfc.section.1.p.4">Other industry fora which plan to use OSCORE:</p>
 <p></p>
 
 <ul>
 <li>Fairhair Alliance has defined an architecture <a href="#Fairhair" class="xref">[Fairhair]</a> which adopts OSCORE for multicast, but it is not clear whether the architecture will support unicast OSCORE.</li>
-<li>Open Connectivity Foundation (OCF) has been actively involved in the OSCORE development for the purpose of deploying OSCORE, but no public reference is available since OCF only references RFCs. We believe that these OSCORE consumers reflect similar levels of constraints on the devices and networks in question.&#160;</li>
+<li>Open Connectivity Foundation (OCF) has been actively involved in the OSCORE development for the purpose of deploying OSCORE, but no public reference is available since OCF only references RFCs. We believe that these OSCORE consumers reflect similar levels of constraints on the devices and networks in question.</li>
 </ul>
-<p id="rfc.section.2.3.p.8">The solution will presumably be useful in other scenarios as well since a low security overhead improves the overall performance, but we do not require the solution to necessarily be applicable anywhere else.</p>
-<h1 id="rfc.section.2.4">
-<a href="#rfc.section.2.4">2.4.</a> <a href="#lw" id="lw">Lightweight</a>
+<p id="rfc.section.1.p.6">This document compiles the requirements for the AKE for OSCORE.  It summarizes the security requirements that are expected from such an AKE, as well as the main characteristics of the environments where the solution is envisioned to be deployed.  The solution will presumably be useful in other scenarios as well since a low security overhead improves the overall performance.</p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> <a href="#prob-desc" id="prob-desc">Problem description</a>
 </h1>
-<p id="rfc.section.2.4.p.1">As motivated in <a href="#AKE-OSCORE" class="xref">Section 2.3</a> we target an AKE which is efficiently deployable in 6TiSCH multi-hop networks, LoRaWAN networks and NB-IoT networks. The desire is to optimize the AKE to be &#8216;as lightweight as reasonably achievable&#8217; in these environments, where &#8216;lightweight&#8217; refers to:</p>
+<h1 id="rfc.section.2.1">
+<a href="#rfc.section.2.1">2.1.</a> <a href="#credentials" id="credentials">Credentials</a>
+</h1>
+<p id="rfc.section.2.1.p.1">IoT deployments differ in terms of what credentials can be supported. Currently many systems use pre-shared keys (PSK) provisioned out of band, for various reasons. PSK are often used in a first deployment because of its perceived simplicity. The use of PSK allows for protection of communication without major additional security processing, and also enables the use of symmetric crypto algorithms only, reducing the implementation and computational effort in the endpoints.</p>
+<p id="rfc.section.2.1.p.2">However, PSK-based provisioning has inherent weaknesses. There has been reports of massive breaches of PSK provisioning systems, and as many systems use PSK without perfect forward secrecy (PFS) they are vulnerable to passive pervasive monitoring. The security of these systems can be improved by adding PFS through an AKE authenticated by the provisioned PSK.</p>
+<p id="rfc.section.2.1.p.3">Shared keys can alternatively be established in the endpoints using an AKE protocol authenticated with asymmetric public keys instead of symmetric secret keys. Raw public keys (RPK) can be provisioned with the same scheme as PSKs, which allows a more relaxed trust model since RPKs need not be secret.</p>
+<p id="rfc.section.2.1.p.4">As a third option, by running the same asymmetric key AKE with public key certificates instead of RPK, key provisioning can be omitted, leading to a more automated bootstrapping procedure.</p>
+<p id="rfc.section.2.1.p.5">These steps provide an example of a migration path in limited scoped steps from simple to more robust security bootstrapping and provisioning schemes where each step improves the overall security and/or simplicity of deployment of the IoT system, although not all steps are necessarily feasible for the most constrained settings.</p>
+<p id="rfc.section.2.1.p.6">In order to allow for these different schemes, the AKE must support PSK, RPK and certificate-based authentication.</p>
+<p id="rfc.section.2.1.p.7">Bandwidth is a scarce resource in constrained-node networks.  To minimize the bandwidth consumption it is therefore desirable to support transporting the certificates by reference rather than by value.  Considering the wide variety of deployments the AKE must support different schemes for transporting and identifying credentials, see Section 2 of <a href="#I-D.ietf-cose-x509" class="xref">[I-D.ietf-cose-x509]</a>.</p>
+<p id="rfc.section.2.1.p.8">The common lack of a user interface in constrained devices leads to various credential provisioning schemes.  The use of RPKs may be appropriate for the authentication of the AKE initiator but not for the AKE responder.  The AKE must support different credentials for authentication in different directions of the AKE run, e.g. certificate-based authentication for the initiating endpoint and RPK-based authentication for the responding endpoint.</p>
+<h1 id="rfc.section.2.2">
+<a href="#rfc.section.2.2">2.2.</a> <a href="#identity-protection" id="identity-protection">Identity Protection</a>
+</h1>
+<p id="rfc.section.2.2.p.1">Transporting identities as part of the AKE run is a necessity in order to provide strong mutual authentication.  In the case of constrained devices, the identity may contain sensitive information on the manufacturer of the device, the batch, default firmware version&#8230; Protecting the identities from passive and active attacks is important from the privacy point of view.  The AKE is required to support identity protection of one of the peers in the AKE run in the case of public key identities, or the protection of the PSK identifier in the case of PSK-based authentication.</p>
+<h1 id="rfc.section.2.3">
+<a href="#rfc.section.2.3">2.3.</a> <a href="#crypto-agility" id="crypto-agility">Crypto Agility</a>
+</h1>
+<p id="rfc.section.2.3.p.1">Motivated by long deployment lifetimes, the AKE is required to support crypto agility, including modularity of COSE crypto algorithms and negotiation of preferred crypto algorithms for OSCORE and the AKE. The AKE negotiation must be protected against downgrade attacks.</p>
+<h1 id="rfc.section.2.4">
+<a href="#rfc.section.2.4">2.4.</a> <a href="#AKE-OSCORE" id="AKE-OSCORE">AKE for OSCORE</a>
+</h1>
+<p id="rfc.section.2.4.p.1">In order to be suitable for OSCORE, at the end of the AKE protocol run the two parties must agree on (see Section 3.2 of <a href="#RFC8613" class="xref">[RFC8613]</a>):</p>
+<p></p>
+
+<ul>
+<li>a shared secret (OSCORE Master Secret) with PFS and a good amount of randomness. (The term &#8220;good amount of randomness&#8221; is borrowed from <a href="#HKDF" class="xref">[HKDF]</a> to signify not necessarily uniformly distributed randomness.)</li>
+<li>identifiers providing a hint to the receiver of what security context to use when decrypting the message (OSCORE Sender IDs of peer endpoints), arbitrarily short</li>
+<li>COSE algorithms to use with OSCORE</li>
+</ul>
+<p id="rfc.section.2.4.p.3">Moreover, the AKE must support the same transport as OSCORE, in particular any protocol where CoAP can be transported.</p>
+<h1 id="rfc.section.2.5">
+<a href="#rfc.section.2.5">2.5.</a> <a href="#lw" id="lw">Lightweight</a>
+</h1>
+<p id="rfc.section.2.5.p.1">As motivated in <a href="#AKE-OSCORE" class="xref">Section 2.4</a> we target an AKE which is efficiently deployable in 6TiSCH multi-hop networks, LoRaWAN networks and NB-IoT networks. The desire is to optimize the AKE to be &#8216;as lightweight as reasonably achievable&#8217; in these environments, where &#8216;lightweight&#8217; refers to:</p>
 <p></p>
 
 <ul>
 <li>resource consumption, measured by bytes on the wire, wall-clock time and number of round trips to complete, or power consumption</li>
 <li>the amount of new code required on end systems which already have an OSCORE stack</li>
 </ul>
-<p id="rfc.section.2.4.p.3">These properties need to be considered in the context of the use of an existing CoAP/OSCORE stack in the targeted networks. However, some properties may be difficult to evaluate for a given protocol, for example, because they depend on the radio conditions or other simultaneous network traffic. Therefore these properties should be taken as input for identifying plausible protocol metrics that can be more easily measured and compared between protocols.</p>
-<p id="rfc.section.2.4.p.4">Per &#8216;bytes on the wire&#8217;, it is desirable for these AKE messages to fit into the MTU size of these protocols; and if not possible, within as few frames as possible, since using multiple MTUs can have significant costs in terms of time and power.</p>
-<p id="rfc.section.2.4.p.5">Per &#8216;time&#8217;, it is desirable for the AKE message exchange(s) to complete in a reasonable amount of time, both for a single uncongested exchange and when multiple exchanges are running in an interleaved fashion, like e.g. in a &#8220;network formation&#8221; setting when multiple devices connect for the first time. This latency may not be a linear function depending on congestion and the specific radio technology used. As these are relatively low data rate networks, the latency contribution due to computation is in general not expected to be dominant.</p>
-<p id="rfc.section.2.4.p.6">Per &#8216;round-trips&#8217;, it is desirable that the number of completed request/response message exchanges required before the initiating endpoint can start sending protected traffic data is as small as possible, since this reduces completion time. See <a href="#disc" class="xref">Section 2.4.4</a> for a discussion about the tradeoff between message size and number of messages.</p>
-<p id="rfc.section.2.4.p.7">Per &#8216;power&#8217;, it is desirable for the transmission of AKE messages and crypto to draw as little power as possible. The best mechanism for doing so differs across radio technologies.  For example, NB-IoT uses licensed spectrum and thus can transmit at higher power to improve coverage, making the transmitted byte count relatively more important than for other radio technologies.  In other cases, the radio transmitter will be active for a full MTU frame regardless of how much of the frame is occupied by message content, which makes the byte count less sensitive for the power consumption.  Increased power consumption is unavoidable in poor network conditions, such as most wide-area settings including LoRaWAN.</p>
-<p id="rfc.section.2.4.p.8">Per &#8216;new code&#8217;, it is desirable to introduce as little new code as possible onto OSCORE-enabled devices to support this new AKE. These devices have on the order of 10s of kB of memory and 100 kB of storage on which an embedded OS; a COAP stack; CORE and AKE libraries; and target applications would run. It is expected that the majority of this space is available for actual application logic, as opposed to the support libraries. In a typical OSCORE implementation COSE encrypt and signature structures will be available, as will support for COSE algorithms relevant for IoT enabling the same algorithms as is used for OSCORE (e.g. COSE algorithm no. 10 = CCM* used by 6TiSCH). The use of those, or CBOR or CoAP, would not add to the footprint.</p>
-<p id="rfc.section.2.4.p.9">While the large variety of settings and capabilities of the devices and networks makes it challenging to produce exact values of some these dimensions, there are some key benchmarks that are tractable for security protocol engineering and which have a significant impact.</p>
-<h1 id="rfc.section.2.4.1">
-<a href="#rfc.section.2.4.1">2.4.1.</a> <a href="#lorawan" id="lorawan">LoRaWAN</a>
+<p id="rfc.section.2.5.p.3">These properties need to be considered in the context of the use of an existing CoAP/OSCORE stack in the targeted networks. However, some properties may be difficult to evaluate for a given protocol, for example, because they depend on the radio conditions or other simultaneous network traffic. Therefore these properties should be taken as input for identifying plausible protocol metrics that can be more easily measured and compared between protocols.</p>
+<p id="rfc.section.2.5.p.4">Per &#8216;bytes on the wire&#8217;, it is desirable for these AKE messages to fit into the MTU size of these protocols; and if not possible, within as few frames as possible, since using multiple MTUs can have significant costs in terms of time and power.</p>
+<p id="rfc.section.2.5.p.5">Per &#8216;time&#8217;, it is desirable for the AKE message exchange(s) to complete in a reasonable amount of time, both for a single uncongested exchange and when multiple exchanges are running in an interleaved fashion, like e.g. in a &#8220;network formation&#8221; setting when multiple devices connect for the first time. This latency may not be a linear function depending on congestion and the specific radio technology used. As these are relatively low data rate networks, the latency contribution due to computation is in general not expected to be dominant.</p>
+<p id="rfc.section.2.5.p.6">Per &#8216;round-trips&#8217;, it is desirable that the number of completed request/response message exchanges required before the initiating endpoint can start sending protected traffic data is as small as possible, since this reduces completion time. See <a href="#disc" class="xref">Section 2.5.4</a> for a discussion about the tradeoff between message size and number of messages.</p>
+<p id="rfc.section.2.5.p.7">Per &#8216;power&#8217;, it is desirable for the transmission of AKE messages and crypto to draw as little power as possible. The best mechanism for doing so differs across radio technologies.  For example, NB-IoT uses licensed spectrum and thus can transmit at higher power to improve coverage, making the transmitted byte count relatively more important than for other radio technologies.  In other cases, the radio transmitter will be active for a full MTU frame regardless of how much of the frame is occupied by message content, which makes the byte count less sensitive for the power consumption.  Increased power consumption is unavoidable in poor network conditions, such as most wide-area settings including LoRaWAN.</p>
+<p id="rfc.section.2.5.p.8">Per &#8216;new code&#8217;, it is desirable to introduce as little new code as possible onto OSCORE-enabled devices to support this new AKE. These devices have on the order of 10s of kB of memory and 100 kB of storage on which an embedded OS; a COAP stack; CORE and AKE libraries; and target applications would run. It is expected that the majority of this space is available for actual application logic, as opposed to the support libraries. In a typical OSCORE implementation COSE encrypt and signature structures will be available, as will support for COSE algorithms relevant for IoT enabling the same algorithms as is used for OSCORE (e.g. COSE algorithm no. 10 = CCM* used by 6TiSCH). The use of those, or CBOR or CoAP, would not add to the footprint.</p>
+<p id="rfc.section.2.5.p.9">While the large variety of settings and capabilities of the devices and networks makes it challenging to produce exact values of some these dimensions, there are some key benchmarks that are tractable for security protocol engineering and which have a significant impact.</p>
+<h1 id="rfc.section.2.5.1">
+<a href="#rfc.section.2.5.1">2.5.1.</a> <a href="#lorawan" id="lorawan">LoRaWAN</a>
 </h1>
-<p id="rfc.section.2.4.1.p.1">LoRaWAN employs unlicensed radio frequency bands in the 868MHz ISM band, in Europe regulated by ETSI EN 300 220. For LoRaWAN the most relevant metric is the Time-on-Air, which determines the back-off times and can be used an indicator to calculate energy consumption. LoRaWAN is legally required to use a 1% (or smaller) duty cycle, a payload split into two fragments instead of one increases the time to complete the sending of this payload by at least 10,000%. The use of an AKE for providing end-to-end security on application layer need to comply with the duty cycle. One relevant benchmark is performance in low coverage with Data Rates 0-2 corresponding to a packet size of 51 bytes <a href="#LoRaWAN" class="xref">[LoRaWAN]</a>. While larger frame sizes are also defined, their use depend on good radio conditions. Some libraries/providers only support 51 bytes packet size.</p>
-<h1 id="rfc.section.2.4.2">
-<a href="#rfc.section.2.4.2">2.4.2.</a> <a href="#tisch" id="tisch">6TiSCH</a>
+<p id="rfc.section.2.5.1.p.1">LoRaWAN employs unlicensed radio frequency bands in the 868MHz ISM band, in Europe regulated by ETSI EN 300 220. For LoRaWAN the most relevant metric is the Time-on-Air, which determines the back-off times and can be used an indicator to calculate energy consumption. LoRaWAN is legally required to use a 1% (or smaller) duty cycle, a payload split into two fragments instead of one increases the time to complete the sending of this payload by at least 10,000%. The use of an AKE for providing end-to-end security on application layer need to comply with the duty cycle. One relevant benchmark is performance in low coverage with Data Rates 0-2 corresponding to a packet size of 51 bytes <a href="#LoRaWAN" class="xref">[LoRaWAN]</a>. While larger frame sizes are also defined, their use depend on good radio conditions. Some libraries/providers only support 51 bytes packet size.</p>
+<h1 id="rfc.section.2.5.2">
+<a href="#rfc.section.2.5.2">2.5.2.</a> <a href="#tisch" id="tisch">6TiSCH</a>
 </h1>
-<p id="rfc.section.2.4.2.p.1">For 6TiSCH specifically, as a time-sliced network, bytes of the wire (or rather, the quantization into frame count) is particularly noteworthy, since more frames contribute to congestion for spectrum (and concomitant error rates) in a non-linear way, especially in scenarios when large numbers of independent nodes are attempting to execute an AKE to join a network.</p>
-<p id="rfc.section.2.4.2.p.2">The available size for key exchange messages depends the topology of the network and other parameters. One benchmark which is relevant for studying AKE is the network formation setting. For a 6TiSCH production network 5 hops deep in a network formation setting, the available CoAP overhead to avoid fragmentation is 47/45 bytes (uplink/downlink) <a href="#AKE-for-6TiSCH" class="xref">[AKE-for-6TiSCH]</a>.  </p>
-<h1 id="rfc.section.2.4.3">
-<a href="#rfc.section.2.4.3">2.4.3.</a> <a href="#nb-iot" id="nb-iot">NB-IoT</a>
+<p id="rfc.section.2.5.2.p.1">6TiSCH operates in the 2.4 GHz unlicensed frequency band and uses hybrid Time Division/Frequency Division multiple access (TDMA/FDMA).  Nodes in a 6TiSCH network form a mesh.  The basic unit of communication, a cell, is uniquely defined by its time and frequency offset in the communication schedule matrix.  Cells can be assigned for communication to a pair of nodes in the mesh and so be collision-free, or shared by multiple nodes, for example during network formation.  In case of shared cells, some collision-resolution scheme such as slotted-Aloha is employed.  Nodes exchange frames which are at most 127-bytes long, including the link-layer headers.  To preserve energy, the schedule is typically computed in such a way that nodes switch on their radio below 1% of the time (&#8220;radio duty cycle&#8221;).  A 6TiSCH mesh can be several hops deep.  In typical use cases considered by the 6TiSCH working group, a network that is 2-4 hops deep is commonplace; a network which is more than 8 hops deep is not common.</p>
+<h1 id="rfc.section.2.5.2.1">
+<a href="#rfc.section.2.5.2.1">2.5.2.1.</a> <a href="#bytes-on-the-wire" id="bytes-on-the-wire">Bytes on the wire</a>
 </h1>
-<p id="rfc.section.2.4.3.p.1">For NB-IoT, in contrast to the other two technologies below, the radio bearers are not characterized by a fixed sized PDU. Concatenation, segmentation and reassembly are part of the service provided by the radio layer. Furthermore, since NB-IoT is operating in licensed spectrum, the packets on the radio interface can be transmitted back-to-back, so the time before sending OSCORE protected data is dependent on the number of round trips/messages of the AKE. An AKE providing challenge-response based mutual authentication requires at least three messages/one round trip before it is possible to encrypt traffic data between peers meeting for the first time. NB-IoT has a high per byte energy consumption component for uplink transfers, implying that those messages should be as small as possible.</p>
-<h1 id="rfc.section.2.4.4">
-<a href="#rfc.section.2.4.4">2.4.4.</a> <a href="#disc" id="disc">Discussion</a>
+<p id="rfc.section.2.5.2.1.p.1">Increasing the number of bytes on the wire in a protocol message has an important effect on the 6TiSCH network in case the fragmentation is triggered.  More fragments contribute to congestion of shared cells (and concomitant error rates) in a non-linear way.</p>
+<p id="rfc.section.2.5.2.1.p.2">The available size for key exchange messages depends on the topology of the network, whether the message is traveling uplink or downlink, and other stack parameters.  A key performance indicator for a 6TiSCH network is &#8220;network formation&#8221;, i.e. the time it takes from switching on all devices, until the last device has executed the AKE and securely joined.  As an example, given the size limit on the frames and taking into account the different headers (including link-layer security), if a 6TiSCH network is 5 hops deep, the maximum CoAP payload size to avoid fragmentation is 47/45 bytes (uplink/downlink) <a href="#AKE-for-6TiSCH" class="xref">[AKE-for-6TiSCH]</a>.</p>
+<h1 id="rfc.section.2.5.2.2">
+<a href="#rfc.section.2.5.2.2">2.5.2.2.</a> <a href="#time" id="time">Time</a>
 </h1>
-<p id="rfc.section.2.4.4.p.1">While &#8220;as small protocol messages as possible&#8221; does not lend itself to a sharp boundary threshold, &#8220;as few protocol messages as possible&#8221; does and is relevant in all settings above.</p>
-<p id="rfc.section.2.4.4.p.2">The penalty is high for not fitting into the frame sizes of 6TiSCH and LoRaWAN networks. Fragmentation is not defined within these technologies so requires fragmentation scheme on a higher layer in the stack. With fragmentation increases the number of frames per message, each with its associated overhead in terms of power consumption and latency. Additionally the probability for errors increases, which leads to retransmissions of frames or entire messages that in turn increases the power consumption and latency.</p>
-<p id="rfc.section.2.4.4.p.3">There are trade-offs between &#8220;few messages&#8221; and &#8220;few frames&#8221;; if overhead is spread out over more messages such that each message fits into a particular frame this may reduce the overall power consumption. While it may be possible to engineer such a solution for a particular radio technology and signature algorithm, the benefits in terms of fewer messages/round trips in general and for NB-IoT in particular (see <a href="#nb-iot" class="xref">Section 2.4.3</a>) are considered more important than optimizing for a specific scenario. Hence an optimal AKE protocol has 3 messages and each message fits into as few frames as possible, ideally 1 frame per message.</p>
+<p id="rfc.section.2.5.2.2.p.1">Given the slotted nature of 6TiSCH, the number of bytes in a frame has insignificant impact on latency, but the number of frames has.  The relevant metric for studying AKE is the network formation time, which implies parallel AKE runs among nodes that are attempting to join the network.  Network formation time directly affects the time installers need to spend on site at deployment time.</p>
+<h1 id="rfc.section.2.5.2.3">
+<a href="#rfc.section.2.5.2.3">2.5.2.3.</a> <a href="#round-trips-and-number-of-messages" id="round-trips-and-number-of-messages">Round trips and number of messages</a>
+</h1>
+<p id="rfc.section.2.5.2.3.p.1">Given the mesh nature of the 6TiSCH network, and given that each message may travel several hops before reaching its destination, it is highly desirable to minimize the number of round trips to reduce latency.</p>
+<h1 id="rfc.section.2.5.2.4">
+<a href="#rfc.section.2.5.2.4">2.5.2.4.</a> <a href="#power" id="power">Power</a>
+</h1>
+<p id="rfc.section.2.5.2.4.p.1">From the power consumption point of view, it is more favorable to send a small number of large frames than a larger number of short frames.</p>
+<h1 id="rfc.section.2.5.3">
+<a href="#rfc.section.2.5.3">2.5.3.</a> <a href="#nb-iot" id="nb-iot">NB-IoT</a>
+</h1>
+<p id="rfc.section.2.5.3.p.1">For NB-IoT, in contrast to the other two technologies below, the radio bearers are not characterized by a fixed sized PDU. Concatenation, segmentation and reassembly are part of the service provided by the radio layer. Furthermore, since NB-IoT is operating in licensed spectrum, the packets on the radio interface can be transmitted back-to-back, so the time before sending OSCORE protected data is dependent on the number of round trips/messages of the AKE. An AKE providing challenge-response based mutual authentication requires at least three messages/one round trip before it is possible to encrypt traffic data between peers meeting for the first time. NB-IoT has a high per byte energy consumption component for uplink transfers, implying that those messages should be as small as possible.</p>
+<h1 id="rfc.section.2.5.4">
+<a href="#rfc.section.2.5.4">2.5.4.</a> <a href="#disc" id="disc">Discussion</a>
+</h1>
+<p id="rfc.section.2.5.4.p.1">While &#8220;as small protocol messages as possible&#8221; does not lend itself to a sharp boundary threshold, &#8220;as few protocol messages as possible&#8221; does and is relevant in all settings above.</p>
+<p id="rfc.section.2.5.4.p.2">The penalty is high for not fitting into the frame sizes of 6TiSCH and LoRaWAN networks. Fragmentation is not defined within these technologies so requires fragmentation scheme on a higher layer in the stack. With fragmentation increases the number of frames per message, each with its associated overhead in terms of power consumption and latency. Additionally the probability for errors increases, which leads to retransmissions of frames or entire messages that in turn increases the power consumption and latency.</p>
+<p id="rfc.section.2.5.4.p.3">There are trade-offs between &#8220;few messages&#8221; and &#8220;few frames&#8221;; if overhead is spread out over more messages such that each message fits into a particular frame this may reduce the overall power consumption. While it may be possible to engineer such a solution for a particular radio technology and signature algorithm, the benefits in terms of fewer messages/round trips in general and for NB-IoT in particular (see <a href="#nb-iot" class="xref">Section 2.5.3</a>) are considered more important than optimizing for a specific scenario. Hence an optimal AKE protocol has 3 messages and each message fits into as few frames as possible, ideally 1 frame per message.</p>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> <a href="#requirements-summary" id="requirements-summary">Requirements Summary</a>
 </h1>
@@ -477,7 +501,7 @@ ul.toc li {
 
 <ul>
 <li>The AKE must support PSK, RPK and certificate based authentication and crypto agility, be 3-pass and support the same transport as OSCORE. It is desirable to support different schemes for transporting and identifying credentials.</li>
-<li>After the AKE run, the peers must agree on a shared secret with PFS and good amount of randomness, peer identifiers (potentially short), and COSE algorithms to use.</li>
+<li>After the AKE run, the peers must be mutually authenticated, agree on a shared secret with PFS and good amount of randomness, peer identifiers (potentially short), and COSE algorithms to use.</li>
 <li>The AKE must reuse CBOR, CoAP and COSE primitives and algorithms for low code complexity of a combined OSCORE and AKE implementation.</li>
 <li>The messages must be as small as reasonably achievable and fit into as few LoRaWAN packets and 6TiSCH frames as possible, optimally 1 for each message.</li>
 </ul>
@@ -509,7 +533,7 @@ ul.toc li {
 <tr>
 <td class="reference"><b id="I-D.ietf-6tisch-minimal-security">[I-D.ietf-6tisch-minimal-security]</b></td>
 <td class="top">
-<a>Vucinic, M.</a>, <a>Simon, J.</a>, <a>Pister, K.</a> and <a>M. Richardson</a>, "<a href="https://tools.ietf.org/html/draft-ietf-6tisch-minimal-security-12">Minimal Security Framework for 6TiSCH</a>", Internet-Draft draft-ietf-6tisch-minimal-security-12, July 2019.</td>
+<a>Vucinic, M.</a>, <a>Simon, J.</a>, <a>Pister, K.</a> and <a>M. Richardson</a>, "<a href="https://tools.ietf.org/html/draft-ietf-6tisch-minimal-security-13">Minimal Security Framework for 6TiSCH</a>", Internet-Draft draft-ietf-6tisch-minimal-security-13, October 2019.</td>
 </tr>
 <tr>
 <td class="reference"><b id="I-D.ietf-cose-x509">[I-D.ietf-cose-x509]</b></td>
