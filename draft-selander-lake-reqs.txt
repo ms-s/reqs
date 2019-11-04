@@ -374,7 +374,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 2.6.1.  LoRaWAN
 
-   LoRaWAN employs unlicensed radio frequency bands in the 868MHz ISM
+   LoRaWAN employs unlicensed radio frequency bands in the 868 MHz ISM
    band.  As a case in point, we focus here on deployment in Europe,
    where this is regulated by ETSI EN 300 220.  For LoRaWAN the most
    relevant metric is the Time-on-Air, which determines the back-off
