@@ -270,10 +270,10 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    algorithms that OSCORE supports.  The AKE negotiation must be
    protected against downgrade attacks.
 
-   The AKE shall limit the impact of key compromise by providing Perfect
-   Forward Secrecey and compromise of the long-term keys does not enable
-   a passive attacker to compromise future session keys.  This two
-   properties can be achieved with a ephemeral Diffie-Hellman key
+   Compromise of the long-term keys shall not enable an attacker to
+   compromise past session keys (Perfect Forward Secrecy) and shall not
+   enable an passive attacker to compromise future session keys.  This
+   two properties can be achieved with a ephemeral Diffie-Hellman key
 
 
 
@@ -282,8 +282,8 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 5]
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
-   exchange.  The AKE shall Key provide Key Compromise Impersonation
-   (KCI) resistance.
+   exchange.  The AKE shall provide Key Compromise Impersonation (KCI)
+   resistance.
 
    The AKE shall protect against misbinding attacks and reflection
    attacks such as the recently published Selfie attack on TLS 1.3.
