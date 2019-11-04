@@ -434,7 +434,8 @@ ul.toc li {
 <h1 id="rfc.section.2.4">
 <a href="#rfc.section.2.4">2.4.</a> <a href="#AKE-OSCORE" id="AKE-OSCORE">AKE for OSCORE</a>
 </h1>
-<p id="rfc.section.2.4.p.1">In order to at all be suitable for OSCORE, at the end of the AKE protocol run the two parties must agree on (see Section 3.2 of <a href="#RFC8613" class="xref">[RFC8613]</a>):</p>
+<p id="rfc.section.2.4.p.1">The rationale for designing this protocol is that OSCORE is lacking a matching AKE. OSCORE was designed for lightweight RESTful operations for example by minimizing the overhead, and applying the protection to the application layer, thereby limiting the data being encrypted and integrity protected for the other endpoint togit add a minimum. Moreover, OSCORE was tailored for use with lightweight primitives that are likely to be implemented in the device, specifically CoAP, CBOR and COSE. The same properties must apply to the AKE.</p>
+<p id="rfc.section.2.4.p.2">In order to at all be suitable for OSCORE, at the end of the AKE protocol run the two parties must agree on (see Section 3.2 of <a href="#RFC8613" class="xref">[RFC8613]</a>):</p>
 <p></p>
 
 <ul>
@@ -442,7 +443,8 @@ ul.toc li {
 <li>identifiers providing a hint to the receiver of what security context to use when decrypting the message (OSCORE Sender IDs of peer endpoints), arbitrarily short</li>
 <li>COSE algorithms to use with OSCORE</li>
 </ul>
-<p id="rfc.section.2.4.p.3">Moreover, the AKE must support the same transport as OSCORE, in particular any protocol where CoAP can be transported.</p>
+<p id="rfc.section.2.4.p.4">Moreover, the AKE must support the same transport as OSCORE, in particular any protocol where CoAP can be transported. Since the AKE messages most commonly will be encapsulated in CoAP, the AKE must not duplicate functionality provided by CoAP. It is therefore assumed that the AKE is being transported in a protocol that provides reliable transport, that can preserve packet ordering and handle message duplication, that can perform fragmentation and protect against denial of service attacks.</p>
+<p id="rfc.section.2.4.p.5">The AKE may be transported over other transport than CoAP. In this case the underlying layers must handle message loss, reordering, message duplication, fragmentation, and denial of service protection.</p>
 <h1 id="rfc.section.2.5">
 <a href="#rfc.section.2.5">2.5.</a> <a href="#lw" id="lw">Lightweight</a>
 </h1>

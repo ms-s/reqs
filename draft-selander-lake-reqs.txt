@@ -69,8 +69,8 @@ Table of Contents
      2.5.  Lightweight . . . . . . . . . . . . . . . . . . . . . . .   5
    3.  Requirements Summary  . . . . . . . . . . . . . . . . . . . .  11
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
-   6.  Informative References  . . . . . . . . . . . . . . . . . . .  11
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
+   6.  Informative References  . . . . . . . . . . . . . . . . . . .  12
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  13
 
 1.  Introduction
@@ -228,6 +228,15 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 2.4.  AKE for OSCORE
 
+   The rationale for designing this protocol is that OSCORE is lacking a
+   matching AKE.  OSCORE was designed for lightweight RESTful operations
+   for example by minimizing the overhead, and applying the protection
+   to the application layer, thereby limiting the data being encrypted
+   and integrity protected for the other endpoint togit add a minimum.
+   Moreover, OSCORE was tailored for use with lightweight primitives
+   that are likely to be implemented in the device, specifically CoAP,
+   CBOR and COSE.  The same properties must apply to the AKE.
+
    In order to at all be suitable for OSCORE, at the end of the AKE
    protocol run the two parties must agree on (see Section 3.2 of
    [RFC8613]):
@@ -244,7 +253,17 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    o  COSE algorithms to use with OSCORE
 
    Moreover, the AKE must support the same transport as OSCORE, in
-   particular any protocol where CoAP can be transported.
+   particular any protocol where CoAP can be transported.  Since the AKE
+   messages most commonly will be encapsulated in CoAP, the AKE must not
+   duplicate functionality provided by CoAP.  It is therefore assumed
+   that the AKE is being transported in a protocol that provides
+   reliable transport, that can preserve packet ordering and handle
+   message duplication, that can perform fragmentation and protect
+   against denial of service attacks.
+
+   The AKE may be transported over other transport than CoAP.  In this
+   case the underlying layers must handle message loss, reordering,
+   message duplication, fragmentation, and denial of service protection.
 
 2.5.  Lightweight
 
@@ -253,6 +272,15 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    networks.  The desire is to optimize the AKE to be 'as lightweight as
    reasonably achievable' in these environments, where 'lightweight'
    refers to:
+
+
+
+
+
+Vucinic, et al.            Expires May 7, 2020                  [Page 5]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
 
    o  resource consumption, measured by bytes on the wire, wall-clock
       time and number of round trips to complete, or power consumption
@@ -272,15 +300,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    fit into the MTU size of these protocols; and if not possible, within
    as few frames as possible, since using multiple MTUs can have
    significant costs in terms of time and power.
-
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                  [Page 5]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
 
    Per 'time', it is desirable for the AKE message exchange(s) to
    complete in a reasonable amount of time, both for a single
@@ -311,6 +330,14 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    consumption is unavoidable in poor network conditions, such as most
    wide-area settings including LoRaWAN.
 
+
+
+
+Vucinic, et al.            Expires May 7, 2020                  [Page 6]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
    Per 'new code', it is desirable to introduce as little new code as
    possible onto OSCORE-enabled devices to support this new AKE.  These
    devices have on the order of 10s of kB of memory and 100 kB of
@@ -329,14 +356,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    these dimensions, there are some key benchmarks that are tractable
    for security protocol engineering and which have a significant
    impact.
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                  [Page 6]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
 
 2.5.1.  LoRaWAN
 
@@ -367,6 +386,14 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    6TiSCH operates in the 2.4 GHz unlicensed frequency band and uses
    hybrid Time Division/Frequency Division multiple access (TDMA/FDMA).
    Nodes in a 6TiSCH network form a mesh.  The basic unit of
+
+
+
+Vucinic, et al.            Expires May 7, 2020                  [Page 7]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
    communication, a cell, is uniquely defined by its time and frequency
    offset in the communication schedule matrix.  Cells can be assigned
    for communication to a pair of nodes in the mesh and so be collision-
@@ -385,15 +412,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
    Increasing the number of bytes on the wire in a protocol message has
    an important effect on the 6TiSCH network in case the fragmentation
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                  [Page 7]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
    is triggered.  More fragments contribute to congestion of shared
    cells (and concomitant error rates) in a non-linear way.
 
@@ -424,6 +442,14 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    is highly desirable to minimize the number of round trips to reduce
    latency.
 
+
+
+
+Vucinic, et al.            Expires May 7, 2020                  [Page 8]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
 2.5.2.4.  Power
 
    From the power consumption point of view, it is more favorable to
@@ -442,13 +468,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    o  device battery life of 10 years or more,
 
    o  low device complexity and cost, and
-
-
-
-Vucinic, et al.            Expires May 7, 2020                  [Page 8]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
 
    o  a high system capacity of thousands of connected devices per
       square kilometer.
@@ -479,6 +498,14 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    Coverage signficantly impacts the available bit rate and thereby the
    time for transmitting a message, and there is also a difference
    between downlink and uplink transmissions (see Section 2.5.3.4).  The
+
+
+
+Vucinic, et al.            Expires May 7, 2020                  [Page 9]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
    transmission time for the message is essentially proportional to the
    number of bytes.
 
@@ -497,14 +524,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    Since NB-IoT is operating in licensed spectrum, the device is allowed
    to transmit at a high power, which has a large impact on the energy
    consumption in particular in bad coverage.
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                  [Page 9]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
 
    The benchmark for NB-IoT energy consumption is based on the same
    computational model as was used by 3GPP in the design of this radio
@@ -535,6 +554,14 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    technologies so requires fragmentation scheme on a higher layer in
    the stack.  With fragmentation increases the number of frames per
    message, each with its associated overhead in terms of power
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 10]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
    consumption and latency.  Additionally the probability for errors
    increases, which leads to retransmissions of frames or entire
    messages that in turn increases the power consumption and latency.
@@ -553,14 +580,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    The difference between uplink and downlink performance should not be
    engineered into the protocol since it cannot be assumed that a
    particular protocol message will be sent uplink or downlink.
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 10]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
 
 3.  Requirements Summary
 
@@ -590,6 +609,15 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    protocols, e.g., providing confidentiality protection, integrity
    protection, and authentication with strong work factor.
 
+
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 11]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
 5.  IANA Considerations
 
    None.
@@ -605,18 +633,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
               "AKE for NB-IoT", March 2019,
               <https://github.com/EricssonResearch/EDHOC/blob/master/
               docs/NB%20IoT%20power%20consumption.xlsx>.
-
-
-
-
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 11]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
 
    [Fairhair]
               "Security Architecture for the Internet of Things (IoT) in
@@ -651,6 +667,13 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
               <https://lora-alliance.org/resource-hub/lorawantm-
               regional-parameters-v102rb>.
 
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 12]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
    [LwM2M]    "OMA SpecWorks LwM2M", August 2018,
               <http://www.openmobilealliance.org/release/LightweightM2M/
               V1_1-20180710-A/OMA-TS-LightweightM2M_Transport-
@@ -665,14 +688,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
               "Object Security for Constrained RESTful Environments
               (OSCORE)", RFC 8613, DOI 10.17487/RFC8613, July 2019,
               <https://www.rfc-editor.org/info/rfc8613>.
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 12]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
 
 Authors' Addresses
 
@@ -692,21 +707,6 @@ Authors' Addresses
    Ericsson AB
 
    Email: john.mattsson@ericsson.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
