@@ -71,12 +71,13 @@ Table of Contents
      2.4.  Crypto Agility  . . . . . . . . . . . . . . . . . . . . .   5
      2.5.  Mutual Authentication . . . . . . . . . . . . . . . . . .   5
      2.6.  Lightweight . . . . . . . . . . . . . . . . . . . . . . .   6
+     2.7.  Application Data  . . . . . . . . . . . . . . . . . . . .  13
    3.  Requirements Summary  . . . . . . . . . . . . . . . . . . . .  13
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  14
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  14
    Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  14
    7.  Informative References  . . . . . . . . . . . . . . . . . . .  14
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  15
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  16
 
 1.  Introduction
 
@@ -103,9 +104,8 @@ Table of Contents
       speeds".  The application of OSCORE is described in
       [I-D.ietf-lpwan-coap-static-context-hc].
 
-   o  OMA Specworks LwM2M version 1.1 [LwM2M] defines bindings to two
-      challenging radio technologies where OSCORE will be deployed:
-      LoRaWAN and NB-IoT.
+
+
 
 
 
@@ -113,6 +113,10 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 2]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
+
+   o  OMA Specworks LwM2M version 1.1 [LwM2M] defines bindings to two
+      challenging radio technologies where OSCORE will be deployed:
+      LoRaWAN and NB-IoT.
 
    Other industry fora which plan to use OSCORE:
 
@@ -158,10 +162,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
       context to use when decrypting the message (OSCORE Sender IDs of
       peer endpoints), arbitrarily short
 
-   o  COSE algorithms to use with OSCORE
-
-   Moreover, the AKE must support the same transport as OSCORE, in
-   particular any protocol where CoAP can be transported.  Since the AKE
 
 
 
@@ -170,6 +170,10 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 3]
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
+   o  COSE algorithms to use with OSCORE
+
+   Moreover, the AKE must support the same transport as OSCORE, in
+   particular any protocol where CoAP can be transported.  Since the AKE
    messages most commonly will be encapsulated in CoAP, the AKE must not
    duplicate functionality provided by CoAP.  It is therefore assumed
    that the AKE is being transported in a protocol that provides
@@ -215,16 +219,15 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    and/or simplicity of deployment of the IoT system, although not all
    steps are necessarily feasible for the most constrained settings.
 
-   In order to allow for these different schemes, the AKE must support
-   PSK, RPK and certificate-based authentication.
-
-
 
 
 Vucinic, et al.            Expires May 7, 2020                  [Page 4]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
+
+   In order to allow for these different schemes, the AKE must support
+   PSK, RPK and certificate-based authentication.
 
    Bandwidth is a scarce resource in constrained-node networks.  To
    minimize the bandwidth consumption it is therefore desirable to
@@ -271,9 +274,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    The AKE must provide mutual authentication (injective agreement)
    during the protocol run.
 
-   The AKE cannot rely on messages being exchanged in both directions
-   after the AKE has completed, because CoAP/OSCORE requests may not
-   have a response [RFC7967].  Furthermore, there is no assumption of
 
 
 
@@ -282,6 +282,9 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 5]
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
+   The AKE cannot rely on messages being exchanged in both directions
+   after the AKE has completed, because CoAP/OSCORE requests may not
+   have a response [RFC7967].  Furthermore, there is no assumption of
    dependence between CoAP client/server and AKE initiator/responder
    roles, and an OSCORE context may be used with CoAP client and server
    roles interchanged as is done e.g. in [LwM2M].
@@ -327,9 +330,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    request/response message exchanges required before the initiating
    endpoint can start sending protected traffic data is as small as
    possible, since this reduces completion time.  See Section 2.6.4 for
-   a discussion about the tradeoff between message size and number of
-   messages.
-
 
 
 
@@ -337,6 +337,9 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 6]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
+
+   a discussion about the tradeoff between message size and number of
+   messages.
 
    Per 'power', it is desirable for the transmission of AKE messages and
    crypto to draw as little power as possible.  The best mechanism for
@@ -383,9 +386,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    Although there are exceptions from the use of duty cycle, the use of
    an AKE for providing end-to-end security on application layer needs
    to comply with the duty cycle.
-
-
-
 
 
 
@@ -687,12 +687,48 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    devices to quickly re-establish security in case of reboots, and *
    enables support for recommendations of frequent key renewal
 
+2.7.  Application Data
+
+   In order to reduce round trips and number of messages, and in some
+   cases also streamline processing, certain applications may want to
+   transport application data within the AKE.
+
+   One example is the transport of third-party signed authorization
+   information such as an access token or a voucher from initiator to
+   responder or vice versa.  Such a scheme could enable the party
+   receiving the authorization information to make a decision about
+   whether the party being authenticated is also authorized before the
+   protocol is completed, and if not discontinue the protocol before it
+   is complete, thereby saving time and message processing.
+
+   Another example is the embedding of certificate enrolment request or
+   a newly issued certificate.
+
+   There are several considerations to make which needs to be addressed
+   in the specification of the AKE.  For example: The available
+   protection of the application data in the AKE depend, among other
+   things, on which protocol message the application data is carried in.
+   Authorization information may reveal privacy sensitive information.
+
+   The AKE must support the transport of application data within the
+   protocol message and provide the necessary instructions for how to
+   use this mechanism and its security and privacy properties.
+
 3.  Requirements Summary
 
    o  The AKE must support PSK, RPK and certificate based authentication
       and crypto agility, be 3-pass and support the same transport as
       OSCORE.  It is desirable to support different schemes for
       transporting and identifying credentials.
+
+
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 13]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
 
    o  After the AKE run, the peers must be mutually authenticated, agree
       on a shared secret with PFS and good amount of randomness, peer
@@ -719,17 +755,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
    None.
 
-
-
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 13]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
 Acknowledgments
 
    The authors want to thank Karthik Bhargavan, Michael Richardson and
@@ -754,6 +779,13 @@ Acknowledgments
               alliance.org/data/downloadables/1/9/
               fairhair_security_wp_march-2018.pdf>.
 
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 14]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
    [HKDF]     Krawczyk, H., "Cryptographic Extraction and Key
               Derivation: The HKDF Scheme", May 2010,
               <https://eprint.iacr.org/2010/264.pdf>.
@@ -775,16 +807,6 @@ Acknowledgments
               Context Header Compression (SCHC) for CoAP", draft-ietf-
               lpwan-coap-static-context-hc-11 (work in progress),
               October 2019.
-
-
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 14]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
 
    [LoRaWAN]  "LoRaWAN Regional Parameters v1.0.2rB", February 2017,
               <https://lora-alliance.org/resource-hub/lorawantm-
@@ -811,6 +833,15 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
               No Server Response", RFC 7967, DOI 10.17487/RFC7967,
               August 2016, <https://www.rfc-editor.org/info/rfc7967>.
 
+
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 15]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
    [RFC8613]  Selander, G., Mattsson, J., Palombini, F., and L. Seitz,
               "Object Security for Constrained RESTful Environments
               (OSCORE)", RFC 8613, DOI 10.17487/RFC8613, July 2019,
@@ -836,41 +867,10 @@ Authors' Addresses
    Email: john.mattsson@ericsson.com
 
 
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 15]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
    Dan Garcia-Carrillo
    Odin Solutions S.L.
 
    Email: dgarcia@odins.es
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

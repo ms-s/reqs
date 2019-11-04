@@ -290,6 +290,7 @@ ul.toc li {
 <link href="#rfc.section.2.4" rel="Chapter" title="2.4 Crypto Agility">
 <link href="#rfc.section.2.5" rel="Chapter" title="2.5 Mutual Authentication">
 <link href="#rfc.section.2.6" rel="Chapter" title="2.6 Lightweight">
+<link href="#rfc.section.2.7" rel="Chapter" title="2.7 Application Data">
 <link href="#rfc.section.3" rel="Chapter" title="3 Requirements Summary">
 <link href="#rfc.section.4" rel="Chapter" title="4 Security Considerations">
 <link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations">
@@ -385,6 +386,8 @@ ul.toc li {
 <li>2.5.   <a href="#rfc.section.2.5">Mutual Authentication</a>
 </li>
 <li>2.6.   <a href="#rfc.section.2.6">Lightweight</a>
+</li>
+<li>2.7.   <a href="#rfc.section.2.7">Application Data</a>
 </li>
 </ul><li>3.   <a href="#rfc.section.3">Requirements Summary</a>
 </li>
@@ -585,6 +588,14 @@ ul.toc li {
 <li>To limit the impact of a key compromise, BSI, NIST and ANSSI and other organizations recommend in other contexts frequent renewal of keys by means of Diffie-Hellman key exchange.</li>
 </ol>
 <p id="rfc.section.2.6.5.p.3">To summarize, even if it we are unable to give precise numbers for AKE frequency, a lightweight AKE * reduces the time for network formation and AKE runs in challenging radio technologies, * allows devices to quickly re-establish security in case of reboots, and * enables support for recommendations of frequent key renewal</p>
+<h1 id="rfc.section.2.7">
+<a href="#rfc.section.2.7">2.7.</a> <a href="#application-data" id="application-data">Application Data</a>
+</h1>
+<p id="rfc.section.2.7.p.1">In order to reduce round trips and number of messages, and in some cases also streamline processing, certain applications may want to transport application data within the AKE.</p>
+<p id="rfc.section.2.7.p.2">One example is the transport of third-party signed authorization information such as an access token or a voucher from initiator to responder or vice versa. Such a scheme could enable the party receiving the authorization information to make a decision about whether the party being authenticated is also authorized before the protocol is completed, and if not discontinue the protocol before it is complete, thereby saving time and message processing.</p>
+<p id="rfc.section.2.7.p.3">Another example is the embedding of certificate enrolment request or a newly issued certificate.</p>
+<p id="rfc.section.2.7.p.4">There are several considerations to make which needs to be addressed in the specification of the AKE. For example: The available protection of the application data in the AKE depend, among other things, on which protocol message the application data is carried in. Authorization information may reveal privacy sensitive information.</p>
+<p id="rfc.section.2.7.p.5">The AKE must support the transport of application data within the protocol message and provide the necessary instructions for how to use this mechanism and its security and privacy properties.</p>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> <a href="#requirements-summary" id="requirements-summary">Requirements Summary</a>
 </h1>
