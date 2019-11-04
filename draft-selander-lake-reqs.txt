@@ -267,7 +267,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 2.5.  Lightweight
 
-   As motivated in Section 2.4 we target an AKE which is efficiently
+   As motivated in Section 1 we target an AKE which is efficiently
    deployable in 6TiSCH multi-hop networks, LoRaWAN networks and NB-IoT
    networks.  The desire is to optimize the AKE to be 'as lightweight as
    reasonably achievable' in these environments, where 'lightweight'
@@ -289,16 +289,17 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
       an OSCORE stack
 
    These properties need to be considered in the context of the use of
-   an existing CoAP/OSCORE stack in the targeted networks.  However,
-   some properties may be difficult to evaluate for a given protocol,
-   for example, because they depend on the radio conditions or other
-   simultaneous network traffic.  Therefore these properties should be
+   an existing CoAP/OSCORE stack in the targeted networks and
+   technologies.  Some properties are difficult to evaluate for a given
+   protocol, for example, because they depend on the radio conditions or
+   other simultaneous network traffic.  Additionally, these properties
+   are not independent.  Therefore the properties listed here should be
    taken as input for identifying plausible protocol metrics that can be
    more easily measured and compared between protocols.
 
-   Per 'bytes on the wire', it is desirable for these AKE messages to
-   fit into the MTU size of these protocols; and if not possible, within
-   as few frames as possible, since using multiple MTUs can have
+   Per 'bytes on the wire', it is desirable for the AKE messages to fit
+   into the MTU size of these protocols; and if not possible, within as
+   few frames as possible, since using multiple MTUs can have
    significant costs in terms of time and power.
 
    Per 'time', it is desirable for the AKE message exchange(s) to
@@ -329,7 +330,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    byte count less sensitive for the power consumption.  Increased power
    consumption is unavoidable in poor network conditions, such as most
    wide-area settings including LoRaWAN.
-
 
 
 
