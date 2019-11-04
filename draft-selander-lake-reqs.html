@@ -288,7 +288,8 @@ ul.toc li {
 <link href="#rfc.section.2.2" rel="Chapter" title="2.2 Credentials">
 <link href="#rfc.section.2.3" rel="Chapter" title="2.3 Identity Protection">
 <link href="#rfc.section.2.4" rel="Chapter" title="2.4 Crypto Agility">
-<link href="#rfc.section.2.5" rel="Chapter" title="2.5 Lightweight">
+<link href="#rfc.section.2.5" rel="Chapter" title="2.5 Mutual Authentication">
+<link href="#rfc.section.2.6" rel="Chapter" title="2.6 Lightweight">
 <link href="#rfc.section.3" rel="Chapter" title="3 Requirements Summary">
 <link href="#rfc.section.4" rel="Chapter" title="4 Security Considerations">
 <link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations">
@@ -372,7 +373,9 @@ ul.toc li {
 </li>
 <li>2.4.   <a href="#rfc.section.2.4">Crypto Agility</a>
 </li>
-<li>2.5.   <a href="#rfc.section.2.5">Lightweight</a>
+<li>2.5.   <a href="#rfc.section.2.5">Mutual Authentication</a>
+</li>
+<li>2.6.   <a href="#rfc.section.2.6">Lightweight</a>
 </li>
 </ul><li>3.   <a href="#rfc.section.3">Requirements Summary</a>
 </li>
@@ -446,63 +449,68 @@ ul.toc li {
 </h1>
 <p id="rfc.section.2.4.p.1">Motivated by long deployment lifetimes, the AKE is required to support crypto agility, including modularity of COSE crypto algorithms and negotiation of preferred crypto algorithms for OSCORE and the AKE. The AKE negotiation must be protected against downgrade attacks.</p>
 <h1 id="rfc.section.2.5">
-<a href="#rfc.section.2.5">2.5.</a> <a href="#lw" id="lw">Lightweight</a>
+<a href="#rfc.section.2.5">2.5.</a> <a href="#mutual-authentication" id="mutual-authentication">Mutual Authentication</a>
 </h1>
-<p id="rfc.section.2.5.p.1">As motivated in <a href="#intro" class="xref">Section 1</a> we target an AKE which is efficiently deployable in 6TiSCH multi-hop networks, LoRaWAN networks and NB-IoT networks. The desire is to optimize the AKE to be &#8216;as lightweight as reasonably achievable&#8217; in these environments, where &#8216;lightweight&#8217; refers to:</p>
+<p id="rfc.section.2.5.p.1">The AKE must provide mutual authentication (injective agreement) during the protocol run.</p>
+<p id="rfc.section.2.5.p.2">The AKE cannot rely on messages being exchanged in both directions after the AKE has completed, because CoAP/OSCORE messages may not have a response <a href="#RFC7967" class="xref">[RFC7967]</a>. Furthermore, there is no assumption of dependence between CoAP client/server and initiator/responder roles, and an OSCORE context may be used with CoAP client and server roles interchanged as is done e.g. in <a href="#LwM2M" class="xref">[LwM2M]</a>.</p>
+<h1 id="rfc.section.2.6">
+<a href="#rfc.section.2.6">2.6.</a> <a href="#lw" id="lw">Lightweight</a>
+</h1>
+<p id="rfc.section.2.6.p.1">As motivated in <a href="#intro" class="xref">Section 1</a> we target an AKE which is efficiently deployable in 6TiSCH multi-hop networks, LoRaWAN networks and NB-IoT networks. The desire is to optimize the AKE to be &#8216;as lightweight as reasonably achievable&#8217; in these environments, where &#8216;lightweight&#8217; refers to:</p>
 <p></p>
 
 <ul>
 <li>resource consumption, measured by bytes on the wire, wall-clock time and number of round trips to complete, or power consumption</li>
 <li>the amount of new code required on end systems which already have an OSCORE stack</li>
 </ul>
-<p id="rfc.section.2.5.p.3">These properties need to be considered in the context of the use of an existing CoAP/OSCORE stack in the targeted networks and technologies. Some properties are difficult to evaluate for a given protocol, for example, because they depend on the radio conditions or other simultaneous network traffic.  Additionally, these properties are not independent. Therefore the properties listed here should be taken as input for identifying plausible protocol metrics that can be more easily measured and compared between protocols.</p>
-<p id="rfc.section.2.5.p.4">Per &#8216;bytes on the wire&#8217;, it is desirable for the AKE messages to fit into the MTU size of these protocols; and if not possible, within as few frames as possible, since using multiple MTUs can have significant costs in terms of time and power.</p>
-<p id="rfc.section.2.5.p.5">Per &#8216;time&#8217;, it is desirable for the AKE message exchange(s) to complete in a reasonable amount of time, both for a single uncongested exchange and when multiple exchanges are running in an interleaved fashion, like e.g. in a &#8220;network formation&#8221; setting when multiple devices connect for the first time. This latency may not be a linear function depending on congestion and the specific radio technology used. As these are relatively low data rate networks, the latency contribution due to computation is in general not expected to be dominant.</p>
-<p id="rfc.section.2.5.p.6">Per &#8216;round-trips&#8217;, it is desirable that the number of completed request/response message exchanges required before the initiating endpoint can start sending protected traffic data is as small as possible, since this reduces completion time. See <a href="#disc" class="xref">Section 2.5.4</a> for a discussion about the tradeoff between message size and number of messages.</p>
-<p id="rfc.section.2.5.p.7">Per &#8216;power&#8217;, it is desirable for the transmission of AKE messages and crypto to draw as little power as possible. The best mechanism for doing so differs across radio technologies.  For example, NB-IoT uses licensed spectrum and thus can transmit at higher power to improve coverage, making the transmitted byte count relatively more important than for other radio technologies.  In other cases, the radio transmitter will be active for a full MTU frame regardless of how much of the frame is occupied by message content, which makes the byte count less sensitive for the power consumption.  Increased power consumption is unavoidable in poor network conditions, such as most wide-area settings including LoRaWAN.</p>
-<p id="rfc.section.2.5.p.8">Per &#8216;new code&#8217;, it is desirable to introduce as little new code as possible onto OSCORE-enabled devices to support this new AKE. These devices have on the order of 10s of kB of memory and 100 kB of storage on which an embedded OS; a COAP stack; CORE and AKE libraries; and target applications would run. It is expected that the majority of this space is available for actual application logic, as opposed to the support libraries. In a typical OSCORE implementation COSE encrypt and signature structures will be available, as will support for COSE algorithms relevant for IoT enabling the same algorithms as is used for OSCORE (e.g. COSE algorithm no. 10 = CCM* used by 6TiSCH). The use of those, or CBOR or CoAP, would not add to the footprint.</p>
-<p id="rfc.section.2.5.p.9">While the large variety of settings and capabilities of the devices and networks makes it challenging to produce exact values of some these dimensions, there are some key benchmarks that are tractable for security protocol engineering and which have a significant impact.</p>
-<h1 id="rfc.section.2.5.1">
-<a href="#rfc.section.2.5.1">2.5.1.</a> <a href="#lorawan" id="lorawan">LoRaWAN</a>
+<p id="rfc.section.2.6.p.3">These properties need to be considered in the context of the use of an existing CoAP/OSCORE stack in the targeted networks and technologies. Some properties are difficult to evaluate for a given protocol, for example, because they depend on the radio conditions or other simultaneous network traffic.  Additionally, these properties are not independent. Therefore the properties listed here should be taken as input for identifying plausible protocol metrics that can be more easily measured and compared between protocols.</p>
+<p id="rfc.section.2.6.p.4">Per &#8216;bytes on the wire&#8217;, it is desirable for the AKE messages to fit into the MTU size of these protocols; and if not possible, within as few frames as possible, since using multiple MTUs can have significant costs in terms of time and power.</p>
+<p id="rfc.section.2.6.p.5">Per &#8216;time&#8217;, it is desirable for the AKE message exchange(s) to complete in a reasonable amount of time, both for a single uncongested exchange and when multiple exchanges are running in an interleaved fashion, like e.g. in a &#8220;network formation&#8221; setting when multiple devices connect for the first time. This latency may not be a linear function depending on congestion and the specific radio technology used. As these are relatively low data rate networks, the latency contribution due to computation is in general not expected to be dominant.</p>
+<p id="rfc.section.2.6.p.6">Per &#8216;round-trips&#8217;, it is desirable that the number of completed request/response message exchanges required before the initiating endpoint can start sending protected traffic data is as small as possible, since this reduces completion time. See <a href="#disc" class="xref">Section 2.6.4</a> for a discussion about the tradeoff between message size and number of messages.</p>
+<p id="rfc.section.2.6.p.7">Per &#8216;power&#8217;, it is desirable for the transmission of AKE messages and crypto to draw as little power as possible. The best mechanism for doing so differs across radio technologies.  For example, NB-IoT uses licensed spectrum and thus can transmit at higher power to improve coverage, making the transmitted byte count relatively more important than for other radio technologies.  In other cases, the radio transmitter will be active for a full MTU frame regardless of how much of the frame is occupied by message content, which makes the byte count less sensitive for the power consumption.  Increased power consumption is unavoidable in poor network conditions, such as most wide-area settings including LoRaWAN.</p>
+<p id="rfc.section.2.6.p.8">Per &#8216;new code&#8217;, it is desirable to introduce as little new code as possible onto OSCORE-enabled devices to support this new AKE. These devices have on the order of 10s of kB of memory and 100 kB of storage on which an embedded OS; a COAP stack; CORE and AKE libraries; and target applications would run. It is expected that the majority of this space is available for actual application logic, as opposed to the support libraries. In a typical OSCORE implementation COSE encrypt and signature structures will be available, as will support for COSE algorithms relevant for IoT enabling the same algorithms as is used for OSCORE (e.g. COSE algorithm no. 10 = CCM* used by 6TiSCH). The use of those, or CBOR or CoAP, would not add to the footprint.</p>
+<p id="rfc.section.2.6.p.9">While the large variety of settings and capabilities of the devices and networks makes it challenging to produce exact values of some these dimensions, there are some key benchmarks that are tractable for security protocol engineering and which have a significant impact.</p>
+<h1 id="rfc.section.2.6.1">
+<a href="#rfc.section.2.6.1">2.6.1.</a> <a href="#lorawan" id="lorawan">LoRaWAN</a>
 </h1>
-<p id="rfc.section.2.5.1.p.1">LoRaWAN employs unlicensed radio frequency bands in the 868MHz ISM band, in Europe regulated by ETSI EN 300 220. For LoRaWAN the most relevant metric is the Time-on-Air, which determines the back-off times and can be used an indicator to calculate energy consumption. LoRaWAN is legally required to use a 1% (or smaller) duty cycle, a payload split into two fragments instead of one increases the time to complete the sending of this payload by at least 10,000%. The use of an AKE for providing end-to-end security on application layer need to comply with the duty cycle. One relevant benchmark is performance in low coverage with Data Rates 0-2 corresponding to a packet size of 51 bytes <a href="#LoRaWAN" class="xref">[LoRaWAN]</a>. While larger frame sizes are also defined, their use depend on good radio conditions. Some libraries/providers only support 51 bytes packet size.</p>
-<h1 id="rfc.section.2.5.1.1">
-<a href="#rfc.section.2.5.1.1">2.5.1.1.</a> <a href="#bytes-on-the-wire" id="bytes-on-the-wire">Bytes on the wire</a>
+<p id="rfc.section.2.6.1.p.1">LoRaWAN employs unlicensed radio frequency bands in the 868MHz ISM band, in Europe regulated by ETSI EN 300 220. For LoRaWAN the most relevant metric is the Time-on-Air, which determines the back-off times and can be used an indicator to calculate energy consumption. LoRaWAN is legally required to use a 1% (or smaller) duty cycle, a payload split into two fragments instead of one increases the time to complete the sending of this payload by at least 10,000%. The use of an AKE for providing end-to-end security on application layer need to comply with the duty cycle. One relevant benchmark is performance in low coverage with Data Rates 0-2 corresponding to a packet size of 51 bytes <a href="#LoRaWAN" class="xref">[LoRaWAN]</a>. While larger frame sizes are also defined, their use depend on good radio conditions. Some libraries/providers only support 51 bytes packet size.</p>
+<h1 id="rfc.section.2.6.1.1">
+<a href="#rfc.section.2.6.1.1">2.6.1.1.</a> <a href="#bytes-on-the-wire" id="bytes-on-the-wire">Bytes on the wire</a>
 </h1>
-<h1 id="rfc.section.2.5.1.2">
-<a href="#rfc.section.2.5.1.2">2.5.1.2.</a> <a href="#time" id="time">Time</a>
+<h1 id="rfc.section.2.6.1.2">
+<a href="#rfc.section.2.6.1.2">2.6.1.2.</a> <a href="#time" id="time">Time</a>
 </h1>
-<h1 id="rfc.section.2.5.1.3">
-<a href="#rfc.section.2.5.1.3">2.5.1.3.</a> <a href="#round-trips-and-number-of-messages" id="round-trips-and-number-of-messages">Round trips and number of messages</a>
+<h1 id="rfc.section.2.6.1.3">
+<a href="#rfc.section.2.6.1.3">2.6.1.3.</a> <a href="#round-trips-and-number-of-messages" id="round-trips-and-number-of-messages">Round trips and number of messages</a>
 </h1>
-<h1 id="rfc.section.2.5.1.4">
-<a href="#rfc.section.2.5.1.4">2.5.1.4.</a> <a href="#power" id="power">Power</a>
+<h1 id="rfc.section.2.6.1.4">
+<a href="#rfc.section.2.6.1.4">2.6.1.4.</a> <a href="#power" id="power">Power</a>
 </h1>
-<h1 id="rfc.section.2.5.2">
-<a href="#rfc.section.2.5.2">2.5.2.</a> <a href="#tisch" id="tisch">6TiSCH</a>
+<h1 id="rfc.section.2.6.2">
+<a href="#rfc.section.2.6.2">2.6.2.</a> <a href="#tisch" id="tisch">6TiSCH</a>
 </h1>
-<p id="rfc.section.2.5.2.p.1">6TiSCH operates in the 2.4 GHz unlicensed frequency band and uses hybrid Time Division/Frequency Division multiple access (TDMA/FDMA).  Nodes in a 6TiSCH network form a mesh.  The basic unit of communication, a cell, is uniquely defined by its time and frequency offset in the communication schedule matrix.  Cells can be assigned for communication to a pair of nodes in the mesh and so be collision-free, or shared by multiple nodes, for example during network formation.  In case of shared cells, some collision-resolution scheme such as slotted-Aloha is employed.  Nodes exchange frames which are at most 127-bytes long, including the link-layer headers.  To preserve energy, the schedule is typically computed in such a way that nodes switch on their radio below 1% of the time (&#8220;radio duty cycle&#8221;).  A 6TiSCH mesh can be several hops deep.  In typical use cases considered by the 6TiSCH working group, a network that is 2-4 hops deep is commonplace; a network which is more than 8 hops deep is not common.</p>
-<h1 id="rfc.section.2.5.2.1">
-<a href="#rfc.section.2.5.2.1">2.5.2.1.</a> <a href="#bytes-on-the-wire-1" id="bytes-on-the-wire-1">Bytes on the wire</a>
+<p id="rfc.section.2.6.2.p.1">6TiSCH operates in the 2.4 GHz unlicensed frequency band and uses hybrid Time Division/Frequency Division multiple access (TDMA/FDMA).  Nodes in a 6TiSCH network form a mesh.  The basic unit of communication, a cell, is uniquely defined by its time and frequency offset in the communication schedule matrix.  Cells can be assigned for communication to a pair of nodes in the mesh and so be collision-free, or shared by multiple nodes, for example during network formation.  In case of shared cells, some collision-resolution scheme such as slotted-Aloha is employed.  Nodes exchange frames which are at most 127-bytes long, including the link-layer headers.  To preserve energy, the schedule is typically computed in such a way that nodes switch on their radio below 1% of the time (&#8220;radio duty cycle&#8221;).  A 6TiSCH mesh can be several hops deep.  In typical use cases considered by the 6TiSCH working group, a network that is 2-4 hops deep is commonplace; a network which is more than 8 hops deep is not common.</p>
+<h1 id="rfc.section.2.6.2.1">
+<a href="#rfc.section.2.6.2.1">2.6.2.1.</a> <a href="#bytes-on-the-wire-1" id="bytes-on-the-wire-1">Bytes on the wire</a>
 </h1>
-<p id="rfc.section.2.5.2.1.p.1">Increasing the number of bytes on the wire in a protocol message has an important effect on the 6TiSCH network in case the fragmentation is triggered.  More fragments contribute to congestion of shared cells (and concomitant error rates) in a non-linear way.</p>
-<p id="rfc.section.2.5.2.1.p.2">The available size for key exchange messages depends on the topology of the network, whether the message is traveling uplink or downlink, and other stack parameters.  A key performance indicator for a 6TiSCH network is &#8220;network formation&#8221;, i.e. the time it takes from switching on all devices, until the last device has executed the AKE and securely joined.  As an example, given the size limit on the frames and taking into account the different headers (including link-layer security), if a 6TiSCH network is 5 hops deep, the maximum CoAP payload size to avoid fragmentation is 47/45 bytes (uplink/downlink) <a href="#AKE-for-6TiSCH" class="xref">[AKE-for-6TiSCH]</a>.</p>
-<h1 id="rfc.section.2.5.2.2">
-<a href="#rfc.section.2.5.2.2">2.5.2.2.</a> <a href="#time-1" id="time-1">Time</a>
+<p id="rfc.section.2.6.2.1.p.1">Increasing the number of bytes on the wire in a protocol message has an important effect on the 6TiSCH network in case the fragmentation is triggered.  More fragments contribute to congestion of shared cells (and concomitant error rates) in a non-linear way.</p>
+<p id="rfc.section.2.6.2.1.p.2">The available size for key exchange messages depends on the topology of the network, whether the message is traveling uplink or downlink, and other stack parameters.  A key performance indicator for a 6TiSCH network is &#8220;network formation&#8221;, i.e. the time it takes from switching on all devices, until the last device has executed the AKE and securely joined.  As an example, given the size limit on the frames and taking into account the different headers (including link-layer security), if a 6TiSCH network is 5 hops deep, the maximum CoAP payload size to avoid fragmentation is 47/45 bytes (uplink/downlink) <a href="#AKE-for-6TiSCH" class="xref">[AKE-for-6TiSCH]</a>.</p>
+<h1 id="rfc.section.2.6.2.2">
+<a href="#rfc.section.2.6.2.2">2.6.2.2.</a> <a href="#time-1" id="time-1">Time</a>
 </h1>
-<p id="rfc.section.2.5.2.2.p.1">Given the slotted nature of 6TiSCH, the number of bytes in a frame has insignificant impact on latency, but the number of frames has.  The relevant metric for studying AKE is the network formation time, which implies parallel AKE runs among nodes that are attempting to join the network.  Network formation time directly affects the time installers need to spend on site at deployment time.</p>
-<h1 id="rfc.section.2.5.2.3">
-<a href="#rfc.section.2.5.2.3">2.5.2.3.</a> <a href="#round-trips-and-number-of-messages-1" id="round-trips-and-number-of-messages-1">Round trips and number of messages</a>
+<p id="rfc.section.2.6.2.2.p.1">Given the slotted nature of 6TiSCH, the number of bytes in a frame has insignificant impact on latency, but the number of frames has.  The relevant metric for studying AKE is the network formation time, which implies parallel AKE runs among nodes that are attempting to join the network.  Network formation time directly affects the time installers need to spend on site at deployment time.</p>
+<h1 id="rfc.section.2.6.2.3">
+<a href="#rfc.section.2.6.2.3">2.6.2.3.</a> <a href="#round-trips-and-number-of-messages-1" id="round-trips-and-number-of-messages-1">Round trips and number of messages</a>
 </h1>
-<p id="rfc.section.2.5.2.3.p.1">Given the mesh nature of the 6TiSCH network, and given that each message may travel several hops before reaching its destination, it is highly desirable to minimize the number of round trips to reduce latency.</p>
-<h1 id="rfc.section.2.5.2.4">
-<a href="#rfc.section.2.5.2.4">2.5.2.4.</a> <a href="#power-1" id="power-1">Power</a>
+<p id="rfc.section.2.6.2.3.p.1">Given the mesh nature of the 6TiSCH network, and given that each message may travel several hops before reaching its destination, it is highly desirable to minimize the number of round trips to reduce latency.</p>
+<h1 id="rfc.section.2.6.2.4">
+<a href="#rfc.section.2.6.2.4">2.6.2.4.</a> <a href="#power-1" id="power-1">Power</a>
 </h1>
-<p id="rfc.section.2.5.2.4.p.1">From the power consumption point of view, it is more favorable to send a small number of large frames than a larger number of short frames.</p>
-<h1 id="rfc.section.2.5.3">
-<a href="#rfc.section.2.5.3">2.5.3.</a> <a href="#nb-iot" id="nb-iot">NB-IoT</a>
+<p id="rfc.section.2.6.2.4.p.1">From the power consumption point of view, it is more favorable to send a small number of large frames than a larger number of short frames.</p>
+<h1 id="rfc.section.2.6.3">
+<a href="#rfc.section.2.6.3">2.6.3.</a> <a href="#nb-iot" id="nb-iot">NB-IoT</a>
 </h1>
-<p id="rfc.section.2.5.3.p.1">3GPP has specified Narrow-Band IoT (NB-IoT) for support of infrequent data transmission via user plane and via control plane. NB-IoT is built on cellular licensed spectrum at low data rates for the purpose of supporting:</p>
+<p id="rfc.section.2.6.3.p.1">3GPP has specified Narrow-Band IoT (NB-IoT) for support of infrequent data transmission via user plane and via control plane. NB-IoT is built on cellular licensed spectrum at low data rates for the purpose of supporting:</p>
 <p></p>
 
 <ul>
@@ -511,7 +519,7 @@ ul.toc li {
 <li>low device complexity and cost, and</li>
 <li>a high system capacity of thousands of connected devices per square kilometer.</li>
 </ul>
-<p id="rfc.section.2.5.3.p.3">NB-IoT achieves these design objectives by:</p>
+<p id="rfc.section.2.6.3.p.3">NB-IoT achieves these design objectives by:</p>
 <p></p>
 
 <ul>
@@ -519,32 +527,32 @@ ul.toc li {
 <li>A lightweight setup minimizing control signaling overhead to optimize power consumption.</li>
 <li>In-band, guard-band, and stand-alone deployment enabling efficient use of spectrum and network infrastructure.</li>
 </ul>
-<h1 id="rfc.section.2.5.3.1">
-<a href="#rfc.section.2.5.3.1">2.5.3.1.</a> <a href="#nbiot-bytes" id="nbiot-bytes">Bytes on the wire</a>
+<h1 id="rfc.section.2.6.3.1">
+<a href="#rfc.section.2.6.3.1">2.6.3.1.</a> <a href="#nbiot-bytes" id="nbiot-bytes">Bytes on the wire</a>
 </h1>
-<p id="rfc.section.2.5.3.1.p.1">The number of bytes on the wire in a protocol message has a direct effect on the performance for NB-IoT. In contrast to LoRaWAN and 6TiSCH, the NB-IoT radio bearers are not characterized by a fixed sized PDU. Concatenation, segmentation and reassembly are part of the service provided by the NB-IoT radio layer. As a consequence, the byte count has a measurable impact on time and energy consumption for running the AKE.</p>
-<h1 id="rfc.section.2.5.3.2">
-<a href="#rfc.section.2.5.3.2">2.5.3.2.</a> <a href="#nbiot-time" id="nbiot-time">Time</a>
+<p id="rfc.section.2.6.3.1.p.1">The number of bytes on the wire in a protocol message has a direct effect on the performance for NB-IoT. In contrast to LoRaWAN and 6TiSCH, the NB-IoT radio bearers are not characterized by a fixed sized PDU. Concatenation, segmentation and reassembly are part of the service provided by the NB-IoT radio layer. As a consequence, the byte count has a measurable impact on time and energy consumption for running the AKE.</p>
+<h1 id="rfc.section.2.6.3.2">
+<a href="#rfc.section.2.6.3.2">2.6.3.2.</a> <a href="#nbiot-time" id="nbiot-time">Time</a>
 </h1>
-<p id="rfc.section.2.5.3.2.p.1">Coverage signficantly impacts the available bit rate and thereby the time for transmitting a message, and there is also a difference between downlink and uplink transmissions (see <a href="#nbiot-power" class="xref">Section 2.5.3.4</a>). The transmission time for the message is essentially proportional to the number of bytes.</p>
-<p id="rfc.section.2.5.3.2.p.2">Since NB-IoT is operating in licensed spectrum, in contrast to e.g. LoRaWAN, the packets on the radio interface can be transmitted back-to-back, so the time before sending OSCORE protected data is limited by the number of round trips/messages of the AKE.</p>
-<h1 id="rfc.section.2.5.3.3">
-<a href="#rfc.section.2.5.3.3">2.5.3.3.</a> <a href="#nbiot-rtt" id="nbiot-rtt">Round trips and number of messages</a>
+<p id="rfc.section.2.6.3.2.p.1">Coverage signficantly impacts the available bit rate and thereby the time for transmitting a message, and there is also a difference between downlink and uplink transmissions (see <a href="#nbiot-power" class="xref">Section 2.6.3.4</a>). The transmission time for the message is essentially proportional to the number of bytes.</p>
+<p id="rfc.section.2.6.3.2.p.2">Since NB-IoT is operating in licensed spectrum, in contrast to e.g. LoRaWAN, the packets on the radio interface can be transmitted back-to-back, so the time before sending OSCORE protected data is limited by the number of round trips/messages of the AKE.</p>
+<h1 id="rfc.section.2.6.3.3">
+<a href="#rfc.section.2.6.3.3">2.6.3.3.</a> <a href="#nbiot-rtt" id="nbiot-rtt">Round trips and number of messages</a>
 </h1>
-<p id="rfc.section.2.5.3.3.p.1">As indicated in <a href="#nbiot-time" class="xref">Section 2.5.3.2</a>, the number of messages and round-trips is one limiting factor for protocol completion time.</p>
-<h1 id="rfc.section.2.5.3.4">
-<a href="#rfc.section.2.5.3.4">2.5.3.4.</a> <a href="#nbiot-power" id="nbiot-power">Power</a>
+<p id="rfc.section.2.6.3.3.p.1">As indicated in <a href="#nbiot-time" class="xref">Section 2.6.3.2</a>, the number of messages and round-trips is one limiting factor for protocol completion time.</p>
+<h1 id="rfc.section.2.6.3.4">
+<a href="#rfc.section.2.6.3.4">2.6.3.4.</a> <a href="#nbiot-power" id="nbiot-power">Power</a>
 </h1>
-<p id="rfc.section.2.5.3.4.p.1">Since NB-IoT is operating in licensed spectrum, the device is allowed to transmit at a high power, which has a large impact on the energy consumption in particular in bad coverage.</p>
-<p id="rfc.section.2.5.3.4.p.2">The benchmark for NB-IoT energy consumption is based on the same computational model as was used by 3GPP in the design of this radio layer. The device power consumption is assumed to be 500mW for transmission and 80mW for reception. Power consumption for &#8220;light sleep&#8221; (~ 3mW) and &#8221;deep sleep&#8221; (~ 0.015mW) are omitted. The bitrates (uplink/downlink) are assumed to be 28/170 kbps for good coverage and 0,37/2,5 kbps for bad coverage.</p>
-<p id="rfc.section.2.5.3.4.p.3">The energy consumption benchmark includes RRC Resume procedure for transition from RRC Inactive to RRC Connected, perform operation and returning RRC Inactive, see <a href="#AKE-for-NB-IoT" class="xref">[AKE-for-NB-IoT]</a>. The results show a high per-byte energy consumption for uplink transmissions in particular in bad coverage. Since the application decides about the device being initiator or responder in the AKE, the protocol cannot be tailored for a particular message being uplink or downlink. To perform well in both kind of applications the overall number of bytes of the protocol needs to be as low as possible.</p>
-<h1 id="rfc.section.2.5.4">
-<a href="#rfc.section.2.5.4">2.5.4.</a> <a href="#disc" id="disc">Discussion</a>
+<p id="rfc.section.2.6.3.4.p.1">Since NB-IoT is operating in licensed spectrum, the device is allowed to transmit at a high power, which has a large impact on the energy consumption in particular in bad coverage.</p>
+<p id="rfc.section.2.6.3.4.p.2">The benchmark for NB-IoT energy consumption is based on the same computational model as was used by 3GPP in the design of this radio layer. The device power consumption is assumed to be 500mW for transmission and 80mW for reception. Power consumption for &#8220;light sleep&#8221; (~ 3mW) and &#8221;deep sleep&#8221; (~ 0.015mW) are omitted. The bitrates (uplink/downlink) are assumed to be 28/170 kbps for good coverage and 0,37/2,5 kbps for bad coverage.</p>
+<p id="rfc.section.2.6.3.4.p.3">The energy consumption benchmark includes RRC Resume procedure for transition from RRC Inactive to RRC Connected, perform operation and returning RRC Inactive, see <a href="#AKE-for-NB-IoT" class="xref">[AKE-for-NB-IoT]</a>. The results show a high per-byte energy consumption for uplink transmissions in particular in bad coverage. Since the application decides about the device being initiator or responder in the AKE, the protocol cannot be tailored for a particular message being uplink or downlink. To perform well in both kind of applications the overall number of bytes of the protocol needs to be as low as possible.</p>
+<h1 id="rfc.section.2.6.4">
+<a href="#rfc.section.2.6.4">2.6.4.</a> <a href="#disc" id="disc">Discussion</a>
 </h1>
-<p id="rfc.section.2.5.4.p.1">While &#8220;as small protocol messages as possible&#8221; does not lend itself to a sharp boundary threshold, &#8220;as few protocol messages as possible&#8221; does and is relevant in all settings above.</p>
-<p id="rfc.section.2.5.4.p.2">The penalty is high for not fitting into the frame sizes of 6TiSCH and LoRaWAN networks. Fragmentation is not defined within these technologies so requires fragmentation scheme on a higher layer in the stack. With fragmentation increases the number of frames per message, each with its associated overhead in terms of power consumption and latency. Additionally the probability for errors increases, which leads to retransmissions of frames or entire messages that in turn increases the power consumption and latency.</p>
-<p id="rfc.section.2.5.4.p.3">There are trade-offs between &#8220;few messages&#8221; and &#8220;few frames&#8221;; if overhead is spread out over more messages such that each message fits into a particular frame this may reduce the overall power consumption. While it may be possible to engineer such a solution for a particular radio technology and signature algorithm, the benefits in terms of fewer messages/round trips in general and for NB-IoT in particular (see <a href="#nb-iot" class="xref">Section 2.5.3</a>) are considered more important than optimizing for a specific scenario. Hence an optimal AKE protocol has 3 messages and each message fits into as few frames as possible, ideally 1 frame per message.</p>
-<p id="rfc.section.2.5.4.p.4">The difference between uplink and downlink performance should not be engineered into the protocol since it cannot be assumed that a particular protocol message will be sent uplink or downlink.</p>
+<p id="rfc.section.2.6.4.p.1">While &#8220;as small protocol messages as possible&#8221; does not lend itself to a sharp boundary threshold, &#8220;as few protocol messages as possible&#8221; does and is relevant in all settings above.</p>
+<p id="rfc.section.2.6.4.p.2">The penalty is high for not fitting into the frame sizes of 6TiSCH and LoRaWAN networks. Fragmentation is not defined within these technologies so requires fragmentation scheme on a higher layer in the stack. With fragmentation increases the number of frames per message, each with its associated overhead in terms of power consumption and latency. Additionally the probability for errors increases, which leads to retransmissions of frames or entire messages that in turn increases the power consumption and latency.</p>
+<p id="rfc.section.2.6.4.p.3">There are trade-offs between &#8220;few messages&#8221; and &#8220;few frames&#8221;; if overhead is spread out over more messages such that each message fits into a particular frame this may reduce the overall power consumption. While it may be possible to engineer such a solution for a particular radio technology and signature algorithm, the benefits in terms of fewer messages/round trips in general and for NB-IoT in particular (see <a href="#nb-iot" class="xref">Section 2.6.3</a>) are considered more important than optimizing for a specific scenario. Hence an optimal AKE protocol has 3 messages and each message fits into as few frames as possible, ideally 1 frame per message.</p>
+<p id="rfc.section.2.6.4.p.4">The difference between uplink and downlink performance should not be engineered into the protocol since it cannot be assumed that a particular protocol message will be sent uplink or downlink.</p>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> <a href="#requirements-summary" id="requirements-summary">Requirements Summary</a>
 </h1>
@@ -612,6 +620,11 @@ ul.toc li {
 <td class="reference"><b id="RFC7228">[RFC7228]</b></td>
 <td class="top">
 <a>Bormann, C.</a>, <a>Ersue, M.</a> and <a>A. Keranen</a>, "<a href="https://tools.ietf.org/html/rfc7228">Terminology for Constrained-Node Networks</a>", RFC 7228, DOI 10.17487/RFC7228, May 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7967">[RFC7967]</b></td>
+<td class="top">
+<a>Bhattacharyya, A.</a>, <a>Bandyopadhyay, S.</a>, <a>Pal, A.</a> and <a>T. Bose</a>, "<a href="https://tools.ietf.org/html/rfc7967">Constrained Application Protocol (CoAP) Option for No Server Response</a>", RFC 7967, DOI 10.17487/RFC7967, August 2016.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC8613">[RFC8613]</b></td>

@@ -66,9 +66,10 @@ Table of Contents
      2.2.  Credentials . . . . . . . . . . . . . . . . . . . . . . .   4
      2.3.  Identity Protection . . . . . . . . . . . . . . . . . . .   5
      2.4.  Crypto Agility  . . . . . . . . . . . . . . . . . . . . .   5
-     2.5.  Lightweight . . . . . . . . . . . . . . . . . . . . . . .   5
+     2.5.  Mutual Authentication . . . . . . . . . . . . . . . . . .   5
+     2.6.  Lightweight . . . . . . . . . . . . . . . . . . . . . . .   6
    3.  Requirements Summary  . . . . . . . . . . . . . . . . . . . .  11
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
    6.  Informative References  . . . . . . . . . . . . . . . . . . .  12
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  13
@@ -103,7 +104,6 @@ Table of Contents
       LoRaWAN and NB-IoT.
 
    Other industry fora which plan to use OSCORE:
-
 
 
 
@@ -263,7 +263,26 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    and the AKE.  The AKE negotiation must be protected against downgrade
    attacks.
 
-2.5.  Lightweight
+2.5.  Mutual Authentication
+
+   The AKE must provide mutual authentication (injective agreement)
+   during the protocol run.
+
+   The AKE cannot rely on messages being exchanged in both directions
+   after the AKE has completed, because CoAP/OSCORE messages may not
+   have a response [RFC7967].  Furthermore, there is no assumption of
+   dependence between CoAP client/server and initiator/responder roles,
+   and an OSCORE context may be used with CoAP client and server roles
+   interchanged as is done e.g. in [LwM2M].
+
+
+
+Vucinic, et al.            Expires May 7, 2020                  [Page 5]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
+2.6.  Lightweight
 
    As motivated in Section 1 we target an AKE which is efficiently
    deployable in 6TiSCH multi-hop networks, LoRaWAN networks and NB-IoT
@@ -273,14 +292,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
    o  resource consumption, measured by bytes on the wire, wall-clock
       time and number of round trips to complete, or power consumption
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                  [Page 5]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
 
    o  the amount of new code required on end systems which already have
       an OSCORE stack
@@ -312,13 +323,21 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    Per 'round-trips', it is desirable that the number of completed
    request/response message exchanges required before the initiating
    endpoint can start sending protected traffic data is as small as
-   possible, since this reduces completion time.  See Section 2.5.4 for
+   possible, since this reduces completion time.  See Section 2.6.4 for
    a discussion about the tradeoff between message size and number of
    messages.
 
    Per 'power', it is desirable for the transmission of AKE messages and
    crypto to draw as little power as possible.  The best mechanism for
    doing so differs across radio technologies.  For example, NB-IoT uses
+
+
+
+Vucinic, et al.            Expires May 7, 2020                  [Page 6]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
    licensed spectrum and thus can transmit at higher power to improve
    coverage, making the transmitted byte count relatively more important
    than for other radio technologies.  In other cases, the radio
@@ -330,14 +349,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
    Per 'new code', it is desirable to introduce as little new code as
    possible onto OSCORE-enabled devices to support this new AKE.  These
-
-
-
-Vucinic, et al.            Expires May 7, 2020                  [Page 6]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
    devices have on the order of 10s of kB of memory and 100 kB of
    storage on which an embedded OS; a COAP stack; CORE and AKE
    libraries; and target applications would run.  It is expected that
@@ -355,7 +366,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    for security protocol engineering and which have a significant
    impact.
 
-2.5.1.  LoRaWAN
+2.6.1.  LoRaWAN
 
    LoRaWAN employs unlicensed radio frequency bands in the 868MHz ISM
    band, in Europe regulated by ETSI EN 300 220.  For LoRaWAN the most
@@ -371,21 +382,10 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    use depend on good radio conditions.  Some libraries/providers only
    support 51 bytes packet size.
 
-2.5.1.1.  Bytes on the wire
 
-2.5.1.2.  Time
 
-2.5.1.3.  Round trips and number of messages
 
-2.5.1.4.  Power
 
-2.5.2.  6TiSCH
-
-   6TiSCH operates in the 2.4 GHz unlicensed frequency band and uses
-   hybrid Time Division/Frequency Division multiple access (TDMA/FDMA).
-   Nodes in a 6TiSCH network form a mesh.  The basic unit of
-   communication, a cell, is uniquely defined by its time and frequency
-   offset in the communication schedule matrix.  Cells can be assigned
 
 
 
@@ -394,6 +394,21 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 7]
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
+2.6.1.1.  Bytes on the wire
+
+2.6.1.2.  Time
+
+2.6.1.3.  Round trips and number of messages
+
+2.6.1.4.  Power
+
+2.6.2.  6TiSCH
+
+   6TiSCH operates in the 2.4 GHz unlicensed frequency band and uses
+   hybrid Time Division/Frequency Division multiple access (TDMA/FDMA).
+   Nodes in a 6TiSCH network form a mesh.  The basic unit of
+   communication, a cell, is uniquely defined by its time and frequency
+   offset in the communication schedule matrix.  Cells can be assigned
    for communication to a pair of nodes in the mesh and so be collision-
    free, or shared by multiple nodes, for example during network
    formation.  In case of shared cells, some collision-resolution scheme
@@ -406,7 +421,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    hops deep is commonplace; a network which is more than 8 hops deep is
    not common.
 
-2.5.2.1.  Bytes on the wire
+2.6.2.1.  Bytes on the wire
 
    Increasing the number of bytes on the wire in a protocol message has
    an important effect on the 6TiSCH network in case the fragmentation
@@ -424,21 +439,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    payload size to avoid fragmentation is 47/45 bytes (uplink/downlink)
    [AKE-for-6TiSCH].
 
-2.5.2.2.  Time
-
-   Given the slotted nature of 6TiSCH, the number of bytes in a frame
-   has insignificant impact on latency, but the number of frames has.
-   The relevant metric for studying AKE is the network formation time,
-   which implies parallel AKE runs among nodes that are attempting to
-   join the network.  Network formation time directly affects the time
-   installers need to spend on site at deployment time.
-
-2.5.2.3.  Round trips and number of messages
-
-   Given the mesh nature of the 6TiSCH network, and given that each
-   message may travel several hops before reaching its destination, it
-   is highly desirable to minimize the number of round trips to reduce
-   latency.
 
 
 
@@ -450,13 +450,29 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 8]
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
-2.5.2.4.  Power
+2.6.2.2.  Time
+
+   Given the slotted nature of 6TiSCH, the number of bytes in a frame
+   has insignificant impact on latency, but the number of frames has.
+   The relevant metric for studying AKE is the network formation time,
+   which implies parallel AKE runs among nodes that are attempting to
+   join the network.  Network formation time directly affects the time
+   installers need to spend on site at deployment time.
+
+2.6.2.3.  Round trips and number of messages
+
+   Given the mesh nature of the 6TiSCH network, and given that each
+   message may travel several hops before reaching its destination, it
+   is highly desirable to minimize the number of round trips to reduce
+   latency.
+
+2.6.2.4.  Power
 
    From the power consumption point of view, it is more favorable to
    send a small number of large frames than a larger number of short
    frames.
 
-2.5.3.  NB-IoT
+2.6.3.  NB-IoT
 
    3GPP has specified Narrow-Band IoT (NB-IoT) for support of infrequent
    data transmission via user plane and via control plane.  NB-IoT is
@@ -483,7 +499,14 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    o  In-band, guard-band, and stand-alone deployment enabling efficient
       use of spectrum and network infrastructure.
 
-2.5.3.1.  Bytes on the wire
+
+
+Vucinic, et al.            Expires May 7, 2020                  [Page 9]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
+2.6.3.1.  Bytes on the wire
 
    The number of bytes on the wire in a protocol message has a direct
    effect on the performance for NB-IoT.  In contrast to LoRaWAN and
@@ -493,19 +516,11 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    the byte count has a measurable impact on time and energy consumption
    for running the AKE.
 
-2.5.3.2.  Time
+2.6.3.2.  Time
 
    Coverage signficantly impacts the available bit rate and thereby the
    time for transmitting a message, and there is also a difference
-   between downlink and uplink transmissions (see Section 2.5.3.4).  The
-
-
-
-Vucinic, et al.            Expires May 7, 2020                  [Page 9]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
+   between downlink and uplink transmissions (see Section 2.6.3.4).  The
    transmission time for the message is essentially proportional to the
    number of bytes.
 
@@ -514,12 +529,12 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    to-back, so the time before sending OSCORE protected data is limited
    by the number of round trips/messages of the AKE.
 
-2.5.3.3.  Round trips and number of messages
+2.6.3.3.  Round trips and number of messages
 
-   As indicated in Section 2.5.3.2, the number of messages and round-
+   As indicated in Section 2.6.3.2, the number of messages and round-
    trips is one limiting factor for protocol completion time.
 
-2.5.3.4.  Power
+2.6.3.4.  Power
 
    Since NB-IoT is operating in licensed spectrum, the device is allowed
    to transmit at a high power, which has a large impact on the energy
@@ -539,11 +554,19 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    high per-byte energy consumption for uplink transmissions in
    particular in bad coverage.  Since the application decides about the
    device being initiator or responder in the AKE, the protocol cannot
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 10]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
    be tailored for a particular message being uplink or downlink.  To
    perform well in both kind of applications the overall number of bytes
    of the protocol needs to be as low as possible.
 
-2.5.4.  Discussion
+2.6.4.  Discussion
 
    While "as small protocol messages as possible" does not lend itself
    to a sharp boundary threshold, "as few protocol messages as possible"
@@ -554,14 +577,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    technologies so requires fragmentation scheme on a higher layer in
    the stack.  With fragmentation increases the number of frames per
    message, each with its associated overhead in terms of power
-
-
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 10]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
    consumption and latency.  Additionally the probability for errors
    increases, which leads to retransmissions of frames or entire
    messages that in turn increases the power consumption and latency.
@@ -572,7 +587,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    consumption.  While it may be possible to engineer such a solution
    for a particular radio technology and signature algorithm, the
    benefits in terms of fewer messages/round trips in general and for
-   NB-IoT in particular (see Section 2.5.3) are considered more
+   NB-IoT in particular (see Section 2.6.3) are considered more
    important than optimizing for a specific scenario.  Hence an optimal
    AKE protocol has 3 messages and each message fits into as few frames
    as possible, ideally 1 frame per message.
@@ -596,6 +611,13 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
       for low code complexity of a combined OSCORE and AKE
       implementation.
 
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 11]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
    o  The messages must be as small as reasonably achievable and fit
       into as few LoRaWAN packets and 6TiSCH frames as possible,
       optimally 1 for each message.
@@ -608,15 +630,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    The AKE must provide the security properties expected of IETF
    protocols, e.g., providing confidentiality protection, integrity
    protection, and authentication with strong work factor.
-
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 11]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
 
 5.  IANA Considerations
 
@@ -651,6 +664,16 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
               6tisch-minimal-security-13 (work in progress), October
               2019.
 
+
+
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 12]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
    [I-D.ietf-cose-x509]
               Schaad, J., "CBOR Object Signing and Encryption (COSE):
               Headers for carrying and referencing X.509 certificates",
@@ -667,13 +690,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
               <https://lora-alliance.org/resource-hub/lorawantm-
               regional-parameters-v102rb>.
 
-
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 12]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
    [LwM2M]    "OMA SpecWorks LwM2M", August 2018,
               <http://www.openmobilealliance.org/release/LightweightM2M/
               V1_1-20180710-A/OMA-TS-LightweightM2M_Transport-
@@ -683,6 +699,11 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
               Constrained-Node Networks", RFC 7228,
               DOI 10.17487/RFC7228, May 2014,
               <https://www.rfc-editor.org/info/rfc7228>.
+
+   [RFC7967]  Bhattacharyya, A., Bandyopadhyay, S., Pal, A., and T.
+              Bose, "Constrained Application Protocol (CoAP) Option for
+              No Server Response", RFC 7967, DOI 10.17487/RFC7967,
+              August 2016, <https://www.rfc-editor.org/info/rfc7967>.
 
    [RFC8613]  Selander, G., Mattsson, J., Palombini, F., and L. Seitz,
               "Object Security for Constrained RESTful Environments
@@ -701,6 +722,12 @@ Authors' Addresses
    Ericsson AB
 
    Email: goran.selander@ericsson.com
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 13]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
    John Preuss Mattsson
@@ -725,4 +752,33 @@ Authors' Addresses
 
 
 
-Vucinic, et al.            Expires May 7, 2020                 [Page 13]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 14]
