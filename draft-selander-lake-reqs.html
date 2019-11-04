@@ -569,6 +569,22 @@ ul.toc li {
 <p id="rfc.section.2.6.4.p.2">The penalty is high for not fitting into the frame sizes of 6TiSCH and LoRaWAN networks. Fragmentation is not defined within these technologies so requires fragmentation scheme on a higher layer in the stack. With fragmentation increases the number of frames per message, each with its associated overhead in terms of power consumption and latency. Additionally the probability for errors increases, which leads to retransmissions of frames or entire messages that in turn increases the power consumption and latency.</p>
 <p id="rfc.section.2.6.4.p.3">There are trade-offs between &#8220;few messages&#8221; and &#8220;few frames&#8221;; if overhead is spread out over more messages such that each message fits into a particular frame this may reduce the overall power consumption. While it may be possible to engineer such a solution for a particular radio technology and signature algorithm, the benefits in terms of fewer messages/round trips in general and for NB-IoT in particular (see <a href="#nb-iot" class="xref">Section 2.6.3</a>) are considered more important than optimizing for a specific scenario. Hence an optimal AKE protocol has 3 messages and each message fits into as few frames as possible, ideally 1 frame per message.</p>
 <p id="rfc.section.2.6.4.p.4">The difference between uplink and downlink performance should not be engineered into the protocol since it cannot be assumed that a particular protocol message will be sent uplink or downlink.</p>
+<h1 id="rfc.section.2.6.5">
+<a href="#rfc.section.2.6.5">2.6.5.</a> <a href="#ake-frequency" id="ake-frequency">AKE frequency</a>
+</h1>
+<p id="rfc.section.2.6.5.p.1">One question that has been asked in the context of lightweightness is: - How often is the AKE executed? While it may be impossible to give a precise answer there are other perspectives to this question.</p>
+<p></p>
+
+<ol>
+<li>For some use cases, already one execution of the AKE is too heavy, for example, because <ul>
+<li>there are a number of parallel executions of the AKE in a network formation setting which loads down the network, or</li>
+<li>the duty cycle makes the completion time too long for even one run of the protocol.</li>
+</ul>
+</li>
+<li>If a device reboots it may not be able to recover the security context, e.g. due to lack of persistent storage, and is required to establish a new security context for which an AKE is preferred. Reboot frequency may be difficult to predict in general.</li>
+<li>To limit the impact of a key compromise, BSI, NIST and ANSSI and other organizations recommend in other contexts frequent renewal of keys by means of Diffie-Hellman key exchange.</li>
+</ol>
+<p id="rfc.section.2.6.5.p.3">To summarize, even if it we are unable to give precise numbers for AKE frequency, a lightweight AKE * reduces the time for network formation and AKE runs in challenging radio technologies, * allows devices to quickly re-establish security in case of reboots, and * enables support for recommendations of frequent key renewal</p>
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> <a href="#requirements-summary" id="requirements-summary">Requirements Summary</a>
 </h1>

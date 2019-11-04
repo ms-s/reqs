@@ -71,12 +71,12 @@ Table of Contents
      2.4.  Crypto Agility  . . . . . . . . . . . . . . . . . . . . .   5
      2.5.  Mutual Authentication . . . . . . . . . . . . . . . . . .   5
      2.6.  Lightweight . . . . . . . . . . . . . . . . . . . . . . .   6
-   3.  Requirements Summary  . . . . . . . . . . . . . . . . . . . .  12
+   3.  Requirements Summary  . . . . . . . . . . . . . . . . . . . .  13
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  13
-   7.  Informative References  . . . . . . . . . . . . . . . . . . .  13
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  14
+   7.  Informative References  . . . . . . . . . . . . . . . . . . .  14
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  15
 
 1.  Introduction
 
@@ -648,6 +648,45 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    engineered into the protocol since it cannot be assumed that a
    particular protocol message will be sent uplink or downlink.
 
+2.6.5.  AKE frequency
+
+   One question that has been asked in the context of lightweightness
+   is: - How often is the AKE executed?  While it may be impossible to
+   give a precise answer there are other perspectives to this question.
+
+   1.  For some use cases, already one execution of the AKE is too
+       heavy, for example, because
+
+       *  there are a number of parallel executions of the AKE in a
+          network formation setting which loads down the network, or
+
+       *  the duty cycle makes the completion time too long for even one
+          run of the protocol.
+
+   2.  If a device reboots it may not be able to recover the security
+       context, e.g. due to lack of persistent storage, and is required
+       to establish a new security context for which an AKE is
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 12]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
+       preferred.  Reboot frequency may be difficult to predict in
+       general.
+
+   3.  To limit the impact of a key compromise, BSI, NIST and ANSSI and
+       other organizations recommend in other contexts frequent renewal
+       of keys by means of Diffie-Hellman key exchange.
+
+   To summarize, even if it we are unable to give precise numbers for
+   AKE frequency, a lightweight AKE * reduces the time for network
+   formation and AKE runs in challenging radio technologies, * allows
+   devices to quickly re-establish security in case of reboots, and *
+   enables support for recommendations of frequent key renewal
+
 3.  Requirements Summary
 
    o  The AKE must support PSK, RPK and certificate based authentication
@@ -667,13 +706,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
       into as few LoRaWAN packets and 6TiSCH frames as possible,
       optimally 1 for each message.
 
-
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 12]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
 4.  Security Considerations
 
    This document compiles the requirements for an AKE and provides some
@@ -686,6 +718,17 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 5.  IANA Considerations
 
    None.
+
+
+
+
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 13]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
 
 Acknowledgments
 
@@ -721,15 +764,6 @@ Acknowledgments
               6tisch-minimal-security-13 (work in progress), October
               2019.
 
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 13]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
    [I-D.ietf-cose-x509]
               Schaad, J., "CBOR Object Signing and Encryption (COSE):
               Headers for carrying and referencing X.509 certificates",
@@ -741,6 +775,16 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
               Context Header Compression (SCHC) for CoAP", draft-ietf-
               lpwan-coap-static-context-hc-11 (work in progress),
               October 2019.
+
+
+
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 14]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
 
    [LoRaWAN]  "LoRaWAN Regional Parameters v1.0.2rB", February 2017,
               <https://lora-alliance.org/resource-hub/lorawantm-
@@ -780,12 +824,6 @@ Authors' Addresses
    Email: malisa.vucinic@inria.fr
 
 
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 14]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
    Goeran Selander
    Ericsson AB
 
@@ -796,6 +834,12 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    Ericsson AB
 
    Email: john.mattsson@ericsson.com
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 15]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
    Dan Garcia-Carrillo
@@ -837,4 +881,16 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
 
-Vucinic, et al.            Expires May 7, 2020                 [Page 15]
+
+
+
+
+
+
+
+
+
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 16]
