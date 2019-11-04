@@ -5,9 +5,9 @@
 Network Working Group                                         M. Vucinic
 Internet-Draft                                                     INRIA
 Intended status: Informational                               G. Selander
-Expires: May 3, 2020                                         J. Mattsson
+Expires: May 7, 2020                                         J. Mattsson
                                                              Ericsson AB
-                                                        October 31, 2019
+                                                       November 04, 2019
 
 
              Requirements for a Lightweight AKE for OSCORE
@@ -33,7 +33,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 3, 2020.
+   This Internet-Draft will expire on May 7, 2020.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Vucinic, et al.            Expires May 3, 2020                  [Page 1]
+Vucinic, et al.            Expires May 7, 2020                  [Page 1]
 
-Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
 Table of Contents
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Vucinic, et al.            Expires May 3, 2020                  [Page 2]
+Vucinic, et al.            Expires May 7, 2020                  [Page 2]
 
-Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
    o  Fairhair Alliance has defined an architecture [Fairhair] which
@@ -165,9 +165,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
 
 
 
-Vucinic, et al.            Expires May 3, 2020                  [Page 3]
+Vucinic, et al.            Expires May 7, 2020                  [Page 3]
 
-Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
    These steps provide an example of a migration path in limited scoped
@@ -221,9 +221,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
 
 
 
-Vucinic, et al.            Expires May 3, 2020                  [Page 4]
+Vucinic, et al.            Expires May 7, 2020                  [Page 4]
 
-Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
 2.4.  AKE for OSCORE
@@ -277,9 +277,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
 
 
 
-Vucinic, et al.            Expires May 3, 2020                  [Page 5]
+Vucinic, et al.            Expires May 7, 2020                  [Page 5]
 
-Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
    uncongested exchange and when multiple exchanges are running in an
@@ -333,9 +333,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
 
 
 
-Vucinic, et al.            Expires May 3, 2020                  [Page 6]
+Vucinic, et al.            Expires May 7, 2020                  [Page 6]
 
-Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
 2.5.1.  LoRaWAN
@@ -389,9 +389,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
 
 
 
-Vucinic, et al.            Expires May 3, 2020                  [Page 7]
+Vucinic, et al.            Expires May 7, 2020                  [Page 7]
 
-Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
    and taking into account the different headers (including link-layer
@@ -445,9 +445,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
 
 
 
-Vucinic, et al.            Expires May 3, 2020                  [Page 8]
+Vucinic, et al.            Expires May 7, 2020                  [Page 8]
 
-Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
    The penalty is high for not fitting into the frame sizes of 6TiSCH
@@ -501,9 +501,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
 
 
 
-Vucinic, et al.            Expires May 3, 2020                  [Page 9]
+Vucinic, et al.            Expires May 7, 2020                  [Page 9]
 
-Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
 5.  IANA Considerations
@@ -557,9 +557,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
 
 
 
-Vucinic, et al.            Expires May 3, 2020                 [Page 10]
+Vucinic, et al.            Expires May 7, 2020                 [Page 10]
 
-Internet-Draft            Reqs-LAKE-for-OSCORE              October 2019
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
    [RFC7228]  Bormann, C., Ersue, M., and A. Keranen, "Terminology for
@@ -586,7 +586,7 @@ Authors' Addresses
    Email: goran.selander@ericsson.com
 
 
-   John Mattsson
+   John Preuss Mattsson
    Ericsson AB
 
    Email: john.mattsson@ericsson.com
@@ -613,4 +613,4 @@ Authors' Addresses
 
 
 
-Vucinic, et al.            Expires May 3, 2020                 [Page 11]
+Vucinic, et al.            Expires May 7, 2020                 [Page 11]
