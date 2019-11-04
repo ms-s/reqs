@@ -141,14 +141,13 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    matching AKE.  OSCORE was designed for lightweight RESTful operations
    for example by minimizing the overhead, and applying the protection
    to the application layer, thereby limiting the data being encrypted
-   and integrity protected for the other endpoint togit add a minimum.
-   Moreover, OSCORE was tailored for use with lightweight primitives
-   that are likely to be implemented in the device, specifically CoAP,
-   CBOR and COSE.  The same properties must apply to the AKE.
+   and integrity protected for the other endpoint.  Moreover, OSCORE was
+   tailored for use with lightweight primitives that are likely to be
+   implemented in the device, specifically CoAP, CBOR and COSE.  The
+   same properties must apply to the AKE.
 
-   In order to at all be suitable for OSCORE, at the end of the AKE
-   protocol run the two parties must agree on (see Section 3.2 of
-   [RFC8613]):
+   In order to be suitable for OSCORE, at the end of the AKE protocol
+   run the two parties must agree on (see Section 3.2 of [RFC8613]):
 
    o  a shared secret (OSCORE Master Secret) with PFS and a good amount
       of randomness.  (The term "good amount of randomness" is borrowed
@@ -161,7 +160,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
    o  COSE algorithms to use with OSCORE
 
-
+   Moreover, the AKE must support the same transport as OSCORE, in
+   particular any protocol where CoAP can be transported.  Since the AKE
 
 
 
@@ -170,8 +170,6 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 3]
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
-   Moreover, the AKE must support the same transport as OSCORE, in
-   particular any protocol where CoAP can be transported.  Since the AKE
    messages most commonly will be encapsulated in CoAP, the AKE must not
    duplicate functionality provided by CoAP.  It is therefore assumed
    that the AKE is being transported in a protocol that provides
@@ -186,9 +184,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 2.2.  Credentials
 
    IoT deployments differ in terms of what credentials can be supported.
-   Currently many systems use pre-shared keys (PSK) provisioned out of
-   band, for various reasons.  PSK are often used in a first deployment
-   because of its perceived simplicity.  The use of PSK allows for
+   Currently many systems use pre-shared keys (PSKs) provisioned out of
+   band, for various reasons.  PSKs are often used in a first deployment
+   because of their perceived simplicity.  The use of PSKs allows for
    protection of communication without major additional security
    processing, and also enables the use of symmetric crypto algorithms
    only, reducing the implementation and computational effort in the
@@ -196,7 +194,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
    However, PSK-based provisioning has inherent weaknesses.  There has
    been reports of massive breaches of PSK provisioning systems, and as
-   many systems use PSK without perfect forward secrecy (PFS) they are
+   many systems use PSKs without perfect forward secrecy (PFS) they are
    vulnerable to passive pervasive monitoring.  The security of these
    systems can be improved by adding PFS through an AKE authenticated by
    the provisioned PSK.
@@ -204,11 +202,11 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    Shared keys can alternatively be established in the endpoints using
    an AKE protocol authenticated with asymmetric public keys instead of
    symmetric secret keys.  Raw public keys (RPK) can be provisioned with
-   the same scheme as PSKs, which allows a more relaxed trust model
+   the same scheme as PSKs, which allows for a more relaxed trust model
    since RPKs need not be secret.
 
    As a third option, by running the same asymmetric key AKE with public
-   key certificates instead of RPK, key provisioning can be omitted,
+   key certificates instead of RPKs, key provisioning can be omitted,
    leading to a more automated bootstrapping procedure.
 
    These steps provide an example of a migration path in limited scoped
@@ -217,6 +215,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    and/or simplicity of deployment of the IoT system, although not all
    steps are necessarily feasible for the most constrained settings.
 
+   In order to allow for these different schemes, the AKE must support
+   PSK, RPK and certificate-based authentication.
 
 
 
@@ -225,9 +225,6 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 4]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
-
-   In order to allow for these different schemes, the AKE must support
-   PSK, RPK and certificate-based authentication.
 
    Bandwidth is a scarce resource in constrained-node networks.  To
    minimize the bandwidth consumption it is therefore desirable to
@@ -256,7 +253,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    The AKE is required to support identity protection of one of the
    peers in the AKE run in the case of public key identities, or the
    protection of the PSK identifier in the case of PSK-based
-   authentication.  Note that encryption of PSK identifier is first
+   authentication.  Note that encryption of the PSK identifier is first
    possible in the third AKE message, which implies that at least four
    protocol messages are required for authentication of responder in
    case of symmetric key authentication (see Section 2.5).
@@ -274,6 +271,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    The AKE must provide mutual authentication (injective agreement)
    during the protocol run.
 
+   The AKE cannot rely on messages being exchanged in both directions
+   after the AKE has completed, because CoAP/OSCORE requests may not
+   have a response [RFC7967].  Furthermore, there is no assumption of
 
 
 
@@ -282,20 +282,16 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 5]
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
-   The AKE cannot rely on messages being exchanged in both directions
-   after the AKE has completed, because CoAP/OSCORE requests may not
-   have a response [RFC7967].  Furthermore, there is no assumption of
    dependence between CoAP client/server and AKE initiator/responder
    roles, and an OSCORE context may be used with CoAP client and server
    roles interchanged as is done e.g. in [LwM2M].
 
 2.6.  Lightweight
 
-   As motivated in Section 1 we target an AKE which is efficiently
-   deployable in 6TiSCH multi-hop networks, LoRaWAN networks and NB-IoT
-   networks.  The desire is to optimize the AKE to be 'as lightweight as
-   reasonably achievable' in these environments, where 'lightweight'
-   refers to:
+   We target an AKE which is efficiently deployable in 6TiSCH multi-hop
+   networks, LoRaWAN networks and NB-IoT networks.  The desire is to
+   optimize the AKE to be 'as lightweight as reasonably achievable' in
+   these environments, where 'lightweight' refers to:
 
    o  resource consumption, measured by bytes on the wire, wall-clock
       time and number of round trips to complete, or power consumption
@@ -330,6 +326,10 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    Per 'round-trips', it is desirable that the number of completed
    request/response message exchanges required before the initiating
    endpoint can start sending protected traffic data is as small as
+   possible, since this reduces completion time.  See Section 2.6.4 for
+   a discussion about the tradeoff between message size and number of
+   messages.
+
 
 
 
@@ -337,10 +337,6 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 6]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
-
-   possible, since this reduces completion time.  See Section 2.6.4 for
-   a discussion about the tradeoff between message size and number of
-   messages.
 
    Per 'power', it is desirable for the transmission of AKE messages and
    crypto to draw as little power as possible.  The best mechanism for
@@ -385,6 +381,10 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    being used, leading to a payload split into fragments interleaved
    with back-off times.  For Europe, the duty cycle is 1% (or smaller).
    Although there are exceptions from the use of duty cycle, the use of
+   an AKE for providing end-to-end security on application layer needs
+   to comply with the duty cycle.
+
+
 
 
 
@@ -393,9 +393,6 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 7]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
-
-   an AKE for providing end-to-end security on application layer need to
-   comply with the duty cycle.
 
 2.6.1.1.  Bytes on the wire
 
@@ -411,7 +408,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    The benchmark used here is Data Rates 0-2 corresponding to a packet
    size of 51 bytes [LoRaWAN].  The use of larger frame size depend on
    good radio conditions which are not always present.  Some libraries/
-   providers only support 51 bytes packet size.
+   providers only support 51-bytes packet size.
 
 2.6.1.2.  Time
 
@@ -441,6 +438,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    the different LoRaWAN classes of devices) also has an impact on the
    energy consumption, but overall the Time-on-Air is an important
    indication of the performance.
+
+
+
 
 
 
@@ -537,8 +537,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
    NB-IoT achieves these design objectives by:
 
-   o  Reduced base band processing, memory and RF enabling low
-      complexity device implementation.
+   o  Reduced baseband processing, memory and RF enabling low complexity
+      device implementation.
 
    o  A lightweight setup minimizing control signaling overhead to
       optimize power consumption.
