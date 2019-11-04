@@ -287,8 +287,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
    Compromise of the long-term keys shall not enable an attacker to
    compromise past session keys (Perfect Forward Secrecy) and shall not
-   enable an passive attacker to compromise future session keys.  This
-   two properties can be achieved with a ephemeral Diffie-Hellman key
+   enable a passive attacker to compromise future session keys.  These
+   two properties can be achieved with an ephemeral Diffie-Hellman key
    exchange.  The AKE shall provide Key Compromise Impersonation (KCI)
    resistance.
 
