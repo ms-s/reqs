@@ -69,7 +69,7 @@ Table of Contents
      2.2.  Credentials . . . . . . . . . . . . . . . . . . . . . . .   4
      2.3.  Identity Protection . . . . . . . . . . . . . . . . . . .   5
      2.4.  Crypto Agility  . . . . . . . . . . . . . . . . . . . . .   5
-     2.5.  Mutual Authentication . . . . . . . . . . . . . . . . . .   5
+     2.5.  Mutual Authentication . . . . . . . . . . . . . . . . . .   6
      2.6.  Lightweight . . . . . . . . . . . . . . . . . . . . . . .   6
      2.7.  Application Data  . . . . . . . . . . . . . . . . . . . .  13
    3.  Requirements Summary  . . . . . . . . . . . . . . . . . . . .  13
@@ -266,13 +266,13 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    Motivated by long deployment lifetimes, the AKE is required to
    support crypto agility, including modularity of COSE crypto
    algorithms and negotiation of preferred crypto algorithms for OSCORE
-   and the AKE.  The AKE negotiation must be protected against downgrade
-   attacks.
+   and the AKE.  The AKE should support negotiation of the all COSE
+   algorithms that OSCORE supports.  The AKE negotiation must be
+   protected against downgrade attacks.
 
-2.5.  Mutual Authentication
 
-   The AKE must provide mutual authentication (injective agreement)
-   during the protocol run.
+
+
 
 
 
@@ -281,6 +281,11 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 5]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
+
+2.5.  Mutual Authentication
+
+   The AKE must provide mutual authentication (injective agreement)
+   during the protocol run.
 
    The AKE cannot rely on messages being exchanged in both directions
    after the AKE has completed, because CoAP/OSCORE requests may not
@@ -326,11 +331,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    latency contribution due to computation is in general not expected to
    be dominant.
 
-   Per 'round-trips', it is desirable that the number of completed
-   request/response message exchanges required before the initiating
-   endpoint can start sending protected traffic data is as small as
-   possible, since this reduces completion time.  See Section 2.6.4 for
-
 
 
 Vucinic, et al.            Expires May 7, 2020                  [Page 6]
@@ -338,6 +338,10 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 6]
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
+   Per 'round-trips', it is desirable that the number of completed
+   request/response message exchanges required before the initiating
+   endpoint can start sending protected traffic data is as small as
+   possible, since this reduces completion time.  See Section 2.6.4 for
    a discussion about the tradeoff between message size and number of
    messages.
 
@@ -382,10 +386,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    consumption.  LoRaWAN is legally required to use a duty cycle with
    values such as 0.1%, 1% and 10% depending on the sub-band that is
    being used, leading to a payload split into fragments interleaved
-   with back-off times.  For Europe, the duty cycle is 1% (or smaller).
-   Although there are exceptions from the use of duty cycle, the use of
-   an AKE for providing end-to-end security on application layer needs
-   to comply with the duty cycle.
 
 
 
@@ -393,6 +393,11 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 7]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
+
+   with back-off times.  For Europe, the duty cycle is 1% (or smaller).
+   Although there are exceptions from the use of duty cycle, the use of
+   an AKE for providing end-to-end security on application layer needs
+   to comply with the duty cycle.
 
 2.6.1.1.  Bytes on the wire
 
@@ -436,11 +441,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    the message sent, both having a clear dependency with the time it
    takes to transmit the message.  The communication model (inherent to
    the different LoRaWAN classes of devices) also has an impact on the
-   energy consumption, but overall the Time-on-Air is an important
-   indication of the performance.
-
-
-
 
 
 
@@ -449,6 +449,9 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 8]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
+
+   energy consumption, but overall the Time-on-Air is an important
+   indication of the performance.
 
 2.6.2.  6TiSCH
 
@@ -495,9 +498,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    which implies parallel AKE runs among nodes that are attempting to
    join the network.  Network formation time directly affects the time
    installers need to spend on site at deployment time.
-
-
-
 
 
 
