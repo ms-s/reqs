@@ -71,8 +71,9 @@ Table of Contents
    3.  Requirements Summary  . . . . . . . . . . . . . . . . . . . .  11
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
-   6.  Informative References  . . . . . . . . . . . . . . . . . . .  12
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  13
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  12
+   7.  Informative References  . . . . . . . . . . . . . . . . . . .  12
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
 
 1.  Introduction
 
@@ -104,7 +105,6 @@ Table of Contents
       LoRaWAN and NB-IoT.
 
    Other industry fora which plan to use OSCORE:
-
 
 
 
@@ -253,7 +253,10 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    The AKE is required to support identity protection of one of the
    peers in the AKE run in the case of public key identities, or the
    protection of the PSK identifier in the case of PSK-based
-   authentication.
+   authentication.  Note that encryption of PSK identifier is first
+   possible in the third AKE message, which implies that at least four
+   protocol messages are required for authentication of responder in
+   case of symmetric key authentication (see Section 2.5).
 
 2.4.  Crypto Agility
 
@@ -269,11 +272,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    during the protocol run.
 
    The AKE cannot rely on messages being exchanged in both directions
-   after the AKE has completed, because CoAP/OSCORE messages may not
+   after the AKE has completed, because CoAP/OSCORE requests may not
    have a response [RFC7967].  Furthermore, there is no assumption of
-   dependence between CoAP client/server and initiator/responder roles,
-   and an OSCORE context may be used with CoAP client and server roles
-   interchanged as is done e.g. in [LwM2M].
 
 
 
@@ -281,6 +281,10 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 5]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
+
+   dependence between CoAP client/server and AKE initiator/responder
+   roles, and an OSCORE context may be used with CoAP client and server
+   roles interchanged as is done e.g. in [LwM2M].
 
 2.6.  Lightweight
 
@@ -327,10 +331,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    a discussion about the tradeoff between message size and number of
    messages.
 
-   Per 'power', it is desirable for the transmission of AKE messages and
-   crypto to draw as little power as possible.  The best mechanism for
-   doing so differs across radio technologies.  For example, NB-IoT uses
-
 
 
 Vucinic, et al.            Expires May 7, 2020                  [Page 6]
@@ -338,6 +338,9 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 6]
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
+   Per 'power', it is desirable for the transmission of AKE messages and
+   crypto to draw as little power as possible.  The best mechanism for
+   doing so differs across radio technologies.  For example, NB-IoT uses
    licensed spectrum and thus can transmit at higher power to improve
    coverage, making the transmitted byte count relatively more important
    than for other radio technologies.  In other cases, the radio
@@ -381,9 +384,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    bytes [LoRaWAN].  While larger frame sizes are also defined, their
    use depend on good radio conditions.  Some libraries/providers only
    support 51 bytes packet size.
-
-
-
 
 
 
@@ -485,8 +485,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
    o  low device complexity and cost, and
 
-   o  a high system capacity of thousands of connected devices per
-      square kilometer.
+   o  a high system capacity of millions of connected devices per square
+      kilometer.
 
    NB-IoT achieves these design objectives by:
 
@@ -518,7 +518,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 2.6.3.2.  Time
 
-   Coverage signficantly impacts the available bit rate and thereby the
+   Coverage significantly impacts the available bit rate and thereby the
    time for transmitting a message, and there is also a difference
    between downlink and uplink transmissions (see Section 2.6.3.4).  The
    transmission time for the message is essentially proportional to the
@@ -527,7 +527,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    Since NB-IoT is operating in licensed spectrum, in contrast to e.g.
    LoRaWAN, the packets on the radio interface can be transmitted back-
    to-back, so the time before sending OSCORE protected data is limited
-   by the number of round trips/messages of the AKE.
+   by the number of round trips/messages of the AKE and not by a duty
+   cycle.
 
 2.6.3.3.  Round trips and number of messages
 
@@ -537,23 +538,22 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 2.6.3.4.  Power
 
    Since NB-IoT is operating in licensed spectrum, the device is allowed
-   to transmit at a high power, which has a large impact on the energy
-   consumption in particular in bad coverage.
+   to transmit at a relatively high power, which has a large impact on
+   the energy consumption in particular in bad coverage.
 
    The benchmark for NB-IoT energy consumption is based on the same
    computational model as was used by 3GPP in the design of this radio
-   layer.  The device power consumption is assumed to be 500mW for
-   transmission and 80mW for reception.  Power consumption for "light
-   sleep" (~ 3mW) and "deep sleep" (~ 0.015mW) are omitted.  The
-   bitrates (uplink/downlink) are assumed to be 28/170 kbps for good
-   coverage and 0,37/2,5 kbps for bad coverage.
+   layer [NB-IoT-battery-life-evaluation].  The device power consumption
+   is assumed to be 500mW for transmission and 80mW for reception.
+   Power consumption for "light sleep" (~ 3mW) and "deep sleep" (~
+   0.015mW) are negligible in comparison.  The bitrates (uplink/
+   downlink) are assumed to be 28/170 kbps for good coverage and
+   0,37/2,5 kbps for bad coverage.
 
    The energy consumption benchmark includes RRC Resume procedure for
    transition from RRC Inactive to RRC Connected, perform operation and
    returning RRC Inactive, see [AKE-for-NB-IoT].  The results show a
    high per-byte energy consumption for uplink transmissions in
-   particular in bad coverage.  Since the application decides about the
-   device being initiator or responder in the AKE, the protocol cannot
 
 
 
@@ -562,6 +562,8 @@ Vucinic, et al.            Expires May 7, 2020                 [Page 10]
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
+   particular in bad coverage.  Since the application decides about the
+   device being initiator or responder in the AKE, the protocol cannot
    be tailored for a particular message being uplink or downlink.  To
    perform well in both kind of applications the overall number of bytes
    of the protocol needs to be as low as possible.
@@ -607,9 +609,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
       on a shared secret with PFS and good amount of randomness, peer
       identifiers (potentially short), and COSE algorithms to use.
 
-   o  The AKE must reuse CBOR, CoAP and COSE primitives and algorithms
-      for low code complexity of a combined OSCORE and AKE
-      implementation.
+
 
 
 
@@ -617,6 +617,10 @@ Vucinic, et al.            Expires May 7, 2020                 [Page 11]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
+
+   o  The AKE must reuse CBOR, CoAP and COSE primitives and algorithms
+      for low code complexity of a combined OSCORE and AKE
+      implementation.
 
    o  The messages must be as small as reasonably achievable and fit
       into as few LoRaWAN packets and 6TiSCH frames as possible,
@@ -635,7 +639,12 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
    None.
 
-6.  Informative References
+Acknowledgments
+
+   The authors want to thank Karthik Bhargavan, Michael Richardson and
+   Claes Tidestav for providing valuable input.
+
+7.  Informative References
 
    [AKE-for-6TiSCH]
               "AKE for 6TiSCH", March 2019,
@@ -658,21 +667,18 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
               Derivation: The HKDF Scheme", May 2010,
               <https://eprint.iacr.org/2010/264.pdf>.
 
-   [I-D.ietf-6tisch-minimal-security]
-              Vucinic, M., Simon, J., Pister, K., and M. Richardson,
-              "Minimal Security Framework for 6TiSCH", draft-ietf-
-              6tisch-minimal-security-13 (work in progress), October
-              2019.
-
-
-
-
 
 
 Vucinic, et al.            Expires May 7, 2020                 [Page 12]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
+
+   [I-D.ietf-6tisch-minimal-security]
+              Vucinic, M., Simon, J., Pister, K., and M. Richardson,
+              "Minimal Security Framework for 6TiSCH", draft-ietf-
+              6tisch-minimal-security-13 (work in progress), October
+              2019.
 
    [I-D.ietf-cose-x509]
               Schaad, J., "CBOR Object Signing and Encryption (COSE):
@@ -695,6 +701,12 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
               V1_1-20180710-A/OMA-TS-LightweightM2M_Transport-
               V1_1-20180710-A.pdf>.
 
+   [NB-IoT-battery-life-evaluation]
+              "On mMTC, NB-IoT and eMTC battery life evaluation",
+              January 2017,
+              <http://www.3gpp.org/ftp/tsg_ran/WG1_RL1/TSGR1_AH/
+              NR_AH_1701/Docs//R1-1701044.zip>.
+
    [RFC7228]  Bormann, C., Ersue, M., and A. Keranen, "Terminology for
               Constrained-Node Networks", RFC 7228,
               DOI 10.17487/RFC7228, May 2014,
@@ -710,6 +722,14 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
               (OSCORE)", RFC 8613, DOI 10.17487/RFC8613, July 2019,
               <https://www.rfc-editor.org/info/rfc8613>.
 
+
+
+
+Vucinic, et al.            Expires May 7, 2020                 [Page 13]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
 Authors' Addresses
 
    Malisa Vucinic
@@ -724,30 +744,10 @@ Authors' Addresses
    Email: goran.selander@ericsson.com
 
 
-
-Vucinic, et al.            Expires May 7, 2020                 [Page 13]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
    John Preuss Mattsson
    Ericsson AB
 
    Email: john.mattsson@ericsson.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

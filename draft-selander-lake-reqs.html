@@ -293,7 +293,8 @@ ul.toc li {
 <link href="#rfc.section.3" rel="Chapter" title="3 Requirements Summary">
 <link href="#rfc.section.4" rel="Chapter" title="4 Security Considerations">
 <link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations">
-<link href="#rfc.references" rel="Chapter" title="6 Informative References">
+<link href="#rfc.acknowledgments" rel="Chapter">
+<link href="#rfc.references" rel="Chapter" title="7 Informative References">
 <link href="#rfc.authors" rel="Chapter">
 
 
@@ -383,7 +384,9 @@ ul.toc li {
 </li>
 <li>5.   <a href="#rfc.section.5">IANA Considerations</a>
 </li>
-<li>6.   <a href="#rfc.references">Informative References</a>
+<li><a href="#rfc.acknowledgments">Acknowledgments</a>
+</li>
+<li>7.   <a href="#rfc.references">Informative References</a>
 </li>
 <li><a href="#rfc.authors">Authors' Addresses</a>
 </li>
@@ -443,16 +446,16 @@ ul.toc li {
 <a href="#rfc.section.2.3">2.3.</a> <a href="#identity-protection" id="identity-protection">Identity Protection</a>
 </h1>
 <p id="rfc.section.2.3.p.1">Transporting identities as part of the AKE run is a necessity in order to provide strong mutual authentication. In the case of constrained devices, the identity may contain sensitive information on the manufacturer of the device, the batch, default firmware version, etc. Protecting the identities from passive and active attacks is important from the privacy point of view.</p>
-<p id="rfc.section.2.3.p.2">The AKE is required to support identity protection of one of the peers in the AKE run in the case of public key identities, or the protection of the PSK identifier in the case of PSK-based authentication.</p>
+<p id="rfc.section.2.3.p.2">The AKE is required to support identity protection of one of the peers in the AKE run in the case of public key identities, or the protection of the PSK identifier in the case of PSK-based authentication. Note that encryption of  PSK identifier is first possible in the third AKE message, which implies that at least four protocol messages are required for authentication of responder in case of symmetric key authentication (see <a href="#mutual-auth" class="xref">Section 2.5</a>).</p>
 <h1 id="rfc.section.2.4">
 <a href="#rfc.section.2.4">2.4.</a> <a href="#crypto-agility" id="crypto-agility">Crypto Agility</a>
 </h1>
 <p id="rfc.section.2.4.p.1">Motivated by long deployment lifetimes, the AKE is required to support crypto agility, including modularity of COSE crypto algorithms and negotiation of preferred crypto algorithms for OSCORE and the AKE. The AKE negotiation must be protected against downgrade attacks.</p>
 <h1 id="rfc.section.2.5">
-<a href="#rfc.section.2.5">2.5.</a> <a href="#mutual-authentication" id="mutual-authentication">Mutual Authentication</a>
+<a href="#rfc.section.2.5">2.5.</a> <a href="#mutual-auth" id="mutual-auth">Mutual Authentication</a>
 </h1>
 <p id="rfc.section.2.5.p.1">The AKE must provide mutual authentication (injective agreement) during the protocol run.</p>
-<p id="rfc.section.2.5.p.2">The AKE cannot rely on messages being exchanged in both directions after the AKE has completed, because CoAP/OSCORE messages may not have a response <a href="#RFC7967" class="xref">[RFC7967]</a>. Furthermore, there is no assumption of dependence between CoAP client/server and initiator/responder roles, and an OSCORE context may be used with CoAP client and server roles interchanged as is done e.g. in <a href="#LwM2M" class="xref">[LwM2M]</a>.</p>
+<p id="rfc.section.2.5.p.2">The AKE cannot rely on messages being exchanged in both directions after the AKE has completed, because CoAP/OSCORE requests may not have a response <a href="#RFC7967" class="xref">[RFC7967]</a>. Furthermore, there is no assumption of dependence between CoAP client/server and AKE initiator/responder roles, and an OSCORE context may be used with CoAP client and server roles interchanged as is done e.g. in <a href="#LwM2M" class="xref">[LwM2M]</a>.</p>
 <h1 id="rfc.section.2.6">
 <a href="#rfc.section.2.6">2.6.</a> <a href="#lw" id="lw">Lightweight</a>
 </h1>
@@ -517,7 +520,7 @@ ul.toc li {
 <li>operations in extreme coverage conditions,</li>
 <li>device battery life of 10 years or more,</li>
 <li>low device complexity and cost, and</li>
-<li>a high system capacity of thousands of connected devices per square kilometer.</li>
+<li>a high system capacity of millions of connected devices per square kilometer.</li>
 </ul>
 <p id="rfc.section.2.6.3.p.3">NB-IoT achieves these design objectives by:</p>
 <p></p>
@@ -534,8 +537,8 @@ ul.toc li {
 <h1 id="rfc.section.2.6.3.2">
 <a href="#rfc.section.2.6.3.2">2.6.3.2.</a> <a href="#nbiot-time" id="nbiot-time">Time</a>
 </h1>
-<p id="rfc.section.2.6.3.2.p.1">Coverage signficantly impacts the available bit rate and thereby the time for transmitting a message, and there is also a difference between downlink and uplink transmissions (see <a href="#nbiot-power" class="xref">Section 2.6.3.4</a>). The transmission time for the message is essentially proportional to the number of bytes.</p>
-<p id="rfc.section.2.6.3.2.p.2">Since NB-IoT is operating in licensed spectrum, in contrast to e.g. LoRaWAN, the packets on the radio interface can be transmitted back-to-back, so the time before sending OSCORE protected data is limited by the number of round trips/messages of the AKE.</p>
+<p id="rfc.section.2.6.3.2.p.1">Coverage significantly impacts the available bit rate and thereby the time for transmitting a message, and there is also a difference between downlink and uplink transmissions (see <a href="#nbiot-power" class="xref">Section 2.6.3.4</a>). The transmission time for the message is essentially proportional to the number of bytes.</p>
+<p id="rfc.section.2.6.3.2.p.2">Since NB-IoT is operating in licensed spectrum, in contrast to e.g. LoRaWAN, the packets on the radio interface can be transmitted back-to-back, so the time before sending OSCORE protected data is limited by the number of round trips/messages of the AKE and not by a duty cycle.</p>
 <h1 id="rfc.section.2.6.3.3">
 <a href="#rfc.section.2.6.3.3">2.6.3.3.</a> <a href="#nbiot-rtt" id="nbiot-rtt">Round trips and number of messages</a>
 </h1>
@@ -543,8 +546,8 @@ ul.toc li {
 <h1 id="rfc.section.2.6.3.4">
 <a href="#rfc.section.2.6.3.4">2.6.3.4.</a> <a href="#nbiot-power" id="nbiot-power">Power</a>
 </h1>
-<p id="rfc.section.2.6.3.4.p.1">Since NB-IoT is operating in licensed spectrum, the device is allowed to transmit at a high power, which has a large impact on the energy consumption in particular in bad coverage.</p>
-<p id="rfc.section.2.6.3.4.p.2">The benchmark for NB-IoT energy consumption is based on the same computational model as was used by 3GPP in the design of this radio layer. The device power consumption is assumed to be 500mW for transmission and 80mW for reception. Power consumption for &#8220;light sleep&#8221; (~ 3mW) and &#8221;deep sleep&#8221; (~ 0.015mW) are omitted. The bitrates (uplink/downlink) are assumed to be 28/170 kbps for good coverage and 0,37/2,5 kbps for bad coverage.</p>
+<p id="rfc.section.2.6.3.4.p.1">Since NB-IoT is operating in licensed spectrum, the device is allowed to transmit at a relatively high power, which has a large impact on the energy consumption in particular in bad coverage.</p>
+<p id="rfc.section.2.6.3.4.p.2">The benchmark for NB-IoT energy consumption is based on the same computational model as was used by 3GPP in the design of this radio layer <a href="#NB-IoT-battery-life-evaluation" class="xref">[NB-IoT-battery-life-evaluation]</a>. The device power consumption is assumed to be 500mW for transmission and 80mW for reception. Power consumption for &#8220;light sleep&#8221; (~ 3mW) and &#8221;deep sleep&#8221; (~ 0.015mW) are negligible in comparison. The bitrates (uplink/downlink) are assumed to be 28/170 kbps for good coverage and 0,37/2,5 kbps for bad coverage.</p>
 <p id="rfc.section.2.6.3.4.p.3">The energy consumption benchmark includes RRC Resume procedure for transition from RRC Inactive to RRC Connected, perform operation and returning RRC Inactive, see <a href="#AKE-for-NB-IoT" class="xref">[AKE-for-NB-IoT]</a>. The results show a high per-byte energy consumption for uplink transmissions in particular in bad coverage. Since the application decides about the device being initiator or responder in the AKE, the protocol cannot be tailored for a particular message being uplink or downlink. To perform well in both kind of applications the overall number of bytes of the protocol needs to be as low as possible.</p>
 <h1 id="rfc.section.2.6.4">
 <a href="#rfc.section.2.6.4">2.6.4.</a> <a href="#disc" id="disc">Discussion</a>
@@ -573,8 +576,10 @@ ul.toc li {
 <a href="#rfc.section.5">5.</a> <a href="#iana" id="iana">IANA Considerations</a>
 </h1>
 <p id="rfc.section.5.p.1">None.</p>
+<h1 id="rfc.acknowledgments"><a href="#rfc.acknowledgments">Acknowledgments</a></h1>
+<p id="rfc.section.6.p.1">The authors want to thank Karthik Bhargavan, Michael Richardson and Claes Tidestav for providing valuable input.</p>
 <h1 id="rfc.references">
-<a href="#rfc.references">6.</a> Informative References</h1>
+<a href="#rfc.references">7.</a> Informative References</h1>
 <table><tbody>
 <tr>
 <td class="reference"><b id="AKE-for-6TiSCH">[AKE-for-6TiSCH]</b></td>
@@ -615,6 +620,10 @@ ul.toc li {
 <tr>
 <td class="reference"><b id="LwM2M">[LwM2M]</b></td>
 <td class="top">"<a href="http://www.openmobilealliance.org/release/LightweightM2M/V1_1-20180710-A/OMA-TS-LightweightM2M_Transport-V1_1-20180710-A.pdf">OMA SpecWorks LwM2M</a>", August 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="NB-IoT-battery-life-evaluation">[NB-IoT-battery-life-evaluation]</b></td>
+<td class="top">"<a href="http://www.3gpp.org/ftp/tsg_ran/WG1_RL1/TSGR1_AH/NR_AH_1701/Docs//R1-1701044.zip">On mMTC, NB-IoT and eMTC battery life evaluation</a>", January 2017.</td>
 </tr>
 <tr>
 <td class="reference"><b id="RFC7228">[RFC7228]</b></td>
