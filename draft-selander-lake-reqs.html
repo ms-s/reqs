@@ -284,10 +284,10 @@ ul.toc li {
   <link href="#rfc.toc" rel="Contents">
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
 <link href="#rfc.section.2" rel="Chapter" title="2 Problem description">
-<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Credentials">
-<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Identity Protection">
-<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Crypto Agility">
-<link href="#rfc.section.2.4" rel="Chapter" title="2.4 AKE for OSCORE">
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 AKE for OSCORE">
+<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Credentials">
+<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Identity Protection">
+<link href="#rfc.section.2.4" rel="Chapter" title="2.4 Crypto Agility">
 <link href="#rfc.section.2.5" rel="Chapter" title="2.5 Lightweight">
 <link href="#rfc.section.3" rel="Chapter" title="3 Requirements Summary">
 <link href="#rfc.section.4" rel="Chapter" title="4 Security Considerations">
@@ -364,13 +364,13 @@ ul.toc li {
 </li>
 <li>2.   <a href="#rfc.section.2">Problem description</a>
 </li>
-<ul><li>2.1.   <a href="#rfc.section.2.1">Credentials</a>
+<ul><li>2.1.   <a href="#rfc.section.2.1">AKE for OSCORE</a>
 </li>
-<li>2.2.   <a href="#rfc.section.2.2">Identity Protection</a>
+<li>2.2.   <a href="#rfc.section.2.2">Credentials</a>
 </li>
-<li>2.3.   <a href="#rfc.section.2.3">Crypto Agility</a>
+<li>2.3.   <a href="#rfc.section.2.3">Identity Protection</a>
 </li>
-<li>2.4.   <a href="#rfc.section.2.4">AKE for OSCORE</a>
+<li>2.4.   <a href="#rfc.section.2.4">Crypto Agility</a>
 </li>
 <li>2.5.   <a href="#rfc.section.2.5">Lightweight</a>
 </li>
@@ -412,30 +412,10 @@ ul.toc li {
 <a href="#rfc.section.2">2.</a> <a href="#prob-desc" id="prob-desc">Problem description</a>
 </h1>
 <h1 id="rfc.section.2.1">
-<a href="#rfc.section.2.1">2.1.</a> <a href="#credentials" id="credentials">Credentials</a>
+<a href="#rfc.section.2.1">2.1.</a> <a href="#AKE-OSCORE" id="AKE-OSCORE">AKE for OSCORE</a>
 </h1>
-<p id="rfc.section.2.1.p.1">IoT deployments differ in terms of what credentials can be supported. Currently many systems use pre-shared keys (PSK) provisioned out of band, for various reasons. PSK are often used in a first deployment because of its perceived simplicity. The use of PSK allows for protection of communication without major additional security processing, and also enables the use of symmetric crypto algorithms only, reducing the implementation and computational effort in the endpoints.</p>
-<p id="rfc.section.2.1.p.2">However, PSK-based provisioning has inherent weaknesses. There has been reports of massive breaches of PSK provisioning systems, and as many systems use PSK without perfect forward secrecy (PFS) they are vulnerable to passive pervasive monitoring. The security of these systems can be improved by adding PFS through an AKE authenticated by the provisioned PSK.</p>
-<p id="rfc.section.2.1.p.3">Shared keys can alternatively be established in the endpoints using an AKE protocol authenticated with asymmetric public keys instead of symmetric secret keys. Raw public keys (RPK) can be provisioned with the same scheme as PSKs, which allows a more relaxed trust model since RPKs need not be secret.</p>
-<p id="rfc.section.2.1.p.4">As a third option, by running the same asymmetric key AKE with public key certificates instead of RPK, key provisioning can be omitted, leading to a more automated bootstrapping procedure.</p>
-<p id="rfc.section.2.1.p.5">These steps provide an example of a migration path in limited scoped steps from simple to more robust security bootstrapping and provisioning schemes where each step improves the overall security and/or simplicity of deployment of the IoT system, although not all steps are necessarily feasible for the most constrained settings.</p>
-<p id="rfc.section.2.1.p.6">In order to allow for these different schemes, the AKE must support PSK, RPK and certificate-based authentication.</p>
-<p id="rfc.section.2.1.p.7">Bandwidth is a scarce resource in constrained-node networks.  To minimize the bandwidth consumption it is therefore desirable to support transporting the certificates by reference rather than by value.  Considering the wide variety of deployments the AKE must support different schemes for transporting and identifying credentials, see Section 2 of <a href="#I-D.ietf-cose-x509" class="xref">[I-D.ietf-cose-x509]</a>.</p>
-<p id="rfc.section.2.1.p.8">The common lack of a user interface in constrained devices leads to various credential provisioning schemes.  The use of RPKs may be appropriate for the authentication of the AKE initiator but not for the AKE responder.  The AKE must support different credentials for authentication in different directions of the AKE run, e.g. certificate-based authentication for the initiating endpoint and RPK-based authentication for the responding endpoint.</p>
-<h1 id="rfc.section.2.2">
-<a href="#rfc.section.2.2">2.2.</a> <a href="#identity-protection" id="identity-protection">Identity Protection</a>
-</h1>
-<p id="rfc.section.2.2.p.1">Transporting identities as part of the AKE run is a necessity in order to provide strong mutual authentication. In the case of constrained devices, the identity may contain sensitive information on the manufacturer of the device, the batch, default firmware version, etc. Protecting the identities from passive and active attacks is important from the privacy point of view.</p>
-<p id="rfc.section.2.2.p.2">The AKE is required to support identity protection of one of the peers in the AKE run in the case of public key identities, or the protection of the PSK identifier in the case of PSK-based authentication.</p>
-<h1 id="rfc.section.2.3">
-<a href="#rfc.section.2.3">2.3.</a> <a href="#crypto-agility" id="crypto-agility">Crypto Agility</a>
-</h1>
-<p id="rfc.section.2.3.p.1">Motivated by long deployment lifetimes, the AKE is required to support crypto agility, including modularity of COSE crypto algorithms and negotiation of preferred crypto algorithms for OSCORE and the AKE. The AKE negotiation must be protected against downgrade attacks.</p>
-<h1 id="rfc.section.2.4">
-<a href="#rfc.section.2.4">2.4.</a> <a href="#AKE-OSCORE" id="AKE-OSCORE">AKE for OSCORE</a>
-</h1>
-<p id="rfc.section.2.4.p.1">The rationale for designing this protocol is that OSCORE is lacking a matching AKE. OSCORE was designed for lightweight RESTful operations for example by minimizing the overhead, and applying the protection to the application layer, thereby limiting the data being encrypted and integrity protected for the other endpoint togit add a minimum. Moreover, OSCORE was tailored for use with lightweight primitives that are likely to be implemented in the device, specifically CoAP, CBOR and COSE. The same properties must apply to the AKE.</p>
-<p id="rfc.section.2.4.p.2">In order to at all be suitable for OSCORE, at the end of the AKE protocol run the two parties must agree on (see Section 3.2 of <a href="#RFC8613" class="xref">[RFC8613]</a>):</p>
+<p id="rfc.section.2.1.p.1">The rationale for designing this protocol is that OSCORE is lacking a matching AKE. OSCORE was designed for lightweight RESTful operations for example by minimizing the overhead, and applying the protection to the application layer, thereby limiting the data being encrypted and integrity protected for the other endpoint togit add a minimum. Moreover, OSCORE was tailored for use with lightweight primitives that are likely to be implemented in the device, specifically CoAP, CBOR and COSE. The same properties must apply to the AKE.</p>
+<p id="rfc.section.2.1.p.2">In order to at all be suitable for OSCORE, at the end of the AKE protocol run the two parties must agree on (see Section 3.2 of <a href="#RFC8613" class="xref">[RFC8613]</a>):</p>
 <p></p>
 
 <ul>
@@ -443,8 +423,28 @@ ul.toc li {
 <li>identifiers providing a hint to the receiver of what security context to use when decrypting the message (OSCORE Sender IDs of peer endpoints), arbitrarily short</li>
 <li>COSE algorithms to use with OSCORE</li>
 </ul>
-<p id="rfc.section.2.4.p.4">Moreover, the AKE must support the same transport as OSCORE, in particular any protocol where CoAP can be transported. Since the AKE messages most commonly will be encapsulated in CoAP, the AKE must not duplicate functionality provided by CoAP. It is therefore assumed that the AKE is being transported in a protocol that provides reliable transport, that can preserve packet ordering and handle message duplication, that can perform fragmentation and protect against denial of service attacks.</p>
-<p id="rfc.section.2.4.p.5">The AKE may be transported over other transport than CoAP. In this case the underlying layers must handle message loss, reordering, message duplication, fragmentation, and denial of service protection.</p>
+<p id="rfc.section.2.1.p.4">Moreover, the AKE must support the same transport as OSCORE, in particular any protocol where CoAP can be transported. Since the AKE messages most commonly will be encapsulated in CoAP, the AKE must not duplicate functionality provided by CoAP. It is therefore assumed that the AKE is being transported in a protocol that provides reliable transport, that can preserve packet ordering and handle message duplication, that can perform fragmentation and protect against denial of service attacks.</p>
+<p id="rfc.section.2.1.p.5">The AKE may be transported over other transport than CoAP. In this case the underlying layers must handle message loss, reordering, message duplication, fragmentation, and denial of service protection.</p>
+<h1 id="rfc.section.2.2">
+<a href="#rfc.section.2.2">2.2.</a> <a href="#credentials" id="credentials">Credentials</a>
+</h1>
+<p id="rfc.section.2.2.p.1">IoT deployments differ in terms of what credentials can be supported. Currently many systems use pre-shared keys (PSK) provisioned out of band, for various reasons. PSK are often used in a first deployment because of its perceived simplicity. The use of PSK allows for protection of communication without major additional security processing, and also enables the use of symmetric crypto algorithms only, reducing the implementation and computational effort in the endpoints.</p>
+<p id="rfc.section.2.2.p.2">However, PSK-based provisioning has inherent weaknesses. There has been reports of massive breaches of PSK provisioning systems, and as many systems use PSK without perfect forward secrecy (PFS) they are vulnerable to passive pervasive monitoring. The security of these systems can be improved by adding PFS through an AKE authenticated by the provisioned PSK.</p>
+<p id="rfc.section.2.2.p.3">Shared keys can alternatively be established in the endpoints using an AKE protocol authenticated with asymmetric public keys instead of symmetric secret keys. Raw public keys (RPK) can be provisioned with the same scheme as PSKs, which allows a more relaxed trust model since RPKs need not be secret.</p>
+<p id="rfc.section.2.2.p.4">As a third option, by running the same asymmetric key AKE with public key certificates instead of RPK, key provisioning can be omitted, leading to a more automated bootstrapping procedure.</p>
+<p id="rfc.section.2.2.p.5">These steps provide an example of a migration path in limited scoped steps from simple to more robust security bootstrapping and provisioning schemes where each step improves the overall security and/or simplicity of deployment of the IoT system, although not all steps are necessarily feasible for the most constrained settings.</p>
+<p id="rfc.section.2.2.p.6">In order to allow for these different schemes, the AKE must support PSK, RPK and certificate-based authentication.</p>
+<p id="rfc.section.2.2.p.7">Bandwidth is a scarce resource in constrained-node networks.  To minimize the bandwidth consumption it is therefore desirable to support transporting the certificates by reference rather than by value.  Considering the wide variety of deployments the AKE must support different schemes for transporting and identifying credentials, see Section 2 of <a href="#I-D.ietf-cose-x509" class="xref">[I-D.ietf-cose-x509]</a>.</p>
+<p id="rfc.section.2.2.p.8">The common lack of a user interface in constrained devices leads to various credential provisioning schemes.  The use of RPKs may be appropriate for the authentication of the AKE initiator but not for the AKE responder.  The AKE must support different credentials for authentication in different directions of the AKE run, e.g. certificate-based authentication for the initiating endpoint and RPK-based authentication for the responding endpoint.</p>
+<h1 id="rfc.section.2.3">
+<a href="#rfc.section.2.3">2.3.</a> <a href="#identity-protection" id="identity-protection">Identity Protection</a>
+</h1>
+<p id="rfc.section.2.3.p.1">Transporting identities as part of the AKE run is a necessity in order to provide strong mutual authentication. In the case of constrained devices, the identity may contain sensitive information on the manufacturer of the device, the batch, default firmware version, etc. Protecting the identities from passive and active attacks is important from the privacy point of view.</p>
+<p id="rfc.section.2.3.p.2">The AKE is required to support identity protection of one of the peers in the AKE run in the case of public key identities, or the protection of the PSK identifier in the case of PSK-based authentication.</p>
+<h1 id="rfc.section.2.4">
+<a href="#rfc.section.2.4">2.4.</a> <a href="#crypto-agility" id="crypto-agility">Crypto Agility</a>
+</h1>
+<p id="rfc.section.2.4.p.1">Motivated by long deployment lifetimes, the AKE is required to support crypto agility, including modularity of COSE crypto algorithms and negotiation of preferred crypto algorithms for OSCORE and the AKE. The AKE negotiation must be protected against downgrade attacks.</p>
 <h1 id="rfc.section.2.5">
 <a href="#rfc.section.2.5">2.5.</a> <a href="#lw" id="lw">Lightweight</a>
 </h1>

@@ -62,10 +62,10 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  Problem description . . . . . . . . . . . . . . . . . . . . .   3
-     2.1.  Credentials . . . . . . . . . . . . . . . . . . . . . . .   3
-     2.2.  Identity Protection . . . . . . . . . . . . . . . . . . .   4
-     2.3.  Crypto Agility  . . . . . . . . . . . . . . . . . . . . .   4
-     2.4.  AKE for OSCORE  . . . . . . . . . . . . . . . . . . . . .   5
+     2.1.  AKE for OSCORE  . . . . . . . . . . . . . . . . . . . . .   3
+     2.2.  Credentials . . . . . . . . . . . . . . . . . . . . . . .   4
+     2.3.  Identity Protection . . . . . . . . . . . . . . . . . . .   5
+     2.4.  Crypto Agility  . . . . . . . . . . . . . . . . . . . . .   5
      2.5.  Lightweight . . . . . . . . . . . . . . . . . . . . . . .   5
    3.  Requirements Summary  . . . . . . . . . . . . . . . . . . . .  11
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
@@ -133,100 +133,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 2.  Problem description
 
-2.1.  Credentials
-
-   IoT deployments differ in terms of what credentials can be supported.
-   Currently many systems use pre-shared keys (PSK) provisioned out of
-   band, for various reasons.  PSK are often used in a first deployment
-   because of its perceived simplicity.  The use of PSK allows for
-   protection of communication without major additional security
-   processing, and also enables the use of symmetric crypto algorithms
-   only, reducing the implementation and computational effort in the
-   endpoints.
-
-   However, PSK-based provisioning has inherent weaknesses.  There has
-   been reports of massive breaches of PSK provisioning systems, and as
-   many systems use PSK without perfect forward secrecy (PFS) they are
-   vulnerable to passive pervasive monitoring.  The security of these
-   systems can be improved by adding PFS through an AKE authenticated by
-   the provisioned PSK.
-
-   Shared keys can alternatively be established in the endpoints using
-   an AKE protocol authenticated with asymmetric public keys instead of
-   symmetric secret keys.  Raw public keys (RPK) can be provisioned with
-   the same scheme as PSKs, which allows a more relaxed trust model
-   since RPKs need not be secret.
-
-   As a third option, by running the same asymmetric key AKE with public
-   key certificates instead of RPK, key provisioning can be omitted,
-   leading to a more automated bootstrapping procedure.
-
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                  [Page 3]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
-   These steps provide an example of a migration path in limited scoped
-   steps from simple to more robust security bootstrapping and
-   provisioning schemes where each step improves the overall security
-   and/or simplicity of deployment of the IoT system, although not all
-   steps are necessarily feasible for the most constrained settings.
-
-   In order to allow for these different schemes, the AKE must support
-   PSK, RPK and certificate-based authentication.
-
-   Bandwidth is a scarce resource in constrained-node networks.  To
-   minimize the bandwidth consumption it is therefore desirable to
-   support transporting the certificates by reference rather than by
-   value.  Considering the wide variety of deployments the AKE must
-   support different schemes for transporting and identifying
-   credentials, see Section 2 of [I-D.ietf-cose-x509].
-
-   The common lack of a user interface in constrained devices leads to
-   various credential provisioning schemes.  The use of RPKs may be
-   appropriate for the authentication of the AKE initiator but not for
-   the AKE responder.  The AKE must support different credentials for
-   authentication in different directions of the AKE run, e.g.
-   certificate-based authentication for the initiating endpoint and RPK-
-   based authentication for the responding endpoint.
-
-2.2.  Identity Protection
-
-   Transporting identities as part of the AKE run is a necessity in
-   order to provide strong mutual authentication.  In the case of
-   constrained devices, the identity may contain sensitive information
-   on the manufacturer of the device, the batch, default firmware
-   version, etc.  Protecting the identities from passive and active
-   attacks is important from the privacy point of view.
-
-   The AKE is required to support identity protection of one of the
-   peers in the AKE run in the case of public key identities, or the
-   protection of the PSK identifier in the case of PSK-based
-   authentication.
-
-2.3.  Crypto Agility
-
-   Motivated by long deployment lifetimes, the AKE is required to
-   support crypto agility, including modularity of COSE crypto
-   algorithms and negotiation of preferred crypto algorithms for OSCORE
-   and the AKE.  The AKE negotiation must be protected against downgrade
-   attacks.
-
-
-
-
-
-
-Vucinic, et al.            Expires May 7, 2020                  [Page 4]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
-
-
-2.4.  AKE for OSCORE
+2.1.  AKE for OSCORE
 
    The rationale for designing this protocol is that OSCORE is lacking a
    matching AKE.  OSCORE was designed for lightweight RESTful operations
@@ -255,6 +162,14 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    Moreover, the AKE must support the same transport as OSCORE, in
    particular any protocol where CoAP can be transported.  Since the AKE
    messages most commonly will be encapsulated in CoAP, the AKE must not
+
+
+
+Vucinic, et al.            Expires May 7, 2020                  [Page 3]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
    duplicate functionality provided by CoAP.  It is therefore assumed
    that the AKE is being transported in a protocol that provides
    reliable transport, that can preserve packet ordering and handle
@@ -265,6 +180,89 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    case the underlying layers must handle message loss, reordering,
    message duplication, fragmentation, and denial of service protection.
 
+2.2.  Credentials
+
+   IoT deployments differ in terms of what credentials can be supported.
+   Currently many systems use pre-shared keys (PSK) provisioned out of
+   band, for various reasons.  PSK are often used in a first deployment
+   because of its perceived simplicity.  The use of PSK allows for
+   protection of communication without major additional security
+   processing, and also enables the use of symmetric crypto algorithms
+   only, reducing the implementation and computational effort in the
+   endpoints.
+
+   However, PSK-based provisioning has inherent weaknesses.  There has
+   been reports of massive breaches of PSK provisioning systems, and as
+   many systems use PSK without perfect forward secrecy (PFS) they are
+   vulnerable to passive pervasive monitoring.  The security of these
+   systems can be improved by adding PFS through an AKE authenticated by
+   the provisioned PSK.
+
+   Shared keys can alternatively be established in the endpoints using
+   an AKE protocol authenticated with asymmetric public keys instead of
+   symmetric secret keys.  Raw public keys (RPK) can be provisioned with
+   the same scheme as PSKs, which allows a more relaxed trust model
+   since RPKs need not be secret.
+
+   As a third option, by running the same asymmetric key AKE with public
+   key certificates instead of RPK, key provisioning can be omitted,
+   leading to a more automated bootstrapping procedure.
+
+   These steps provide an example of a migration path in limited scoped
+   steps from simple to more robust security bootstrapping and
+   provisioning schemes where each step improves the overall security
+   and/or simplicity of deployment of the IoT system, although not all
+   steps are necessarily feasible for the most constrained settings.
+
+   In order to allow for these different schemes, the AKE must support
+   PSK, RPK and certificate-based authentication.
+
+
+
+
+
+Vucinic, et al.            Expires May 7, 2020                  [Page 4]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
+
+
+   Bandwidth is a scarce resource in constrained-node networks.  To
+   minimize the bandwidth consumption it is therefore desirable to
+   support transporting the certificates by reference rather than by
+   value.  Considering the wide variety of deployments the AKE must
+   support different schemes for transporting and identifying
+   credentials, see Section 2 of [I-D.ietf-cose-x509].
+
+   The common lack of a user interface in constrained devices leads to
+   various credential provisioning schemes.  The use of RPKs may be
+   appropriate for the authentication of the AKE initiator but not for
+   the AKE responder.  The AKE must support different credentials for
+   authentication in different directions of the AKE run, e.g.
+   certificate-based authentication for the initiating endpoint and RPK-
+   based authentication for the responding endpoint.
+
+2.3.  Identity Protection
+
+   Transporting identities as part of the AKE run is a necessity in
+   order to provide strong mutual authentication.  In the case of
+   constrained devices, the identity may contain sensitive information
+   on the manufacturer of the device, the batch, default firmware
+   version, etc.  Protecting the identities from passive and active
+   attacks is important from the privacy point of view.
+
+   The AKE is required to support identity protection of one of the
+   peers in the AKE run in the case of public key identities, or the
+   protection of the PSK identifier in the case of PSK-based
+   authentication.
+
+2.4.  Crypto Agility
+
+   Motivated by long deployment lifetimes, the AKE is required to
+   support crypto agility, including modularity of COSE crypto
+   algorithms and negotiation of preferred crypto algorithms for OSCORE
+   and the AKE.  The AKE negotiation must be protected against downgrade
+   attacks.
+
 2.5.  Lightweight
 
    As motivated in Section 1 we target an AKE which is efficiently
@@ -273,6 +271,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    reasonably achievable' in these environments, where 'lightweight'
    refers to:
 
+   o  resource consumption, measured by bytes on the wire, wall-clock
+      time and number of round trips to complete, or power consumption
 
 
 
@@ -281,9 +281,6 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 5]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
-
-   o  resource consumption, measured by bytes on the wire, wall-clock
-      time and number of round trips to complete, or power consumption
 
    o  the amount of new code required on end systems which already have
       an OSCORE stack
@@ -331,6 +328,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    consumption is unavoidable in poor network conditions, such as most
    wide-area settings including LoRaWAN.
 
+   Per 'new code', it is desirable to introduce as little new code as
+   possible onto OSCORE-enabled devices to support this new AKE.  These
+
 
 
 Vucinic, et al.            Expires May 7, 2020                  [Page 6]
@@ -338,8 +338,6 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 6]
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
-   Per 'new code', it is desirable to introduce as little new code as
-   possible onto OSCORE-enabled devices to support this new AKE.  These
    devices have on the order of 10s of kB of memory and 100 kB of
    storage on which an embedded OS; a COAP stack; CORE and AKE
    libraries; and target applications would run.  It is expected that
@@ -386,6 +384,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    6TiSCH operates in the 2.4 GHz unlicensed frequency band and uses
    hybrid Time Division/Frequency Division multiple access (TDMA/FDMA).
    Nodes in a 6TiSCH network form a mesh.  The basic unit of
+   communication, a cell, is uniquely defined by its time and frequency
+   offset in the communication schedule matrix.  Cells can be assigned
 
 
 
@@ -394,8 +394,6 @@ Vucinic, et al.            Expires May 7, 2020                  [Page 7]
 Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
 
 
-   communication, a cell, is uniquely defined by its time and frequency
-   offset in the communication schedule matrix.  Cells can be assigned
    for communication to a pair of nodes in the mesh and so be collision-
    free, or shared by multiple nodes, for example during network
    formation.  In case of shared cells, some collision-resolution scheme
@@ -441,6 +439,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             November 2019
    message may travel several hops before reaching its destination, it
    is highly desirable to minimize the number of round trips to reduce
    latency.
+
+
 
 
 
