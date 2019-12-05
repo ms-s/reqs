@@ -2,14 +2,14 @@
 
 
 
-Network Working Group                                         M. Vucinic
-Internet-Draft                                                     INRIA
+Network Working Group                                         M. Vučinić
+Internet-Draft                                                     Inria
 Intended status: Informational                               G. Selander
-Expires: 6 June 2020                                         J. Mattsson
+Expires: 7 June 2020                                         J. Mattsson
                                                              Ericsson AB
                                                                D. Garcia
                                                      Odin Solutions S.L.
-                                                         4 December 2019
+                                                         5 December 2019
 
 
              Requirements for a Lightweight AKE for OSCORE
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 June 2020.
+   This Internet-Draft will expire on 7 June 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Vucinic, et al.            Expires 6 June 2020                  [Page 1]
+Vučinić, et al.            Expires 7 June 2020                  [Page 1]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Vucinic, et al.            Expires 6 June 2020                  [Page 2]
+Vučinić, et al.            Expires 7 June 2020                  [Page 2]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -165,7 +165,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                  [Page 3]
+Vučinić, et al.            Expires 7 June 2020                  [Page 3]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -221,7 +221,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                  [Page 4]
+Vučinić, et al.            Expires 7 June 2020                  [Page 4]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -277,7 +277,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                  [Page 5]
+Vučinić, et al.            Expires 7 June 2020                  [Page 5]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -292,12 +292,12 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    other peer in the case of public key identities.
 
    In case of a PSK identifier, this may be protected against passive
-   attackers with a key derived from the a Diffie-Hellman shared secret.
+   attackers with a key derived from the Diffie-Hellman shared secret.
    The responder has first access to the shared secret but does in
-   general does not know from whom a message without PSK identifier is
-   sent.  Therefore the protection of PSK identifier in general needs to
-   be performed by the initiator, i.e. at the earliest in message 3.  As
-   a consequence, in order to authenticate the responder within the AKE,
+   general not know from whom a message without PSK identifier is sent.
+   Therefore the protection of PSK identifier in general needs to be
+   performed by the initiator, i.e. at the earliest in message 3.  As a
+   consequence, in order to authenticate the responder within the AKE,
    at least four protocol messages are needed in case of symmetric key
    authentication with identity protection.  Considering the need to
    keep the number of messages at a minimum (see Section 2.7.4), unless
@@ -305,7 +305,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    not required to protect the PSK identifier, and it may thus be sent
    in the first message.
 
-   Other identifying information that need to be transported in plain
+   Other identifying information that needs to be transported in plain
    text is cipher suites and connection identifiers.  Encrypting crypto
    algorithms does not allow negotiation of cipher suite within 3
    messages.  Encryption of connection identifiers only works in
@@ -333,7 +333,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                  [Page 6]
+Vučinić, et al.            Expires 7 June 2020                  [Page 6]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -378,9 +378,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    The endpoints shall be able to verify that the identity of the other
    endpoint is an acceptable identity that it is intended to
    authenticate to.  The AKE shall protect against identity misbinding
-   attacks, when applicable.  Note that the identity may be data
-   directly related to a public key such as for example the public key
-   itself, a hash of the public key, or data unrelated to a key.
+   attacks, when applicable.  Note that the identity may be directly
+   related to a public key such as for example the public key itself, a
+   hash of the public key, or data unrelated to a key.
 
    The AKE shall protect against reflection attacks, but need not
    protect against attacks when more than two parties legitimately share
@@ -389,7 +389,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                  [Page 7]
+Vučinić, et al.            Expires 7 June 2020                  [Page 7]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -445,7 +445,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                  [Page 8]
+Vučinić, et al.            Expires 7 June 2020                  [Page 8]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -501,7 +501,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                  [Page 9]
+Vučinić, et al.            Expires 7 June 2020                  [Page 9]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -557,7 +557,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                 [Page 10]
+Vučinić, et al.            Expires 7 June 2020                 [Page 10]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -613,7 +613,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                 [Page 11]
+Vučinić, et al.            Expires 7 June 2020                 [Page 11]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -669,7 +669,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                 [Page 12]
+Vučinić, et al.            Expires 7 June 2020                 [Page 12]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -725,7 +725,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                 [Page 13]
+Vučinić, et al.            Expires 7 June 2020                 [Page 13]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -781,7 +781,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                 [Page 14]
+Vučinić, et al.            Expires 7 June 2020                 [Page 14]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -837,7 +837,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                 [Page 15]
+Vučinić, et al.            Expires 7 June 2020                 [Page 15]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -893,7 +893,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                 [Page 16]
+Vučinić, et al.            Expires 7 June 2020                 [Page 16]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -949,7 +949,7 @@ Acknowledgments
 
 
 
-Vucinic, et al.            Expires 6 June 2020                 [Page 17]
+Vučinić, et al.            Expires 7 June 2020                 [Page 17]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -1005,7 +1005,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 6 June 2020                 [Page 18]
+Vučinić, et al.            Expires 7 June 2020                 [Page 18]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -1025,8 +1025,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 Authors' Addresses
 
-   Malisa Vucinic
-   INRIA
+   Mališa Vučinić
+   Inria
 
    Email: malisa.vucinic@inria.fr
 
@@ -1061,4 +1061,4 @@ Authors' Addresses
 
 
 
-Vucinic, et al.            Expires 6 June 2020                 [Page 19]
+Vučinić, et al.            Expires 7 June 2020                 [Page 19]
