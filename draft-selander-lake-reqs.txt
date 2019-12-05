@@ -327,9 +327,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
       keys
 
    *  The AKE shall support negotiation of the all COSE algorithms used
-      in the AKE and that OSCORE supports.
-
-
+      in the AKE and that OSCORE supports.  A successful negotiation
+      shall result in the most preferred algorithms of one of the
+      parties which is supported by the other.
 
 
 
