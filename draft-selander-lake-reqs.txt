@@ -5,11 +5,11 @@
 Network Working Group                                         M. Vučinić
 Internet-Draft                                                     Inria
 Intended status: Informational                               G. Selander
-Expires: 7 June 2020                                         J. Mattsson
+Expires: 8 June 2020                                         J. Mattsson
                                                              Ericsson AB
                                                                D. Garcia
                                                      Odin Solutions S.L.
-                                                         5 December 2019
+                                                         6 December 2019
 
 
              Requirements for a Lightweight AKE for OSCORE
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 7 June 2020.
+   This Internet-Draft will expire on 8 June 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Vučinić, et al.            Expires 7 June 2020                  [Page 1]
+Vučinić, et al.            Expires 8 June 2020                  [Page 1]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Vučinić, et al.            Expires 7 June 2020                  [Page 2]
+Vučinić, et al.            Expires 8 June 2020                  [Page 2]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -153,7 +153,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    In order to be suitable for OSCORE, at the end of the AKE protocol
    run the two parties must agree on (see Section 3.2 of [RFC8613]):
 
-   *  a shared secret (OSCORE Master Secret) with PFS (see Section 2.4)
+   *  a shared secret (OSCORE Master Secret) with PFS (see Section 2.5)
       and a good amount of randomness.  (The term "good amount of
       randomness" is borrowed from [HKDF] to signify not necessarily
       uniformly distributed randomness.)
@@ -165,7 +165,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                  [Page 3]
+Vučinić, et al.            Expires 8 June 2020                  [Page 3]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -221,7 +221,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                  [Page 4]
+Vučinić, et al.            Expires 8 June 2020                  [Page 4]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -277,7 +277,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                  [Page 5]
+Vučinić, et al.            Expires 8 June 2020                  [Page 5]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -333,7 +333,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                  [Page 6]
+Vučinić, et al.            Expires 8 June 2020                  [Page 6]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -389,7 +389,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                  [Page 7]
+Vučinić, et al.            Expires 8 June 2020                  [Page 7]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -445,7 +445,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                  [Page 8]
+Vučinić, et al.            Expires 8 June 2020                  [Page 8]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -501,7 +501,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                  [Page 9]
+Vučinić, et al.            Expires 8 June 2020                  [Page 9]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -557,7 +557,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                 [Page 10]
+Vučinić, et al.            Expires 8 June 2020                 [Page 10]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -613,7 +613,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                 [Page 11]
+Vučinić, et al.            Expires 8 June 2020                 [Page 11]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -669,7 +669,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                 [Page 12]
+Vučinić, et al.            Expires 8 June 2020                 [Page 12]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -725,7 +725,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                 [Page 13]
+Vučinić, et al.            Expires 8 June 2020                 [Page 13]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -781,7 +781,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                 [Page 14]
+Vučinić, et al.            Expires 8 June 2020                 [Page 14]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -837,7 +837,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                 [Page 15]
+Vučinić, et al.            Expires 8 June 2020                 [Page 15]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -893,7 +893,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 7 June 2020                 [Page 16]
+Vučinić, et al.            Expires 8 June 2020                 [Page 16]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -942,17 +942,20 @@ Acknowledgments
 
    [I-D.ietf-6tisch-minimal-security]
               Vucinic, M., Simon, J., Pister, K., and M. Richardson,
-              "Minimal Security Framework for 6TiSCH", Work in Progress,
-              Internet-Draft, draft-ietf-6tisch-minimal-security-13, 28
-              October 2019, <http://www.ietf.org/internet-drafts/draft-
-              ietf-6tisch-minimal-security-13.txt>.
+              "Constrained Join Protocol (CoJP) for 6TiSCH", Work in
+              Progress, Internet-Draft, draft-ietf-6tisch-minimal-
+              security-14, 5 December 2019, <http://www.ietf.org/
 
 
 
-Vučinić, et al.            Expires 7 June 2020                 [Page 17]
+
+Vučinić, et al.            Expires 8 June 2020                 [Page 17]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
+
+              internet-drafts/draft-ietf-6tisch-minimal-security-
+              14.txt>.
 
    [I-D.ietf-core-echo-request-tag]
               Amsuess, C., Mattsson, J., and G. Selander, "CoAP: Echo,
@@ -999,17 +1002,16 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
               <http://www.3gpp.org/ftp/tsg_ran/WG1_RL1/TSGR1_AH/
               NR_AH_1701/Docs//R1-1701044.zip>.
 
-   [RFC7228]  Bormann, C., Ersue, M., and A. Keranen, "Terminology for
-              Constrained-Node Networks", RFC 7228,
 
 
 
-
-Vučinić, et al.            Expires 7 June 2020                 [Page 18]
+Vučinić, et al.            Expires 8 June 2020                 [Page 18]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
+   [RFC7228]  Bormann, C., Ersue, M., and A. Keranen, "Terminology for
+              Constrained-Node Networks", RFC 7228,
               DOI 10.17487/RFC7228, May 2014,
               <https://www.rfc-editor.org/info/rfc7228>.
 
@@ -1059,6 +1061,4 @@ Authors' Addresses
 
 
 
-
-
-Vučinić, et al.            Expires 7 June 2020                 [Page 19]
+Vučinić, et al.            Expires 8 June 2020                 [Page 19]
