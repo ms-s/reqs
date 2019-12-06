@@ -2,7 +2,7 @@
 
 
 
-Network Working Group                                         M. Vučinić
+Network Working Group                                         M. Vucinic
 Internet-Draft                                                     Inria
 Intended status: Informational                               G. Selander
 Expires: 8 June 2020                                         J. Mattsson
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Vučinić, et al.            Expires 8 June 2020                  [Page 1]
+Vucinic, et al.            Expires 8 June 2020                  [Page 1]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Vučinić, et al.            Expires 8 June 2020                  [Page 2]
+Vucinic, et al.            Expires 8 June 2020                  [Page 2]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -165,7 +165,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                  [Page 3]
+Vucinic, et al.            Expires 8 June 2020                  [Page 3]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -221,7 +221,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                  [Page 4]
+Vucinic, et al.            Expires 8 June 2020                  [Page 4]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -277,7 +277,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                  [Page 5]
+Vucinic, et al.            Expires 8 June 2020                  [Page 5]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -333,7 +333,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                  [Page 6]
+Vucinic, et al.            Expires 8 June 2020                  [Page 6]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -389,7 +389,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                  [Page 7]
+Vucinic, et al.            Expires 8 June 2020                  [Page 7]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -445,7 +445,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                  [Page 8]
+Vucinic, et al.            Expires 8 June 2020                  [Page 8]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -501,7 +501,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                  [Page 9]
+Vucinic, et al.            Expires 8 June 2020                  [Page 9]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -557,7 +557,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                 [Page 10]
+Vucinic, et al.            Expires 8 June 2020                 [Page 10]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -613,7 +613,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                 [Page 11]
+Vucinic, et al.            Expires 8 June 2020                 [Page 11]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -669,7 +669,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                 [Page 12]
+Vucinic, et al.            Expires 8 June 2020                 [Page 12]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -725,7 +725,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                 [Page 13]
+Vucinic, et al.            Expires 8 June 2020                 [Page 13]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -781,7 +781,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                 [Page 14]
+Vucinic, et al.            Expires 8 June 2020                 [Page 14]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -837,7 +837,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                 [Page 15]
+Vucinic, et al.            Expires 8 June 2020                 [Page 15]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -893,7 +893,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                 [Page 16]
+Vucinic, et al.            Expires 8 June 2020                 [Page 16]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -949,7 +949,7 @@ Acknowledgments
 
 
 
-Vučinić, et al.            Expires 8 June 2020                 [Page 17]
+Vucinic, et al.            Expires 8 June 2020                 [Page 17]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -1005,7 +1005,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vučinić, et al.            Expires 8 June 2020                 [Page 18]
+Vucinic, et al.            Expires 8 June 2020                 [Page 18]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -1033,19 +1033,19 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 Authors' Addresses
 
-   Mališa Vučinić
+   Malisa Vucinic
    Inria
 
    Email: malisa.vucinic@inria.fr
 
 
-   Göran Selander
+   Goeran Selander
    Ericsson AB
 
    Email: goran.selander@ericsson.com
 
 
-   John Preuß Mattsson
+   John Preuss Mattsson
    Ericsson AB
 
    Email: john.mattsson@ericsson.com
@@ -1061,4 +1061,4 @@ Authors' Addresses
 
 
 
-Vučinić, et al.            Expires 8 June 2020                 [Page 19]
+Vucinic, et al.            Expires 8 June 2020                 [Page 19]
