@@ -927,13 +927,13 @@ table.left {
                 <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="xref">2.2</a>.  <a href="#name-credentials" class="xref">Credentials</a><a href="#section-toc.1-1.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="toc ulEmpty" id="section-toc.1-1.2.2.3">
-                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="xref">2.3</a>.  <a href="#name-identity-protection" class="xref">Identity Protection</a><a href="#section-toc.1-1.2.2.3.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="xref">2.3</a>.  <a href="#name-mutual-authentication" class="xref">Mutual Authentication</a><a href="#section-toc.1-1.2.2.3.1" class="pilcrow">¶</a></p>
 </li>
               <li class="toc ulEmpty" id="section-toc.1-1.2.2.4">
                 <p id="section-toc.1-1.2.2.4.1"><a href="#section-2.4" class="xref">2.4</a>.  <a href="#name-crypto-agility-and-security" class="xref">Crypto Agility and Security Properties</a><a href="#section-toc.1-1.2.2.4.1" class="pilcrow">¶</a></p>
 </li>
               <li class="toc ulEmpty" id="section-toc.1-1.2.2.5">
-                <p id="section-toc.1-1.2.2.5.1"><a href="#section-2.5" class="xref">2.5</a>.  <a href="#name-mutual-authentication" class="xref">Mutual Authentication</a><a href="#section-toc.1-1.2.2.5.1" class="pilcrow">¶</a></p>
+                <p id="section-toc.1-1.2.2.5.1"><a href="#section-2.5" class="xref">2.5</a>.  <a href="#name-identity-protection" class="xref">Identity Protection</a><a href="#section-toc.1-1.2.2.5.1" class="pilcrow">¶</a></p>
 </li>
               <li class="toc ulEmpty" id="section-toc.1-1.2.2.6">
                 <p id="section-toc.1-1.2.2.6.1"><a href="#section-2.6" class="xref">2.6</a>.  <a href="#name-application-data" class="xref">Application Data</a><a href="#section-toc.1-1.2.2.6.1" class="pilcrow">¶</a></p>
@@ -1011,7 +1011,7 @@ The solution will presumably be useful in other scenarios as well since a low se
 <p id="section-2.1-1">The rationale for designing this protocol is that OSCORE is lacking a matching AKE. OSCORE was designed for lightweight RESTful operations for example by minimizing the overhead, and applying the protection to the application layer, thereby limiting the data being encrypted and integrity protected for the other endpoint. Moreover, OSCORE was tailored for use with lightweight primitives that are likely to be implemented in the device, specifically CoAP, CBOR and COSE. The same properties must apply to the AKE.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
 <p id="section-2.1-2">In order to be suitable for OSCORE, at the end of the AKE protocol run the two parties must agree on (see Section 3.2 of <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span>):<a href="#section-2.1-2" class="pilcrow">¶</a></p>
 <ul>
-<li id="section-2.1-3.1">a shared secret (OSCORE Master Secret) with PFS (see <a href="#mutual-auth" class="xref">Section 2.5</a>) and a good amount of randomness. (The term "good amount of randomness" is borrowed from <span>[<a href="#HKDF" class="xref">HKDF</a>]</span> to signify not necessarily uniformly distributed randomness.)<a href="#section-2.1-3.1" class="pilcrow">¶</a>
+<li id="section-2.1-3.1">a shared secret (OSCORE Master Secret) with PFS (see <a href="#mutual-auth" class="xref">Section 2.3</a>) and a good amount of randomness. (The term "good amount of randomness" is borrowed from <span>[<a href="#HKDF" class="xref">HKDF</a>]</span> to signify not necessarily uniformly distributed randomness.)<a href="#section-2.1-3.1" class="pilcrow">¶</a>
 </li>
           <li id="section-2.1-3.2">OSCORE Sender IDs of peer endpoints, arbitrarily short<a href="#section-2.1-3.2" class="pilcrow">¶</a>
 </li>
@@ -1042,15 +1042,19 @@ The AKE must support different credentials for authentication in different direc
 <p id="section-2.2-10">Assuming that both signature public keys and static DH public keys are in use, then also the case of mixed credentials need to be supported with one endpoint using a static DH public key and the other using a signature public key.<a href="#section-2.2-10" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="identity-protection">
+<div id="mutual-auth">
 <section id="section-2.3">
-        <h3 id="name-identity-protection">
-<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-identity-protection" class="section-name selfRef">Identity Protection</a>
+        <h3 id="name-mutual-authentication">
+<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-mutual-authentication" class="section-name selfRef">Mutual Authentication</a>
         </h3>
-<p id="section-2.3-1">In general, it is necessary to transport identities as part of the AKE run in order to provide authentication of an entity not identified beforehand. In the case of constrained devices, the identity may contain sensitive information on the manufacturer of the device, the batch, default firmware version, etc. Protecting identifying information from passive and active attacks is important from a privacy point of view, but needs to be balanced with the other requirements, including security and lightweightness. For certain data we therefore need to make an exemption in order to obtain an efficient protocol.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
-<p id="section-2.3-2">The AKE is required to protect the identity against active attackers of one of the peers and protection against passive attackers of the other peer in the case of public key identities.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
-<p id="section-2.3-3">In case of a PSK identifier, this may be protected against passive attackers with a key derived from the Diffie-Hellman shared secret. The responder has first access to the shared secret but does in general not know from whom a message without PSK identifier is sent. Therefore the protection of PSK identifier in general needs to be performed by the initiator, i.e. at the earliest in message 3. As a consequence, in order to authenticate the responder within the AKE, at least four protocol messages are needed in case of symmetric key authentication with identity protection. Considering the need to keep the number of messages at a minimum (see <a href="#disc" class="xref">Section 2.9.4</a>), unless there are other good reasons for having more than 3 messages, it is not required to protect the PSK identifier, and it may thus be sent in the first message.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
-<p id="section-2.3-4">Other identifying information that needs to be transported in plain text is cipher suites and connection identifiers. Encrypting crypto algorithms does not allow negotiation of cipher suite within 3 messages. Encryption of connection identifiers only works in asymmetric case and does not enable arbitrarily short identifiers (see <a href="#AKE-OSCORE" class="xref">Section 2.1</a>).<a href="#section-2.3-4" class="pilcrow">¶</a></p>
+<p id="section-2.3-1">The AKE must provide mutual authentication during the protocol run. At the end of the AKE protocol, each endpoint shall have authenticated the other.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.3-2">The AKE cannot rely on messages being exchanged in both directions after the AKE has completed, because CoAP/OSCORE requests may not have a response <span>[<a href="#RFC7967" class="xref">RFC7967</a>]</span>. Furthermore, there is no assumption of dependence between CoAP client/server and AKE initiator/responder roles, and an OSCORE context may be used with CoAP client and server roles interchanged as is done e.g. in <span>[<a href="#LwM2M" class="xref">LwM2M</a>]</span>. Since the protocol may be initiated by different endpoints, it shall not be necessary to determine beforehand which endpoint takes the role of initiator of the AKE.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
+<p id="section-2.3-3">Compromise of initiator or responder long-term keys shall not enable an attacker to compromise past session keys (Perfect Forward Secrecy) and shall not enable a passive attacker to compromise future session keys. These two properties can be achieved with an ephemeral Diffie-Hellman key exchange.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
+<p id="section-2.3-4">To mitigate against bad random number generators the AKE shall mandate randomness improvements such as <span>[<a href="#I-D.irtf-cfrg-randomness-improvements" class="xref">I-D.irtf-cfrg-randomness-improvements</a>]</span> and analogously for symmetric keys.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
+<p id="section-2.3-5">The AKE shall provide Key Compromise Impersonation (KCI) resistance.<a href="#section-2.3-5" class="pilcrow">¶</a></p>
+<p id="section-2.3-6">The AKE shall protect against replay attacks (injective).<a href="#section-2.3-6" class="pilcrow">¶</a></p>
+<p id="section-2.3-7">The endpoints shall be able to verify that the identity of the other endpoint is an acceptable identity that it is intended to authenticate to. The AKE shall protect against identity misbinding attacks, when applicable. Note that the identity may be directly related to a public key such as for example the public key itself, a hash of the public key, or data unrelated to a key.<a href="#section-2.3-7" class="pilcrow">¶</a></p>
+<p id="section-2.3-8">The AKE shall protect against reflection attacks, but need not protect against attacks when more than two parties legitimately share keys (cf. the Selfie attack on TLS 1.3) as that setting is out of scope.<a href="#section-2.3-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="crypto-agility">
@@ -1073,19 +1077,15 @@ The AKE must support different credentials for authentication in different direc
 [Further detailing is requested.]<a href="#section-2.4-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="mutual-auth">
+<div id="identity-protection">
 <section id="section-2.5">
-        <h3 id="name-mutual-authentication">
-<a href="#section-2.5" class="section-number selfRef">2.5. </a><a href="#name-mutual-authentication" class="section-name selfRef">Mutual Authentication</a>
+        <h3 id="name-identity-protection">
+<a href="#section-2.5" class="section-number selfRef">2.5. </a><a href="#name-identity-protection" class="section-name selfRef">Identity Protection</a>
         </h3>
-<p id="section-2.5-1">The AKE must provide mutual authentication during the protocol run. At the end of the AKE protocol, each endpoint shall have authenticated the other.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
-<p id="section-2.5-2">The AKE cannot rely on messages being exchanged in both directions after the AKE has completed, because CoAP/OSCORE requests may not have a response <span>[<a href="#RFC7967" class="xref">RFC7967</a>]</span>. Furthermore, there is no assumption of dependence between CoAP client/server and AKE initiator/responder roles, and an OSCORE context may be used with CoAP client and server roles interchanged as is done e.g. in <span>[<a href="#LwM2M" class="xref">LwM2M</a>]</span>. Since the protocol may be initiated by different endpoints, it shall not be necessary to determine beforehand which endpoint takes the role of initiator of the AKE.<a href="#section-2.5-2" class="pilcrow">¶</a></p>
-<p id="section-2.5-3">Compromise of initiator or responder long-term keys shall not enable an attacker to compromise past session keys (Perfect Forward Secrecy) and shall not enable a passive attacker to compromise future session keys. These two properties can be achieved with an ephemeral Diffie-Hellman key exchange.<a href="#section-2.5-3" class="pilcrow">¶</a></p>
-<p id="section-2.5-4">To mitigate against bad random number generators the AKE shall mandate randomness improvements such as <span>[<a href="#I-D.irtf-cfrg-randomness-improvements" class="xref">I-D.irtf-cfrg-randomness-improvements</a>]</span> and analogously for symmetric keys.<a href="#section-2.5-4" class="pilcrow">¶</a></p>
-<p id="section-2.5-5">The AKE shall provide Key Compromise Impersonation (KCI) resistance.<a href="#section-2.5-5" class="pilcrow">¶</a></p>
-<p id="section-2.5-6">The AKE shall protect against replay attacks (injective).<a href="#section-2.5-6" class="pilcrow">¶</a></p>
-<p id="section-2.5-7">The endpoints shall be able to verify that the identity of the other endpoint is an acceptable identity that it is intended to authenticate to. The AKE shall protect against identity misbinding attacks, when applicable. Note that the identity may be directly related to a public key such as for example the public key itself, a hash of the public key, or data unrelated to a key.<a href="#section-2.5-7" class="pilcrow">¶</a></p>
-<p id="section-2.5-8">The AKE shall protect against reflection attacks, but need not protect against attacks when more than two parties legitimately share keys (cf. the Selfie attack on TLS 1.3) as that setting is out of scope.<a href="#section-2.5-8" class="pilcrow">¶</a></p>
+<p id="section-2.5-1">In general, it is necessary to transport identities as part of the AKE run in order to provide authentication of an entity not identified beforehand. In the case of constrained devices, the identity may contain sensitive information on the manufacturer of the device, the batch, default firmware version, etc. Protecting identifying information from passive and active attacks is important from a privacy point of view, but needs to be balanced with the other requirements, including security and lightweightness. For certain data we therefore need to make an exemption in order to obtain an efficient protocol.<a href="#section-2.5-1" class="pilcrow">¶</a></p>
+<p id="section-2.5-2">The AKE is required to protect the identity against active attackers of one of the peers and protection against passive attackers of the other peer in the case of public key identities.<a href="#section-2.5-2" class="pilcrow">¶</a></p>
+<p id="section-2.5-3">In case of a PSK identifier, this may be protected against passive attackers with a key derived from the Diffie-Hellman shared secret. The responder has first access to the shared secret but does in general not know from whom a message without PSK identifier is sent. Therefore the protection of PSK identifier in general needs to be performed by the initiator, i.e. at the earliest in message 3. As a consequence, in order to authenticate the responder within the AKE, at least four protocol messages are needed in case of symmetric key authentication with identity protection. Considering the need to keep the number of messages at a minimum (see <a href="#disc" class="xref">Section 2.9.4</a>), unless there are other good reasons for having more than 3 messages, it is not required to protect the PSK identifier, and it may thus be sent in the first message.<a href="#section-2.5-3" class="pilcrow">¶</a></p>
+<p id="section-2.5-4">Other identifying information that needs to be transported in plain text is cipher suites and connection identifiers. Encrypting crypto algorithms does not allow negotiation of cipher suite within 3 messages. Encryption of connection identifiers only works in asymmetric case and does not enable arbitrarily short identifiers (see <a href="#AKE-OSCORE" class="xref">Section 2.1</a>).<a href="#section-2.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="application-data">
