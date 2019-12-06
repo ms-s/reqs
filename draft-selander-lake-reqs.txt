@@ -342,7 +342,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
       OSCORE
 
    The AKE negotiation must be protected against downgrade attacks.
-   [Input for further detailing this is requested.]
+   [Further detailing is requested.]
 
 2.5.  Mutual Authentication
 
