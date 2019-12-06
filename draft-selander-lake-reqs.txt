@@ -804,7 +804,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
    3.  To limit the impact of a key compromise, BSI, NIST and ANSSI and
        other organizations recommend in other contexts frequent renewal
-       of keys by means of Diffie-Hellman key exchange.
+       of keys by means of Diffie-Hellman key exchange.  This may be a
+       symmetric key authenticated key exchange, where the symmetric key
+       is obtained from a previous asymmetric key based run of the AKE.
 
    To summarize, even if it we are unable to give precise numbers for
    AKE frequency, a lightweight AKE
@@ -831,8 +833,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    protocol is completed, and if not discontinue the protocol before it
    is complete, thereby saving time and message processing.
 
-   Another example is the embedding of certificate enrolment request or
-   a newly issued certificate.
 
 
 
@@ -841,6 +841,9 @@ Vučinić, et al.            Expires 8 June 2020                 [Page 15]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
+
+   Another example is the embedding of certificate enrolment request or
+   a newly issued certificate.
 
    The AKE must support the transport of application data within the
    protocol messages.
@@ -886,9 +889,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
       identifiers (potentially short), and COSE algorithms to use.
 
    *  The AKE must reuse CBOR, CoAP and COSE primitives and algorithms
-      for low code complexity and to avoid duplicate maintenance of a
-      combined OSCORE and AKE implementation.
-
 
 
 
@@ -897,6 +897,9 @@ Vučinić, et al.            Expires 8 June 2020                 [Page 16]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
+
+      for low code complexity and to avoid duplicate maintenance of a
+      combined OSCORE and AKE implementation.
 
    *  The messages should be as small as reasonably achievable.  The
       messages shall fit into as few LoRaWAN packets and 6TiSCH frames
@@ -944,9 +947,6 @@ Acknowledgments
               Derivation: The HKDF Scheme", May 2010,
               <https://eprint.iacr.org/2010/264.pdf>.
 
-   [I-D.ietf-6tisch-minimal-security]
-              Vucinic, M., Simon, J., Pister, K., and M. Richardson,
-
 
 
 Vučinić, et al.            Expires 8 June 2020                 [Page 17]
@@ -954,6 +954,8 @@ Vučinić, et al.            Expires 8 June 2020                 [Page 17]
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
+   [I-D.ietf-6tisch-minimal-security]
+              Vucinic, M., Simon, J., Pister, K., and M. Richardson,
               "Constrained Join Protocol (CoJP) for 6TiSCH", Work in
               Progress, Internet-Draft, draft-ietf-6tisch-minimal-
               security-14, 5 December 2019, <http://www.ietf.org/
@@ -999,9 +1001,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
               V1_1-20180710-A/OMA-TS-LightweightM2M_Transport-
               V1_1-20180710-A.pdf>.
 
-   [NB-IoT-battery-life-evaluation]
-              "On mMTC, NB-IoT and eMTC battery life evaluation",
-              January 2017,
+
 
 
 
@@ -1010,6 +1010,9 @@ Vučinić, et al.            Expires 8 June 2020                 [Page 18]
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
+   [NB-IoT-battery-life-evaluation]
+              "On mMTC, NB-IoT and eMTC battery life evaluation",
+              January 2017,
               <http://www.3gpp.org/ftp/tsg_ran/WG1_RL1/TSGR1_AH/
               NR_AH_1701/Docs//R1-1701044.zip>.
 
@@ -1052,9 +1055,6 @@ Authors' Addresses
    Odin Solutions S.L.
 
    Email: dgarcia@odins.es
-
-
-
 
 
 
