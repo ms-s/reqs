@@ -786,14 +786,15 @@ Vučinić, et al.            Expires 8 June 2020                 [Page 14]
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
-   1.  For some use cases, already one execution of the AKE is too
-       heavy, for example, because
+   1.  For some use cases, already one execution of the AKE is heavy,
+       for example, because
 
-       *  there are a number of parallel executions of the AKE in a
-          network formation setting which loads down the network, or
+       *  there are a number of parallel executions of the AKE which
+          loads down the network, such as in a network formation
+          setting, or
 
-       *  the duty cycle makes the completion time too long for even one
-          run of the protocol.
+       *  the duty cycle makes the completion time long for even one run
+          of the protocol.
 
    2.  If a device reboots it may not be able to recover the security
        context, e.g. due to lack of persistent storage, and is required
@@ -836,7 +837,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-
 Vučinić, et al.            Expires 8 June 2020                 [Page 15]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
@@ -845,7 +845,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    The AKE must support the transport of application data within the
    protocol messages.
 
-   It is expected that a 3 message AKE will provide the following
+   It is expected that an AKE with 3 messages will provide the following
    protection of the application data:
 
    *  Application data in the first message is unprotected
@@ -857,10 +857,10 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    *  Application data in the third message is confidentiality and
       integrity protected against active attackers
 
-   Application data may reveal privacy sensitive information.  The
+   Application data may contain privacy sensitive information.  The
    application data must not violate the AKE security properties.  The
-   assumptions on the application data needs to be detailed by the
-   specification.
+   assumptions on the application data need to be detailed in the
+   specification of the AKE.
 
 2.9.  Extensibility
 
