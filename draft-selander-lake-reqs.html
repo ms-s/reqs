@@ -1050,7 +1050,7 @@ The AKE must support different credentials for authentication in different direc
 <p id="section-2.3-1">In general, it is necessary to transport identities as part of the AKE run in order to provide authentication of an entity not identified beforehand. In the case of constrained devices, the identity may contain sensitive information on the manufacturer of the device, the batch, default firmware version, etc. Protecting identifying information from passive and active attacks is important from a privacy point of view, but needs to be balanced with the other requirements, including security and lightweightness. For certain data we therefore need to make an exemption in order to obtain an efficient protocol.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 <p id="section-2.3-2">The AKE is required to protect the identity against active attackers of one of the peers and protection against passive attackers of the other peer in the case of public key identities.<a href="#section-2.3-2" class="pilcrow">¶</a></p>
 <p id="section-2.3-3">In case of a PSK identifier, this may be protected against passive attackers with a key derived from the Diffie-Hellman shared secret. The responder has first access to the shared secret but does in general not know from whom a message without PSK identifier is sent. Therefore the protection of PSK identifier in general needs to be performed by the initiator, i.e. at the earliest in message 3. As a consequence, in order to authenticate the responder within the AKE, at least four protocol messages are needed in case of symmetric key authentication with identity protection. Considering the need to keep the number of messages at a minimum (see <a href="#disc" class="xref">Section 2.7.4</a>), unless there are other good reasons for having more than 3 messages, it is not required to protect the PSK identifier, and it may thus be sent in the first message.<a href="#section-2.3-3" class="pilcrow">¶</a></p>
-<p id="section-2.3-4">Other identifying information that needs to be transported in plain text is cipher suites and connection identifiers. Encrypting crypto algorithms does not allow negotiation of cipher suite within 3 messages. Encryption of connection identifiers only works in asymmetric case and does not enable arbitrarily short identifiers (see <a href="#AKE-OSCORE" class="xref">Section 2.1</a>.<a href="#section-2.3-4" class="pilcrow">¶</a></p>
+<p id="section-2.3-4">Other identifying information that needs to be transported in plain text is cipher suites and connection identifiers. Encrypting crypto algorithms does not allow negotiation of cipher suite within 3 messages. Encryption of connection identifiers only works in asymmetric case and does not enable arbitrarily short identifiers (see <a href="#AKE-OSCORE" class="xref">Section 2.1</a>).<a href="#section-2.3-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="crypto-agility">
@@ -1064,7 +1064,7 @@ The AKE must support different credentials for authentication in different direc
 </li>
           <li id="section-2.4-2.2">The protocol shall allow multiple elliptic curves for asymmetric keys<a href="#section-2.4-2.2" class="pilcrow">¶</a>
 </li>
-          <li id="section-2.4-2.3">The AKE shall support negotiation of the all COSE algorithms used in the AKE and that OSCORE supports. A successful negotiation shall result in the most preferred algorithms of one of the parties which is supported by the other.<a href="#section-2.4-2.3" class="pilcrow">¶</a>
+          <li id="section-2.4-2.3">The AKE shall support negotiation of the all COSE algorithms used in the AKE and that OSCORE supports. A successful negotiation shall result in the most preferred algorithms of one of the parties which are supported by the other.<a href="#section-2.4-2.3" class="pilcrow">¶</a>
 </li>
           <li id="section-2.4-2.4">The AKE shall support different AEAD/MAC algorithms for AKE and OSCORE<a href="#section-2.4-2.4" class="pilcrow">¶</a>
 </li>
@@ -1306,10 +1306,15 @@ Network formation time directly affects the time installers need to spend on sit
             <li id="section-2.7.5-2.3">To limit the impact of a key compromise, BSI, NIST and ANSSI and other organizations recommend in other contexts frequent renewal of keys by means of Diffie-Hellman key exchange.<a href="#section-2.7.5-2.3" class="pilcrow">¶</a>
 </li>
           </ol>
-<p id="section-2.7.5-3">To summarize, even if it we are unable to give precise numbers for AKE frequency, a lightweight AKE 
-* reduces the time for network formation and AKE runs in challenging radio technologies,
-* allows devices to quickly re-establish security in case of reboots, and 
-* enables support for recommendations of frequent key renewal<a href="#section-2.7.5-3" class="pilcrow">¶</a></p>
+<p id="section-2.7.5-3">To summarize, even if it we are unable to give precise numbers for AKE frequency, a lightweight AKE<a href="#section-2.7.5-3" class="pilcrow">¶</a></p>
+<ul>
+<li id="section-2.7.5-4.1">reduces the time for network formation and AKE runs in challenging radio technologies,<a href="#section-2.7.5-4.1" class="pilcrow">¶</a>
+</li>
+            <li id="section-2.7.5-4.2">allows devices to quickly re-establish security in case of reboots, and<a href="#section-2.7.5-4.2" class="pilcrow">¶</a>
+</li>
+            <li id="section-2.7.5-4.3">enables support for recommendations of frequent key renewal<a href="#section-2.7.5-4.3" class="pilcrow">¶</a>
+</li>
+          </ul>
 </section>
 </div>
 </section>

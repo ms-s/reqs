@@ -310,7 +310,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    algorithms does not allow negotiation of cipher suite within 3
    messages.  Encryption of connection identifiers only works in
    asymmetric case and does not enable arbitrarily short identifiers
-   (see Section 2.1.
+   (see Section 2.1).
 
 2.4.  Crypto Agility and Security Properties
 
@@ -329,7 +329,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    *  The AKE shall support negotiation of the all COSE algorithms used
       in the AKE and that OSCORE supports.  A successful negotiation
       shall result in the most preferred algorithms of one of the
-      parties which is supported by the other.
+      parties which are supported by the other.
 
 
 
@@ -806,10 +806,15 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
        of keys by means of Diffie-Hellman key exchange.
 
    To summarize, even if it we are unable to give precise numbers for
-   AKE frequency, a lightweight AKE * reduces the time for network
-   formation and AKE runs in challenging radio technologies, * allows
-   devices to quickly re-establish security in case of reboots, and *
-   enables support for recommendations of frequent key renewal
+   AKE frequency, a lightweight AKE
+
+   *  reduces the time for network formation and AKE runs in challenging
+      radio technologies,
+
+   *  allows devices to quickly re-establish security in case of
+      reboots, and
+
+   *  enables support for recommendations of frequent key renewal
 
 2.8.  Application Data
 
@@ -828,11 +833,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    Another example is the embedding of certificate enrolment request or
    a newly issued certificate.
 
-   The AKE must support the transport of application data within the
-   protocol messages.
-
-   It is expected that a 3 message AKE will provide the following
-   protection of the application data:
 
 
 
@@ -841,6 +841,12 @@ Vučinić, et al.            Expires 8 June 2020                 [Page 15]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
+
+   The AKE must support the transport of application data within the
+   protocol messages.
+
+   It is expected that a 3 message AKE will provide the following
+   protection of the application data:
 
    *  Application data in the first message is unprotected
 
@@ -883,12 +889,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
       for low code complexity and to avoid duplicate maintenance of a
       combined OSCORE and AKE implementation.
 
-   *  The messages should be as small as reasonably achievable.  The
-      messages shall fit into as few LoRaWAN packets and 6TiSCH frames
-      as possible.
-
-
-
 
 
 
@@ -897,6 +897,10 @@ Vučinić, et al.            Expires 8 June 2020                 [Page 16]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
+
+   *  The messages should be as small as reasonably achievable.  The
+      messages shall fit into as few LoRaWAN packets and 6TiSCH frames
+      as possible.
 
 4.  Security Considerations
 
@@ -942,10 +946,6 @@ Acknowledgments
 
    [I-D.ietf-6tisch-minimal-security]
               Vucinic, M., Simon, J., Pister, K., and M. Richardson,
-              "Constrained Join Protocol (CoJP) for 6TiSCH", Work in
-              Progress, Internet-Draft, draft-ietf-6tisch-minimal-
-              security-14, 5 December 2019, <http://www.ietf.org/
-
 
 
 
@@ -954,6 +954,9 @@ Vučinić, et al.            Expires 8 June 2020                 [Page 17]
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
+              "Constrained Join Protocol (CoJP) for 6TiSCH", Work in
+              Progress, Internet-Draft, draft-ietf-6tisch-minimal-
+              security-14, 5 December 2019, <http://www.ietf.org/
               internet-drafts/draft-ietf-6tisch-minimal-security-
               14.txt>.
 
@@ -999,9 +1002,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    [NB-IoT-battery-life-evaluation]
               "On mMTC, NB-IoT and eMTC battery life evaluation",
               January 2017,
-              <http://www.3gpp.org/ftp/tsg_ran/WG1_RL1/TSGR1_AH/
-              NR_AH_1701/Docs//R1-1701044.zip>.
-
 
 
 
@@ -1009,6 +1009,9 @@ Vučinić, et al.            Expires 8 June 2020                 [Page 18]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
+
+              <http://www.3gpp.org/ftp/tsg_ran/WG1_RL1/TSGR1_AH/
+              NR_AH_1701/Docs//R1-1701044.zip>.
 
    [RFC7228]  Bormann, C., Ersue, M., and A. Keranen, "Terminology for
               Constrained-Node Networks", RFC 7228,
@@ -1049,9 +1052,6 @@ Authors' Addresses
    Odin Solutions S.L.
 
    Email: dgarcia@odins.es
-
-
-
 
 
 
