@@ -67,10 +67,10 @@ Table of Contents
      2.3.  Identity Protection . . . . . . . . . . . . . . . . . . .   5
      2.4.  Crypto Agility and Security Properties  . . . . . . . . .   6
      2.5.  Mutual Authentication . . . . . . . . . . . . . . . . . .   7
-     2.6.  Denial of Service . . . . . . . . . . . . . . . . . . . .   8
-     2.7.  Lightweight . . . . . . . . . . . . . . . . . . . . . . .   8
-     2.8.  Application Data  . . . . . . . . . . . . . . . . . . . .  15
-     2.9.  Extensibility . . . . . . . . . . . . . . . . . . . . . .  16
+     2.6.  Application Data  . . . . . . . . . . . . . . . . . . . .   8
+     2.7.  Extensibility . . . . . . . . . . . . . . . . . . . . . .   8
+     2.8.  Denial of Service . . . . . . . . . . . . . . . . . . . .   9
+     2.9.  Lightweight . . . . . . . . . . . . . . . . . . . . . . .   9
    3.  Requirements Summary  . . . . . . . . . . . . . . . . . . . .  16
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .  17
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  17
@@ -300,7 +300,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    consequence, in order to authenticate the responder within the AKE,
    at least four protocol messages are needed in case of symmetric key
    authentication with identity protection.  Considering the need to
-   keep the number of messages at a minimum (see Section 2.7.4), unless
+   keep the number of messages at a minimum (see Section 2.9.4), unless
    there are other good reasons for having more than 3 messages, it is
    not required to protect the PSK identifier, and it may thus be sent
    in the first message.
@@ -394,11 +394,67 @@ Vucinic, et al.            Expires 8 June 2020                  [Page 7]
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
-2.6.  Denial of Service
+2.6.  Application Data
+
+   In order to reduce round trips and number of messages, and in some
+   cases also streamline processing, certain applications may want to
+   transport application data within the AKE.
+
+   One example is the transport of third-party signed authorization
+   information such as an access token or a voucher from initiator to
+   responder or vice versa.  Such a scheme could enable the party
+   receiving the authorization information to make a decision about
+   whether the party being authenticated is also authorized before the
+   protocol is completed, and if not discontinue the protocol before it
+   is complete, thereby saving time and message processing.
+
+   Another example is the embedding of certificate enrolment request or
+   a newly issued certificate.
+
+   The AKE must support the transport of application data within the
+   protocol messages.
+
+   It is expected that an AKE with 3 messages will provide the following
+   protection of the application data:
+
+   *  Application data in the first message is unprotected
+
+   *  Application data in the second message is confidentiality
+      protected against passive attackers and integrity protected
+      against active attackers
+
+   *  Application data in the third message is confidentiality and
+      integrity protected against active attackers
+
+   Application data may contain privacy sensitive information.  The
+   application data must not violate the AKE security properties.  The
+   assumptions on the application data need to be detailed in the
+   specification of the AKE.
+
+2.7.  Extensibility
+
+   It is desirable that the AKE supports some kind of extensibility, in
+   particular, the ability to later include new AKE modes such as PAKE
+   support.  Note that by supporting COSE, the AKE can already support
+   new algorithms, new certificate formats, ways to identify
+   credentials, etc.
+
+   Since the main objective with this work is to create a simple yet
+   secure AKE, care needs to be taken to avoid feature creep and
+   extensions working against this.
+
+
+
+Vucinic, et al.            Expires 8 June 2020                  [Page 8]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
+
+
+2.8.  Denial of Service
 
    The AKE shall protect against denial of service attacks on responder
    and initiator to the extent that the protocol supports lightweight
-   deployments (see Section 2.7) and without duplicating the DoS
+   deployments (see Section 2.9) and without duplicating the DoS
    mitigation of the underlying transport (see Section 2.1).
 
    Jamming attacks, cutting cables etc. leading to long term loss of
@@ -406,7 +462,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    temporarily injecting messages or disturbing the communication shall
    not have a similar impact.
 
-2.7.  Lightweight
+2.9.  Lightweight
 
    We target an AKE which is efficiently deployable in 6TiSCH multi-hop
    networks, LoRaWAN networks and NB-IoT networks.  The desire is to
@@ -445,7 +501,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 8 June 2020                  [Page 8]
+Vucinic, et al.            Expires 8 June 2020                  [Page 9]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -457,7 +513,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    Per 'round-trips', it is desirable that the number of completed
    request/response message exchanges required before the initiating
    endpoint can start sending protected traffic data is as small as
-   possible, since this reduces completion time.  See Section 2.7.4 for
+   possible, since this reduces completion time.  See Section 2.9.4 for
    a discussion about the tradeoff between message size and number of
    messages.
 
@@ -501,12 +557,12 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 8 June 2020                  [Page 9]
+Vucinic, et al.            Expires 8 June 2020                 [Page 10]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
-2.7.1.  LoRaWAN
+2.9.1.  LoRaWAN
 
    LoRaWAN employs unlicensed radio frequency bands in the 868 MHz ISM
    band.  As a case in point, we focus here on deployment in Europe,
@@ -521,7 +577,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    an AKE for providing end-to-end security on application layer needs
    to comply with the duty cycle.
 
-2.7.1.1.  Bytes on the wire
+2.9.1.1.  Bytes on the wire
 
    LoRaWAN has a variable MTU depending on the Spreading Factor (SF).
    The higher the spreading factor, the higher distances can be achieved
@@ -537,7 +593,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    good radio conditions which are not always present.  Some libraries/
    providers only support 51-bytes packet size.
 
-2.7.1.2.  Time
+2.9.1.2.  Time
 
    The time it takes to send a message over the air in LoRaWAN can be
    calculated as a function of the different parameters of the
@@ -557,18 +613,18 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 8 June 2020                 [Page 10]
+Vucinic, et al.            Expires 8 June 2020                 [Page 11]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
-2.7.1.3.  Round trips and number of messages
+2.9.1.3.  Round trips and number of messages
 
    Considering the duty cycle of LoRaWAN and associated back-off times,
    the round trips and number of messages needs to be reduced as much as
    possible.
 
-2.7.1.4.  Power
+2.9.1.4.  Power
 
    The calculation of the power consumption in LoRaWAN is dependent on
    several factors, such as the spreading factor used and the length of
@@ -578,7 +634,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    energy consumption, but overall the Time-on-Air is an important
    indication of the performance.
 
-2.7.2.  6TiSCH
+2.9.2.  6TiSCH
 
    6TiSCH operates in the 2.4 GHz unlicensed frequency band and uses
    hybrid Time Division/Frequency Division multiple access (TDMA/FDMA).
@@ -597,7 +653,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    hops deep is commonplace; a network which is more than 8 hops deep is
    not common.
 
-2.7.2.1.  Bytes on the wire
+2.9.2.1.  Bytes on the wire
 
    Increasing the number of bytes on the wire in a protocol message has
    an important effect on the 6TiSCH network in case the fragmentation
@@ -613,7 +669,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 8 June 2020                 [Page 11]
+Vucinic, et al.            Expires 8 June 2020                 [Page 12]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -623,7 +679,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    payload size to avoid fragmentation is 47/45 bytes (uplink/downlink)
    [AKE-for-6TiSCH].
 
-2.7.2.2.  Time
+2.9.2.2.  Time
 
    Given the slotted nature of 6TiSCH, the number of bytes in a frame
    has insignificant impact on latency, but the number of frames has.
@@ -632,20 +688,20 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    join the network.  Network formation time directly affects the time
    installers need to spend on site at deployment time.
 
-2.7.2.3.  Round trips and number of messages
+2.9.2.3.  Round trips and number of messages
 
    Given the mesh nature of the 6TiSCH network, and given that each
    message may travel several hops before reaching its destination, it
    is highly desirable to minimize the number of round trips to reduce
    latency.
 
-2.7.2.4.  Power
+2.9.2.4.  Power
 
    From the power consumption point of view, it is more favorable to
    send a small number of large frames than a larger number of short
    frames.
 
-2.7.3.  NB-IoT
+2.9.3.  NB-IoT
 
    3GPP has specified Narrow-Band IoT (NB-IoT) for support of infrequent
    data transmission via user plane and via control plane.  NB-IoT is
@@ -669,7 +725,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 8 June 2020                 [Page 12]
+Vucinic, et al.            Expires 8 June 2020                 [Page 13]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -680,7 +736,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    *  In-band, guard-band, and stand-alone deployment enabling efficient
       use of spectrum and network infrastructure.
 
-2.7.3.1.  Bytes on the wire
+2.9.3.1.  Bytes on the wire
 
    The number of bytes on the wire in a protocol message has a direct
    effect on the performance for NB-IoT.  In contrast to LoRaWAN and
@@ -690,11 +746,11 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    the byte count has a measurable impact on time and energy consumption
    for running the AKE.
 
-2.7.3.2.  Time
+2.9.3.2.  Time
 
    Coverage significantly impacts the available bit rate and thereby the
    time for transmitting a message, and there is also a difference
-   between downlink and uplink transmissions (see Section 2.7.3.4).  The
+   between downlink and uplink transmissions (see Section 2.9.3.4).  The
    transmission time for the message is essentially proportional to the
    number of bytes.
 
@@ -704,12 +760,12 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    by the number of round trips/messages of the AKE and not by a duty
    cycle.
 
-2.7.3.3.  Round trips and number of messages
+2.9.3.3.  Round trips and number of messages
 
-   As indicated in Section 2.7.3.2, the number of messages and round-
+   As indicated in Section 2.9.3.2, the number of messages and round-
    trips is one limiting factor for protocol completion time.
 
-2.7.3.4.  Power
+2.9.3.4.  Power
 
    Since NB-IoT is operating in licensed spectrum, the device is allowed
    to transmit at a relatively high power, which has a large impact on
@@ -725,7 +781,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 8 June 2020                 [Page 13]
+Vucinic, et al.            Expires 8 June 2020                 [Page 14]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -741,7 +797,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    applications the overall number of bytes of the protocol needs to be
    as low as possible.
 
-2.7.4.  Discussion
+2.9.4.  Discussion
 
    While "as small protocol messages as possible" does not lend itself
    to a sharp boundary threshold, "as few protocol messages as possible"
@@ -762,7 +818,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    consumption.  While it may be possible to engineer such a solution
    for a particular radio technology and signature algorithm, the
    benefits in terms of fewer messages/round trips in general and for
-   NB-IoT in particular (see Section 2.7.3) are considered more
+   NB-IoT in particular (see Section 2.9.3) are considered more
    important than optimizing for a specific scenario.  Hence an optimal
    AKE protocol has 3 messages and each message fits into as few frames
    as possible, ideally 1 frame per message.
@@ -771,7 +827,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
    engineered into the protocol since it cannot be assumed that a
    particular protocol message will be sent uplink or downlink.
 
-2.7.5.  AKE frequency
+2.9.5.  AKE frequency
 
    One question that has been asked in the context of lightweightness
    is: - How often is the AKE executed?  While it may be impossible to
@@ -781,7 +837,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
 
-Vucinic, et al.            Expires 8 June 2020                 [Page 14]
+Vucinic, et al.            Expires 8 June 2020                 [Page 15]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
@@ -819,64 +875,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
    *  enables support for recommendations of frequent key renewal
 
-2.8.  Application Data
-
-   In order to reduce round trips and number of messages, and in some
-   cases also streamline processing, certain applications may want to
-   transport application data within the AKE.
-
-   One example is the transport of third-party signed authorization
-   information such as an access token or a voucher from initiator to
-   responder or vice versa.  Such a scheme could enable the party
-   receiving the authorization information to make a decision about
-   whether the party being authenticated is also authorized before the
-   protocol is completed, and if not discontinue the protocol before it
-   is complete, thereby saving time and message processing.
-
-
-
-
-
-Vucinic, et al.            Expires 8 June 2020                 [Page 15]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
-
-
-   Another example is the embedding of certificate enrolment request or
-   a newly issued certificate.
-
-   The AKE must support the transport of application data within the
-   protocol messages.
-
-   It is expected that an AKE with 3 messages will provide the following
-   protection of the application data:
-
-   *  Application data in the first message is unprotected
-
-   *  Application data in the second message is confidentiality
-      protected against passive attackers and integrity protected
-      against active attackers
-
-   *  Application data in the third message is confidentiality and
-      integrity protected against active attackers
-
-   Application data may contain privacy sensitive information.  The
-   application data must not violate the AKE security properties.  The
-   assumptions on the application data need to be detailed in the
-   specification of the AKE.
-
-2.9.  Extensibility
-
-   It is desirable that the AKE supports some kind of extensibility, in
-   particular, the ability to later include new AKE modes such as PAKE
-   support.  Note that by supporting COSE, the AKE can already support
-   new algorithms, new certificate formats, ways to identify
-   credentials, etc.
-
-   Since the main objective with this work is to create a simple yet
-   secure AKE, care needs to be taken to avoid feature creep and
-   extensions working against this.
-
 3.  Requirements Summary
 
    *  The AKE must support PSK, RPK and certificate based authentication
@@ -889,6 +887,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
       identifiers (potentially short), and COSE algorithms to use.
 
    *  The AKE must reuse CBOR, CoAP and COSE primitives and algorithms
+      for low code complexity and to avoid duplicate maintenance of a
+      combined OSCORE and AKE implementation.
 
 
 
@@ -897,9 +897,6 @@ Vucinic, et al.            Expires 8 June 2020                 [Page 16]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
-
-      for low code complexity and to avoid duplicate maintenance of a
-      combined OSCORE and AKE implementation.
 
    *  The messages should be as small as reasonably achievable.  The
       messages shall fit into as few LoRaWAN packets and 6TiSCH frames
@@ -947,6 +944,9 @@ Acknowledgments
               Derivation: The HKDF Scheme", May 2010,
               <https://eprint.iacr.org/2010/264.pdf>.
 
+   [I-D.ietf-6tisch-minimal-security]
+              Vucinic, M., Simon, J., Pister, K., and M. Richardson,
+
 
 
 Vucinic, et al.            Expires 8 June 2020                 [Page 17]
@@ -954,8 +954,6 @@ Vucinic, et al.            Expires 8 June 2020                 [Page 17]
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
-   [I-D.ietf-6tisch-minimal-security]
-              Vucinic, M., Simon, J., Pister, K., and M. Richardson,
               "Constrained Join Protocol (CoJP) for 6TiSCH", Work in
               Progress, Internet-Draft, draft-ietf-6tisch-minimal-
               security-14, 5 December 2019, <http://www.ietf.org/
@@ -1001,7 +999,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
               V1_1-20180710-A/OMA-TS-LightweightM2M_Transport-
               V1_1-20180710-A.pdf>.
 
-
+   [NB-IoT-battery-life-evaluation]
+              "On mMTC, NB-IoT and eMTC battery life evaluation",
+              January 2017,
 
 
 
@@ -1010,9 +1010,6 @@ Vucinic, et al.            Expires 8 June 2020                 [Page 18]
 Internet-Draft            Reqs-LAKE-for-OSCORE             December 2019
 
 
-   [NB-IoT-battery-life-evaluation]
-              "On mMTC, NB-IoT and eMTC battery life evaluation",
-              January 2017,
               <http://www.3gpp.org/ftp/tsg_ran/WG1_RL1/TSGR1_AH/
               NR_AH_1701/Docs//R1-1701044.zip>.
 
@@ -1055,6 +1052,9 @@ Authors' Addresses
    Odin Solutions S.L.
 
    Email: dgarcia@odins.es
+
+
+
 
 
 
