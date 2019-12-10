@@ -13,7 +13,7 @@ Expires: 12 June 2020                                        J. Mattsson
 
 
              Requirements for a Lightweight AKE for OSCORE
-                    draft-selander-lake-reqs-latest
+                      draft-ietf-lake-reqs-latest
 
 Abstract
 
