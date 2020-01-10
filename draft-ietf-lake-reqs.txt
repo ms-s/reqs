@@ -305,10 +305,15 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
    The endpoints shall be able to verify that the identity of the other
    endpoint is an acceptable identity that it is intended to
-   authenticate to.  The AKE shall protect against identity misbinding
-   attacks, when applicable.  Note that the identity may be directly
-   related to a public key such as for example the public key itself, a
-   hash of the public key, or data unrelated to a key.
+   authenticate to.  (This requirement extends beyond the AKE in that
+   the application must enable access to information about acceptable
+   identities without compromising the overall lightweightness of the
+   AKE.)
+
+   The AKE shall protect against identity misbinding attacks, when
+   applicable.  Note that the identity may be directly related to a
+   public key such as for example the public key itself, a hash of the
+   public key, or data unrelated to a key.
 
    The AKE shall protect against reflection attacks, but need not
    protect against attacks when more than two parties legitimately share
@@ -326,17 +331,15 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
       authentication.  PAKE and post-quantum key exchange is out of
       scope, but may be supported in a later version.
 
-   *  The protocol shall allow multiple elliptic curves for asymmetric
-      keys
-
-
-
 
 
 Vucinic, et al.           Expires 13 July 2020                  [Page 6]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
+
+   *  The protocol shall allow multiple elliptic curves for asymmetric
+      keys
 
    *  The AKE shall support negotiation of the all COSE algorithms used
       in the AKE and that OSCORE supports.  A successful negotiation
@@ -383,9 +386,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    Other identifying information that needs to be transported in plain
    text is cipher suites and connection identifiers.  Encrypting crypto
    algorithms does not allow negotiation of cipher suite within 3
-   messages.  Encryption of connection identifiers only works in
-   asymmetric case and does not enable arbitrarily short identifiers
-   (see Section 2.1).
 
 
 
@@ -393,6 +393,10 @@ Vucinic, et al.           Expires 13 July 2020                  [Page 7]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
+
+   messages.  Encryption of connection identifiers only works in
+   asymmetric case and does not enable arbitrarily short identifiers
+   (see Section 2.1).
 
 2.6.  Application Data
 
@@ -439,16 +443,16 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    new algorithms, new certificate formats, ways to identify
    credentials, etc.
 
-   Since the main objective with this work is to create a simple yet
-   secure AKE, care needs to be taken to avoid feature creep and
-   extensions working against this.
-
 
 
 Vucinic, et al.           Expires 13 July 2020                  [Page 8]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
+
+   Since the main objective with this work is to create a simple yet
+   secure AKE, care needs to be taken to avoid feature creep and
+   extensions working against this.
 
 2.8.  Denial of Service
 
@@ -494,10 +498,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
    Per 'time', it is desirable for the AKE message exchange(s) to
    complete in a reasonable amount of time, both for a single
-   uncongested exchange and when multiple exchanges are running in an
-   interleaved fashion, like e.g. in a "network formation" setting when
-   multiple devices connect for the first time.  This latency may not be
-   a linear function depending on congestion and the specific radio
 
 
 
@@ -506,6 +506,10 @@ Vucinic, et al.           Expires 13 July 2020                  [Page 9]
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
 
+   uncongested exchange and when multiple exchanges are running in an
+   interleaved fashion, like e.g. in a "network formation" setting when
+   multiple devices connect for the first time.  This latency may not be
+   a linear function depending on congestion and the specific radio
    technology used.  As these are relatively low data rate networks, the
    latency contribution due to computation is in general not expected to
    be dominant.
@@ -547,10 +551,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    these dimensions, there are some key benchmarks that are tractable
    for security protocol engineering and which have a significant
    impact.
-
-
-
-
 
 
 
