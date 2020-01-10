@@ -1094,10 +1094,10 @@ The AKE must support different credentials for authentication in different direc
         <h3 id="name-application-data">
 <a href="#section-2.6" class="section-number selfRef">2.6. </a><a href="#name-application-data" class="section-name selfRef">Application Data</a>
         </h3>
-<p id="section-2.6-1">In order to reduce round trips and number of messages, and in some cases also streamline processing, certain applications may want to transport application data within the AKE.<a href="#section-2.6-1" class="pilcrow">¶</a></p>
-<p id="section-2.6-2">One example is the transport of third-party signed authorization information such as an access token or a voucher from initiator to responder or vice versa. Such a scheme could enable the party receiving the authorization information to make a decision about whether the party being authenticated is also authorized before the protocol is completed, and if not discontinue the protocol before it is complete, thereby saving time and message processing.<a href="#section-2.6-2" class="pilcrow">¶</a></p>
-<p id="section-2.6-3">Another example is the embedding of certificate enrolment request or a newly issued certificate.<a href="#section-2.6-3" class="pilcrow">¶</a></p>
-<p id="section-2.6-4">The AKE must support the transport of application data within the protocol messages.<a href="#section-2.6-4" class="pilcrow">¶</a></p>
+<p id="section-2.6-1">In order to reduce round trips and number of messages, and in some cases also streamline processing, certain applications may want to transport application data together with the AKE message.<a href="#section-2.6-1" class="pilcrow">¶</a></p>
+<p id="section-2.6-2">One example is the transport of third-party signed authorization information such as an access token or a voucher from initiator to responder or vice versa. Such a scheme could enable the party receiving the authorization information to make a decision about whether the party being authenticated is also authorized before the protocol is completed, and if not then discontinue the protocol before it is complete, thereby saving time and message processing.<a href="#section-2.6-2" class="pilcrow">¶</a></p>
+<p id="section-2.6-3">Another example is the embedding of a certificate enrolment request or a newly issued certificate.<a href="#section-2.6-3" class="pilcrow">¶</a></p>
+<p id="section-2.6-4">The AKE must support the transport of application data together with the protocol messages.<a href="#section-2.6-4" class="pilcrow">¶</a></p>
 <p id="section-2.6-5">It is expected that an AKE with 3 messages will provide the following protection of the application data:<a href="#section-2.6-5" class="pilcrow">¶</a></p>
 <ul>
 <li id="section-2.6-6.1">Application data in the first message is unprotected<a href="#section-2.6-6.1" class="pilcrow">¶</a>
