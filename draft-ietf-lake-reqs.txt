@@ -5,11 +5,11 @@
 Network Working Group                                         M. Vucinic
 Internet-Draft                                                     Inria
 Intended status: Informational                               G. Selander
-Expires: 13 July 2020                                        J. Mattsson
+Expires: 17 July 2020                                        J. Mattsson
                                                              Ericsson AB
                                                                D. Garcia
                                                      Odin Solutions S.L.
-                                                         10 January 2020
+                                                         14 January 2020
 
 
              Requirements for a Lightweight AKE for OSCORE
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 July 2020.
+   This Internet-Draft will expire on 17 July 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Vucinic, et al.           Expires 13 July 2020                  [Page 1]
+Vucinic, et al.           Expires 17 July 2020                  [Page 1]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Vucinic, et al.           Expires 13 July 2020                  [Page 2]
+Vucinic, et al.           Expires 17 July 2020                  [Page 2]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
@@ -165,7 +165,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
 
 
-Vucinic, et al.           Expires 13 July 2020                  [Page 3]
+Vucinic, et al.           Expires 17 July 2020                  [Page 3]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
@@ -221,7 +221,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
 
 
-Vucinic, et al.           Expires 13 July 2020                  [Page 4]
+Vucinic, et al.           Expires 17 July 2020                  [Page 4]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
@@ -277,7 +277,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
 
 
-Vucinic, et al.           Expires 13 July 2020                  [Page 5]
+Vucinic, et al.           Expires 17 July 2020                  [Page 5]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
@@ -333,7 +333,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
 
 
-Vucinic, et al.           Expires 13 July 2020                  [Page 6]
+Vucinic, et al.           Expires 17 July 2020                  [Page 6]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
@@ -341,7 +341,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    *  The protocol shall allow multiple elliptic curves for asymmetric
       keys
 
-   *  The AKE shall support negotiation of the all COSE algorithms used
+   *  The AKE shall support negotiation of all the COSE algorithms used
       in the AKE and that OSCORE supports.  A successful negotiation
       shall result in the most preferred algorithms of one of the
       parties which are supported by the other.
@@ -365,9 +365,9 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    data we therefore need to make an exemption in order to obtain an
    efficient protocol.
 
-   The AKE is required to protect the identity against active attackers
-   of one of the peers and protection against passive attackers of the
-   other peer in the case of public key identities.
+   In the case of public key identities, the AKE is required to protect
+   the identity of one of the peers against active attackers and the
+   identity of the other peer against passive attackers.
 
    In case of a PSK identifier, this may be protected against passive
    attackers with a key derived from the Diffie-Hellman shared secret.
@@ -389,7 +389,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
 
 
-Vucinic, et al.           Expires 13 July 2020                  [Page 7]
+Vucinic, et al.           Expires 17 July 2020                  [Page 7]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
@@ -445,7 +445,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
 
 
-Vucinic, et al.           Expires 13 July 2020                  [Page 8]
+Vucinic, et al.           Expires 17 July 2020                  [Page 8]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
@@ -501,7 +501,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
 
 
-Vucinic, et al.           Expires 13 July 2020                  [Page 9]
+Vucinic, et al.           Expires 17 July 2020                  [Page 9]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
@@ -529,9 +529,10 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    than for other radio technologies.  In other cases, the radio
    transmitter will be active for a full MTU frame regardless of how
    much of the frame is occupied by message content, which makes the
-   byte count less sensitive for the power consumption.  Increased power
-   consumption is unavoidable in poor network conditions, such as most
-   wide-area settings including LoRaWAN.
+   byte count less sensitive for the power consumption as long as it
+   fits into the MTU frame.  The power consumption thus increases with
+   AKE message size and the largest impact is on average under poor
+   network conditions.
 
    Per 'new code', it is desirable to introduce as little new code as
    possible onto OSCORE-enabled devices to support this new AKE.  These
@@ -556,37 +557,35 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
 
 
-
-Vucinic, et al.           Expires 13 July 2020                 [Page 10]
+Vucinic, et al.           Expires 17 July 2020                 [Page 10]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
 
 2.9.1.  LoRaWAN
 
-   LoRaWAN employs unlicensed radio frequency bands in the 868 MHz ISM
-   band.  As a case in point, we focus here on deployment in Europe,
-   where this is regulated by ETSI EN 300 220.  For LoRaWAN the most
-   relevant metric is the Time-on-Air, which determines the back-off
-   times and can be used as an indicator to calculate energy
-   consumption.  LoRaWAN is legally required to use a duty cycle with
-   values such as 0.1%, 1% and 10% depending on the sub-band that is
-   being used, leading to a payload split into fragments interleaved
-   with back-off times.  For Europe, the duty cycle is 1% (or smaller).
-   Although there are exceptions from the use of duty cycle, the use of
-   an AKE for providing end-to-end security on application layer needs
-   to comply with the duty cycle.
+   Reflecting deployment reality as of now, we focus on the European
+   regulation as described in ETSI EN 300 220.  LoRaWAN employs
+   unlicensed radio frequency bands in the 868 MHz ISM band.  For
+   LoRaWAN the most relevant metric is the Time-on-Air, which determines
+   the period before the next communication can occur and also which can
+   be used as an indicator to calculate energy consumption.  LoRaWAN is
+   legally required to use a duty cycle with values such as 0.1%, 1% and
+   10% depending on the sub-band that is being used, leading to a
+   payload split into fragments interleaved with unavailable times.  For
+   Europe, the duty cycle is 1% (or smaller).  Although there are
+   exceptions from the use of duty cycle, the use of an AKE for
+   providing end-to-end security on application layer needs to comply
+   with the duty cycle.
 
 2.9.1.1.  Bytes on the wire
 
    LoRaWAN has a variable MTU depending on the Spreading Factor (SF).
    The higher the spreading factor, the higher distances can be achieved
-   and/or better reception.  LoRaWAN has a header size of 13 bytes, to
-   which we have to add the maximum recommended payload depending on the
-   SF used.  If the coverage and distance allows it, with SF7 -
-   corresponding to higher data rates - the maximum payload is 222
-   bytes.  For a SF12 - and low data rates - the maximum payload is 51
-   bytes.
+   and/or better reception.  If the coverage and distance allows it,
+   with SF7 - corresponding to higher data rates - the maximum payload
+   is 222 bytes.  For a SF12 - and low data rates - the maximum payload
+   is 51 bytes.
 
    The benchmark used here is Data Rates 0-2 corresponding to a packet
    size of 51 bytes [LoRaWAN].  The use of larger frame size depend on
@@ -606,23 +605,18 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    next use, which encourages the reduction of the message size as much
    as possible.
 
+2.9.1.3.  Round trips and number of messages
+
+   Considering the duty cycle of LoRaWAN and associated unavailable
+   times, the round trips and number of messages needs to be reduced as
+   much as possible.
 
 
 
-
-
-
-
-Vucinic, et al.           Expires 13 July 2020                 [Page 11]
+Vucinic, et al.           Expires 17 July 2020                 [Page 11]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
-
-2.9.1.3.  Round trips and number of messages
-
-   Considering the duty cycle of LoRaWAN and associated back-off times,
-   the round trips and number of messages needs to be reduced as much as
-   possible.
 
 2.9.1.4.  Power
 
@@ -666,18 +660,19 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    network is "network formation", i.e. the time it takes from switching
    on all devices, until the last device has executed the AKE and
    securely joined.  As an example, given the size limit on the frames
-
-
-
-Vucinic, et al.           Expires 13 July 2020                 [Page 12]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
-
-
    and taking into account the different headers (including link-layer
    security), if a 6TiSCH network is 5 hops deep, the maximum CoAP
    payload size to avoid fragmentation is 47/45 bytes (uplink/downlink)
    [AKE-for-6TiSCH].
+
+
+
+
+
+Vucinic, et al.           Expires 17 July 2020                 [Page 12]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
+
 
 2.9.2.2.  Time
 
@@ -722,19 +717,18 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    *  Reduced baseband processing, memory and RF enabling low complexity
       device implementation.
 
-
-
-
-Vucinic, et al.           Expires 13 July 2020                 [Page 13]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
-
-
    *  A lightweight setup minimizing control signaling overhead to
       optimize power consumption.
 
    *  In-band, guard-band, and stand-alone deployment enabling efficient
       use of spectrum and network infrastructure.
+
+
+
+Vucinic, et al.           Expires 17 July 2020                 [Page 13]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
+
 
 2.9.3.1.  Bytes on the wire
 
@@ -777,15 +771,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    is assumed to be 500mW for transmission and 80mW for reception.
    Power consumption for "light sleep" (~ 3mW) and "deep sleep" (~
    0.015mW) are negligible in comparison.  The bitrates (uplink/
-
-
-
-
-Vucinic, et al.           Expires 13 July 2020                 [Page 14]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
-
-
    downlink) are assumed to be 28/170 kbps for good coverage and
    0,37/2,5 kbps for bad coverage.
 
@@ -793,6 +778,14 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    for uplink transmissions, in particular in bad coverage.  Given that
    the application decides about the device being initiator or responder
    in the AKE, the protocol cannot be tailored for a particular message
+
+
+
+Vucinic, et al.           Expires 17 July 2020                 [Page 14]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
+
+
    being uplink or downlink.  To perform well in both kind of
    applications the overall number of bytes of the protocol needs to be
    as low as possible.
@@ -833,21 +826,21 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    is: - How often is the AKE executed?  While it may be impossible to
    give a precise answer there are other perspectives to this question.
 
-
-
-
-
-Vucinic, et al.           Expires 13 July 2020                 [Page 15]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
-
-
    1.  For some use cases, already one execution of the AKE is heavy,
        for example, because
 
        *  there are a number of parallel executions of the AKE which
           loads down the network, such as in a network formation
           setting, or
+
+
+
+
+
+Vucinic, et al.           Expires 17 July 2020                 [Page 15]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
+
 
        *  the duty cycle makes the completion time long for even one run
           of the protocol.
@@ -890,17 +883,20 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
       for low code complexity and to avoid duplicate maintenance of a
       combined OSCORE and AKE implementation.
 
-
-
-
-Vucinic, et al.           Expires 13 July 2020                 [Page 16]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
-
-
    *  The messages should be as small as reasonably achievable.  The
       messages shall fit into as few LoRaWAN packets and 6TiSCH frames
       as possible.
+
+
+
+
+
+
+
+Vucinic, et al.           Expires 17 July 2020                 [Page 16]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
+
 
 4.  Security Considerations
 
@@ -946,17 +942,18 @@ Acknowledgments
 
    [I-D.ietf-6tisch-minimal-security]
               Vucinic, M., Simon, J., Pister, K., and M. Richardson,
+              "Constrained Join Protocol (CoJP) for 6TiSCH", Work in
+              Progress, Internet-Draft, draft-ietf-6tisch-minimal-
+              security-15, 10 December 2019, <http://www.ietf.org/
 
 
 
-Vucinic, et al.           Expires 13 July 2020                 [Page 17]
+
+Vucinic, et al.           Expires 17 July 2020                 [Page 17]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
 
-              "Constrained Join Protocol (CoJP) for 6TiSCH", Work in
-              Progress, Internet-Draft, draft-ietf-6tisch-minimal-
-              security-15, 10 December 2019, <http://www.ietf.org/
               internet-drafts/draft-ietf-6tisch-minimal-security-
               15.txt>.
 
@@ -1002,16 +999,16 @@ Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
    [NB-IoT-battery-life-evaluation]
               "On mMTC, NB-IoT and eMTC battery life evaluation",
               January 2017,
+              <http://www.3gpp.org/ftp/tsg_ran/WG1_RL1/TSGR1_AH/
+              NR_AH_1701/Docs//R1-1701044.zip>.
 
 
 
-Vucinic, et al.           Expires 13 July 2020                 [Page 18]
+
+Vucinic, et al.           Expires 17 July 2020                 [Page 18]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE              January 2020
 
-
-              <http://www.3gpp.org/ftp/tsg_ran/WG1_RL1/TSGR1_AH/
-              NR_AH_1701/Docs//R1-1701044.zip>.
 
    [RFC7228]  Bormann, C., Ersue, M., and A. Keranen, "Terminology for
               Constrained-Node Networks", RFC 7228,
@@ -1061,4 +1058,7 @@ Authors' Addresses
 
 
 
-Vucinic, et al.           Expires 13 July 2020                 [Page 19]
+
+
+
+Vucinic, et al.           Expires 17 July 2020                 [Page 19]
