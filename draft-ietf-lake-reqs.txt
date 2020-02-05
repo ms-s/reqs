@@ -360,12 +360,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    an attacker to compromise past session keys (Perfect Forward Secrecy)
    and shall not enable a passive attacker to compromise future session
    keys.  These two properties can be achieved e.g. with an ephemeral
-   Diffie-Hellman key exchange.  Perfect Forward Secrecy may
-   alternatively be achieved with a nonce exchange followed by
-   appropriately derived new session keys provided that state can be
-   kept in the form of a session counter, for example as a resumption
-   procedure.  The decision whether such a procedure needs to be
-   specified within the LAKE protocol is left for the design phase.
+   Diffie-Hellman key exchange.
 
    To mitigate against bad random number generators the AKE shall
    mandate randomness improvements such as
@@ -385,7 +380,12 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    data we therefore need to make an exemption in order to obtain an
    efficient protocol.
 
+   In the case of public key identities, the AKE is required to protect
+   the identity of one of the peers against active attackers and the
+   identity of the other peer against passive attackers.
 
+   In case of a PSK identifier, this may be protected against passive
+   attackers, for example with a key derived from a Diffie-Hellman
 
 
 
@@ -394,12 +394,6 @@ Vucinic, et al.           Expires 8 August 2020                 [Page 7]
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
-   In the case of public key identities, the AKE is required to protect
-   the identity of one of the peers against active attackers and the
-   identity of the other peer against passive attackers.
-
-   In case of a PSK identifier, this may be protected against passive
-   attackers, for example with a key derived from a Diffie-Hellman
    shared secret at the earliest in message 3.  As a consequence, in
    order to authenticate the responder within the AKE, at least four
    protocol messages are needed in case of symmetric key authentication
@@ -441,15 +435,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
    Auxiliary data may contain privacy sensitive information.  The
    auxiliary data must not violate the AKE security properties.  The AKE
-
-
-
-
-Vucinic, et al.           Expires 8 August 2020                 [Page 8]
-
-Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
-
-
    needs to provide clear guidance on the level of security provided to
    auxiliary data at different stages of the protocol.
 
@@ -457,6 +442,13 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    will provide the following protection of the auxiliary data:
 
    *  Auxiliary data in the first message is unprotected
+
+
+
+Vucinic, et al.           Expires 8 August 2020                 [Page 8]
+
+Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
+
 
    *  Auxiliary data in the second message is confidentiality protected
       against passive attackers and integrity protected against active
@@ -473,9 +465,18 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    new algorithms, new certificate formats, ways to identify
    credentials, etc.
 
-   Since the main objective with this work is to create a simple yet
-   secure AKE, care needs to be taken to avoid feature creep and
-   extensions working against this.
+   The main objective with this work is to create a simple yet secure
+   AKE.  The AKE should avoid having multiple ways to express the same
+   thing.  When the underlying encodings offered by CBOR offer multiple
+   possibility the AKE should be strongly opinioniated, and clearly
+   specify which one will be used.
+
+   While remaining extensible, the AKE should avoid optional mechanisms
+   which introduce code paths that are less well tested.
+
+   The AKE should avoid mechanisms where an initiator takes a guess at
+   the policy, and when it receives a negative response, must guess,
+   based upon what it has tried, what to do next.
 
 2.8.  Denial of Service
 
@@ -496,8 +497,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    optimize the AKE to be 'as lightweight as reasonably achievable' in
    these environments, where 'lightweight' refers to:
 
-   *  resource consumption, measured by bytes on the wire, wall-clock
-      time and number of round trips to complete, or power consumption
+
 
 
 
@@ -505,6 +505,9 @@ Vucinic, et al.           Expires 8 August 2020                 [Page 9]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
+
+   *  resource consumption, measured by bytes on the wire, wall-clock
+      time and number of round trips to complete, or power consumption
 
    *  the amount of new code required on end systems which already have
       an OSCORE stack
@@ -551,9 +554,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    than for other radio technologies.  In other cases, the radio
    transmitter will be active for a full MTU frame regardless of how
    much of the frame is occupied by message content, which makes the
-   byte count less sensitive for the power consumption as long as it
-   fits into the MTU frame.  The power consumption thus increases with
-
 
 
 
@@ -562,6 +562,8 @@ Vucinic, et al.           Expires 8 August 2020                [Page 10]
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
+   byte count less sensitive for the power consumption as long as it
+   fits into the MTU frame.  The power consumption thus increases with
    AKE message size and the largest impact is on average under poor
    network conditions.
 
@@ -608,8 +610,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    with SF7 - corresponding to higher data rates - the maximum payload
    is 222 bytes.  For a SF12 - and low data rates - the maximum payload
    is 51 bytes.
-
-
 
 
 

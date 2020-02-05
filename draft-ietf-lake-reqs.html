@@ -1081,7 +1081,7 @@ The AKE must support different credentials for authentication in different direc
 </ul>
 <p id="section-2.4-3">The AKE negotiation must be protected against downgrade attacks.
 [Further detailing is requested.]<a href="#section-2.4-3" class="pilcrow">¶</a></p>
-<p id="section-2.4-4">Compromise of initiator or responder long-term keys shall not enable an attacker to compromise past session keys (Perfect Forward Secrecy) and shall not enable a passive attacker to compromise future session keys. These two properties can be achieved e.g. with an ephemeral Diffie-Hellman key exchange. Perfect Forward Secrecy may alternatively be achieved with a nonce exchange followed by appropriately derived new session keys provided that state can be kept in the form of a session counter, for example as a resumption procedure. The decision whether such a procedure needs to be specified within the LAKE protocol is left for the design phase.<a href="#section-2.4-4" class="pilcrow">¶</a></p>
+<p id="section-2.4-4">Compromise of initiator or responder long-term keys shall not enable an attacker to compromise past session keys (Perfect Forward Secrecy) and shall not enable a passive attacker to compromise future session keys. These two properties can be achieved e.g. with an ephemeral Diffie-Hellman key exchange.<a href="#section-2.4-4" class="pilcrow">¶</a></p>
 <p id="section-2.4-5">To mitigate against bad random number generators the AKE shall mandate randomness improvements such as <span>[<a href="#I-D.irtf-cfrg-randomness-improvements" class="xref">I-D.irtf-cfrg-randomness-improvements</a>]</span> and analogously for symmetric keys.<a href="#section-2.4-5" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1124,8 +1124,15 @@ The AKE needs to provide clear guidance on the level of security provided to aux
 <a href="#section-2.7" class="section-number selfRef">2.7. </a><a href="#name-extensibility" class="section-name selfRef">Extensibility</a>
         </h3>
 <p id="section-2.7-1">It is desirable that the AKE supports some kind of extensibility, in particular,  the ability to later include new AKE modes such as PAKE support. Note that by supporting COSE, the AKE can already support new algorithms, new certificate formats, ways to identify credentials, etc.<a href="#section-2.7-1" class="pilcrow">¶</a></p>
-<p id="section-2.7-2">Since the main objective with this work is to create a simple yet secure AKE,
-care needs to be taken to avoid feature creep and extensions working against this.<a href="#section-2.7-2" class="pilcrow">¶</a></p>
+<p id="section-2.7-2">The main objective with this work is to create a simple yet secure AKE.
+The AKE should avoid having multiple ways to express the same thing.
+When the underlying encodings offered by CBOR offer multiple possibility the
+AKE should be strongly opinioniated, and clearly specify which one will be used.<a href="#section-2.7-2" class="pilcrow">¶</a></p>
+<p id="section-2.7-3">While remaining extensible, the AKE should avoid optional mechanisms which
+introduce code paths that are less well tested.<a href="#section-2.7-3" class="pilcrow">¶</a></p>
+<p id="section-2.7-4">The AKE should avoid mechanisms where an initiator takes a guess at the policy, and
+when it receives a negative response, must guess, based upon what it has
+tried, what to do next.<a href="#section-2.7-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="denial-of-service">
