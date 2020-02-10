@@ -364,8 +364,10 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    alternatively be achieved with a nonce exchange followed by
    appropriately derived new session keys provided that state can be
    kept in the form of a session counter, for example as a resumption
-   procedure.  The decision whether such a procedure needs to be
-   specified within the LAKE protocol is left for the design phase.
+   procedure.  Note that OSCORE specifies a method for session key
+   change following a nonce exchange (see Appendix B in [RFC8613]).  The
+   decision whether such a procedure needs to be specified within the
+   LAKE protocol is left for the design phase.
 
    The AKE shall provide a mechanism to use the output of one handshake
    to optimize future handshakes, e.g., by generating keying material
@@ -384,8 +386,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    identified beforehand.  In the case of constrained devices, the
    identity may contain sensitive information on the manufacturer of the
    device, the batch, default firmware version, etc.  Protecting
-   identifying information from passive and active attacks is important
-   from a privacy point of view, but needs to be balanced with the other
 
 
 
@@ -394,6 +394,8 @@ Vucinic, et al.          Expires 13 August 2020                 [Page 7]
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
+   identifying information from passive and active attacks is important
+   from a privacy point of view, but needs to be balanced with the other
    requirements, including security and lightweightness.  For certain
    data we therefore need to make an exemption in order to obtain an
    efficient protocol.
@@ -440,8 +442,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    Another example is the embedding of a certificate enrolment request
    or a newly issued certificate.
 
-   The AKE must support the transport of such auxiliary data together
-   with the protocol messages.
 
 
 
@@ -449,6 +449,9 @@ Vucinic, et al.          Expires 13 August 2020                 [Page 8]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
+
+   The AKE must support the transport of such auxiliary data together
+   with the protocol messages.
 
    Auxiliary data may contain privacy sensitive information.  The
    auxiliary data must not violate the AKE security properties.  The AKE
@@ -495,9 +498,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    deployments (see Section 2.9) and without duplicating the DoS
    mitigation of the underlying transport (see Section 2.1).
 
-   Jamming attacks, cutting cables etc. leading to long term loss of
-   availability may not be possible to mitigate, but an attacker
-
 
 
 
@@ -506,6 +506,8 @@ Vucinic, et al.          Expires 13 August 2020                 [Page 9]
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
+   Jamming attacks, cutting cables etc. leading to long term loss of
+   availability may not be possible to mitigate, but an attacker
    temporarily injecting messages or disturbing the communication shall
    not have a similar impact.
 
@@ -552,8 +554,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    Per 'round-trips', it is desirable that the number of completed
    request/response message exchanges required before the initiating
    endpoint can start sending protected traffic data is as small as
-   possible, since this reduces completion time.  See Section 2.9.4 for
-
 
 
 
@@ -562,6 +562,7 @@ Vucinic, et al.          Expires 13 August 2020                [Page 10]
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
+   possible, since this reduces completion time.  See Section 2.9.4 for
    a discussion about the tradeoff between message size and number of
    messages.
 
@@ -609,7 +610,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    10% depending on the sub-band that is being used, leading to a
    payload split into fragments interleaved with unavailable times.  For
    Europe, the duty cycle is 1% (or smaller).  Although there are
-   exceptions from the use of duty cycle, the use of an AKE for
 
 
 
@@ -618,6 +618,7 @@ Vucinic, et al.          Expires 13 August 2020                [Page 11]
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
+   exceptions from the use of duty cycle, the use of an AKE for
    providing end-to-end security on application layer needs to comply
    with the duty cycle.
 
@@ -663,7 +664,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    the different LoRaWAN classes of devices) also has an impact on the
    energy consumption, but overall the Time-on-Air is an important
    indication of the performance.
-
 
 
 
