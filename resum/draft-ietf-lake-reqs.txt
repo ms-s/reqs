@@ -5,11 +5,11 @@
 Network Working Group                                         M. Vucinic
 Internet-Draft                                                     Inria
 Intended status: Informational                               G. Selander
-Expires: 8 August 2020                                       J. Mattsson
+Expires: 13 August 2020                                      J. Mattsson
                                                              Ericsson AB
                                                                D. Garcia
                                                      Odin Solutions S.L.
-                                                         5 February 2020
+                                                        10 February 2020
 
 
              Requirements for a Lightweight AKE for OSCORE
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 August 2020.
+   This Internet-Draft will expire on 13 August 2020.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Vucinic, et al.           Expires 8 August 2020                 [Page 1]
+Vucinic, et al.          Expires 13 August 2020                 [Page 1]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Vucinic, et al.           Expires 8 August 2020                 [Page 2]
+Vucinic, et al.          Expires 13 August 2020                 [Page 2]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -165,7 +165,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
 
-Vucinic, et al.           Expires 8 August 2020                 [Page 3]
+Vucinic, et al.          Expires 13 August 2020                 [Page 3]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -221,7 +221,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
 
-Vucinic, et al.           Expires 8 August 2020                 [Page 4]
+Vucinic, et al.          Expires 13 August 2020                 [Page 4]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -277,7 +277,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
 
-Vucinic, et al.           Expires 8 August 2020                 [Page 5]
+Vucinic, et al.          Expires 13 August 2020                 [Page 5]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -333,7 +333,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
 
-Vucinic, et al.           Expires 8 August 2020                 [Page 6]
+Vucinic, et al.          Expires 13 August 2020                 [Page 6]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -367,6 +367,11 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    procedure.  The decision whether such a procedure needs to be
    specified within the LAKE protocol is left for the design phase.
 
+   The AKE shall provide a mechanism to use the output of one handshake
+   to optimize future handshakes, e.g., by generating keying material
+   which can be used to authenticate a future handshake, thus avoiding
+   the need for public key authentication in that handshake.
+
    To mitigate against bad random number generators the AKE shall
    mandate randomness improvements such as
    [I-D.irtf-cfrg-randomness-improvements] and analogously for symmetric
@@ -381,18 +386,17 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    device, the batch, default firmware version, etc.  Protecting
    identifying information from passive and active attacks is important
    from a privacy point of view, but needs to be balanced with the other
-   requirements, including security and lightweightness.  For certain
-   data we therefore need to make an exemption in order to obtain an
-   efficient protocol.
 
 
 
-
-
-Vucinic, et al.           Expires 8 August 2020                 [Page 7]
+Vucinic, et al.          Expires 13 August 2020                 [Page 7]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
+
+   requirements, including security and lightweightness.  For certain
+   data we therefore need to make an exemption in order to obtain an
+   efficient protocol.
 
    In the case of public key identities, the AKE is required to protect
    the identity of one of the peers against active attackers and the
@@ -439,17 +443,15 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    The AKE must support the transport of such auxiliary data together
    with the protocol messages.
 
-   Auxiliary data may contain privacy sensitive information.  The
-   auxiliary data must not violate the AKE security properties.  The AKE
 
 
-
-
-Vucinic, et al.           Expires 8 August 2020                 [Page 8]
+Vucinic, et al.          Expires 13 August 2020                 [Page 8]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
+   Auxiliary data may contain privacy sensitive information.  The
+   auxiliary data must not violate the AKE security properties.  The AKE
    needs to provide clear guidance on the level of security provided to
    auxiliary data at different stages of the protocol.
 
@@ -496,15 +498,16 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    optimize the AKE to be 'as lightweight as reasonably achievable' in
    these environments, where 'lightweight' refers to:
 
-   *  resource consumption, measured by bytes on the wire, wall-clock
-      time and number of round trips to complete, or power consumption
 
 
 
-Vucinic, et al.           Expires 8 August 2020                 [Page 9]
+Vucinic, et al.          Expires 13 August 2020                 [Page 9]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
+
+   *  resource consumption, measured by bytes on the wire, wall-clock
+      time and number of round trips to complete, or power consumption
 
    *  the amount of new code required on end systems which already have
       an OSCORE stack
@@ -551,17 +554,16 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    than for other radio technologies.  In other cases, the radio
    transmitter will be active for a full MTU frame regardless of how
    much of the frame is occupied by message content, which makes the
-   byte count less sensitive for the power consumption as long as it
-   fits into the MTU frame.  The power consumption thus increases with
 
 
 
-
-Vucinic, et al.           Expires 8 August 2020                [Page 10]
+Vucinic, et al.          Expires 13 August 2020                [Page 10]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
+   byte count less sensitive for the power consumption as long as it
+   fits into the MTU frame.  The power consumption thus increases with
    AKE message size and the largest impact is on average under poor
    network conditions.
 
@@ -611,9 +613,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
 
-
-
-Vucinic, et al.           Expires 8 August 2020                [Page 11]
+Vucinic, et al.          Expires 13 August 2020                [Page 11]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -669,7 +669,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
 
-Vucinic, et al.           Expires 8 August 2020                [Page 12]
+Vucinic, et al.          Expires 13 August 2020                [Page 12]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -725,7 +725,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
 
-Vucinic, et al.           Expires 8 August 2020                [Page 13]
+Vucinic, et al.          Expires 13 August 2020                [Page 13]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -781,7 +781,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
 
-Vucinic, et al.           Expires 8 August 2020                [Page 14]
+Vucinic, et al.          Expires 13 August 2020                [Page 14]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -837,7 +837,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
 
-Vucinic, et al.           Expires 8 August 2020                [Page 15]
+Vucinic, et al.          Expires 13 August 2020                [Page 15]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -893,7 +893,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
 
-Vucinic, et al.           Expires 8 August 2020                [Page 16]
+Vucinic, et al.          Expires 13 August 2020                [Page 16]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -949,7 +949,7 @@ Acknowledgments
 
 
 
-Vucinic, et al.           Expires 8 August 2020                [Page 17]
+Vucinic, et al.          Expires 13 August 2020                [Page 17]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -1005,7 +1005,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
 
-Vucinic, et al.           Expires 8 August 2020                [Page 18]
+Vucinic, et al.          Expires 13 August 2020                [Page 18]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -1061,7 +1061,7 @@ Authors' Addresses
 
 
 
-Vucinic, et al.           Expires 8 August 2020                [Page 19]
+Vucinic, et al.          Expires 13 August 2020                [Page 19]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
@@ -1117,4 +1117,4 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
 
-Vucinic, et al.           Expires 8 August 2020                [Page 20]
+Vucinic, et al.          Expires 13 August 2020                [Page 20]
