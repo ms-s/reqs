@@ -1073,8 +1073,10 @@ The AKE must support different credentials for authentication in different direc
         </h3>
 <p id="section-2.4-1">The shared secret established by the AKE must be known only to the two authenticated endpoints.<a href="#section-2.4-1" class="pilcrow">¶</a></p>
 <p id="section-2.4-2">A passive network attacker should never learn any session keys, even if it knows both endpoints' long-term keys.<a href="#section-2.4-2" class="pilcrow">¶</a></p>
-<p id="section-2.4-3">An active attacker who has compromises the initiator or responder credential shall still not be able to compute past session keys (Perfect Forward Secrecy). These properties can be achieved e.g. with an ephemeral Diffie-Hellman key exchange.<a href="#section-2.4-3" class="pilcrow">¶</a></p>
-<p id="section-2.4-4">To mitigate against bad random number generators the AKE shall mandate randomness improvements such as <span>[<a href="#I-D.irtf-cfrg-randomness-improvements" class="xref">I-D.irtf-cfrg-randomness-improvements</a>]</span>.<a href="#section-2.4-4" class="pilcrow">¶</a></p>
+<p id="section-2.4-3">An active attacker who has compromised the initiator or responder credential shall still not be able to compute past session keys (Perfect Forward Secrecy). These properties can be achieved e.g. with an ephemeral Diffie-Hellman key exchange.<a href="#section-2.4-3" class="pilcrow">¶</a></p>
+<p id="section-2.4-4">Perfect Forward Secrecy may alternatively be achieved with a nonce exchange followed by appropriately derived new session keys provided that state can be kept in the form of a session counter. Note that OSCORE specifies a method for session key update involving a nonce exchange (see Appendix B in <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span>).<a href="#section-2.4-4" class="pilcrow">¶</a></p>
+<p id="section-2.4-5">The AKE shall provide a mechanism to use the output of one handshake to optimize future handshakes, e.g., by generating keying material which can be used to authenticate a future handshake, thus avoiding the need for public key authentication in that handshake.<a href="#section-2.4-5" class="pilcrow">¶</a></p>
+<p id="section-2.4-6">To mitigate against bad random number generators the AKE shall mandate randomness improvements such as <span>[<a href="#I-D.irtf-cfrg-randomness-improvements" class="xref">I-D.irtf-cfrg-randomness-improvements</a>]</span>.<a href="#section-2.4-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="crypto-agility">

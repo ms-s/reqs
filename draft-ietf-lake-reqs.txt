@@ -341,10 +341,21 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    A passive network attacker should never learn any session keys, even
    if it knows both endpoints' long-term keys.
 
-   An active attacker who has compromises the initiator or responder
+   An active attacker who has compromised the initiator or responder
    credential shall still not be able to compute past session keys
    (Perfect Forward Secrecy).  These properties can be achieved e.g.
    with an ephemeral Diffie-Hellman key exchange.
+
+   Perfect Forward Secrecy may alternatively be achieved with a nonce
+   exchange followed by appropriately derived new session keys provided
+   that state can be kept in the form of a session counter.  Note that
+   OSCORE specifies a method for session key update involving a nonce
+   exchange (see Appendix B in [RFC8613]).
+
+   The AKE shall provide a mechanism to use the output of one handshake
+   to optimize future handshakes, e.g., by generating keying material
+   which can be used to authenticate a future handshake, thus avoiding
+   the need for public key authentication in that handshake.
 
    To mitigate against bad random number generators the AKE shall
    mandate randomness improvements such as
@@ -374,17 +385,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
       length of the MAC for the AKE may be required to be larger than
       for OSCORE.
 
-   The AKE negotiation must provide strong integrity guarantees against
-   active attackers.  At the end of the AKE protocol, both endpoints
-   must agree on both the crypto algorithms that were proposed and those
-   that were chosen.  In particular, the protocol must protect against
-   downgrade attacks.
-
-
-
-
-
-
 
 
 
@@ -393,6 +393,12 @@ Vucinic, et al.          Expires 20 August 2020                 [Page 7]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
+
+   The AKE negotiation must provide strong integrity guarantees against
+   active attackers.  At the end of the AKE protocol, both endpoints
+   must agree on both the crypto algorithms that were proposed and those
+   that were chosen.  In particular, the protocol must protect against
+   downgrade attacks.
 
 2.6.  Identity Protection
 
@@ -436,12 +442,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    be integrated into the AKE by transporting auxiliary data together
    with the AKE messages.
 
-   One example is the transport of third-party authorization information
-   such as an access token or a voucher from initiator to responder or
-   vice versa.  Such a scheme could enable the party receiving the
-   authorization information to make a decision about whether the party
-   being authenticated is also authorized before the protocol is
-   completed, and if not then discontinue the protocol before it is
 
 
 
@@ -450,6 +450,12 @@ Vucinic, et al.          Expires 20 August 2020                 [Page 8]
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
+   One example is the transport of third-party authorization information
+   such as an access token or a voucher from initiator to responder or
+   vice versa.  Such a scheme could enable the party receiving the
+   authorization information to make a decision about whether the party
+   being authenticated is also authorized before the protocol is
+   completed, and if not then discontinue the protocol before it is
    complete, thereby saving time, message processing and data
    transmission.  This application can be further optimized by using an
    AKE with static DH keys [I-D.selander-ace-ake-authz].
@@ -491,12 +497,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    possibility the AKE should be strongly opinioniated, and clearly
    specify which one will be used.
 
-   While remaining extensible, the AKE should avoid optional mechanisms
-   which introduce code paths that are less well tested.
-
-   The AKE should avoid mechanisms where an initiator takes a guess at
-   the policy, and when it receives a negative response, must guess,
-   based upon what it has tried, what to do next.
 
 
 
@@ -505,6 +505,13 @@ Vucinic, et al.          Expires 20 August 2020                 [Page 9]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
+
+   While remaining extensible, the AKE should avoid optional mechanisms
+   which introduce code paths that are less well tested.
+
+   The AKE should avoid mechanisms where an initiator takes a guess at
+   the policy, and when it receives a negative response, must guess,
+   based upon what it has tried, what to do next.
 
 2.9.  Denial of Service
 
@@ -548,13 +555,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    rates, number of hops, etc.  Example benchmarks are given further
    down in this section.
 
-   Per 'time', it is desirable for the AKE message exchange(s) to
-   complete in a reasonable amount of time, both for a single
-   uncongested exchange and when multiple exchanges are running in an
-   interleaved fashion, like e.g. in a "network formation" setting when
-   multiple devices connect for the first time.  This latency may not be
-   a linear function depending on congestion and the specific radio
-
 
 
 Vucinic, et al.          Expires 20 August 2020                [Page 10]
@@ -562,6 +562,12 @@ Vucinic, et al.          Expires 20 August 2020                [Page 10]
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
+   Per 'time', it is desirable for the AKE message exchange(s) to
+   complete in a reasonable amount of time, both for a single
+   uncongested exchange and when multiple exchanges are running in an
+   interleaved fashion, like e.g. in a "network formation" setting when
+   multiple devices connect for the first time.  This latency may not be
+   a linear function depending on congestion and the specific radio
    technology used.  As these are relatively low data rate networks, the
    latency contribution due to computation is in general not expected to
    be dominant.
@@ -604,12 +610,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    these dimensions, there are some key benchmarks that are tractable
    for security protocol engineering and which have a significant
    impact.
-
-
-
-
-
-
 
 
 
