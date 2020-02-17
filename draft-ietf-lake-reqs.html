@@ -1063,6 +1063,7 @@ The AKE must support different credentials for authentication in different direc
 </ul>
 <p id="section-2.3-5">Moreover, it shall be possible for the receiving endpoint to detect a replayed AKE message.<a href="#section-2.3-5" class="pilcrow">¶</a></p>
 <p id="section-2.3-6">Furthermore, the endpoints shall be able to verify that the identity of the other endpoint is an acceptable identity that it is intended to authenticate to. (This requirement extends beyond the AKE in that the application must enable access to information about acceptable identities without compromising the overall lightweightness of the AKE.)<a href="#section-2.3-6" class="pilcrow">¶</a></p>
+<p id="section-2.3-7">As often is the case, it is expected that an AKE fulfilling these goals would have at least three flights of messages (with each flight potentially consisting of one or more messages, depending on the AKE design and the mapping to OSCORE).<a href="#section-2.3-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="confidentiality">
@@ -1102,8 +1103,8 @@ The AKE must support different credentials for authentication in different direc
         </h3>
 <p id="section-2.6-1">In general, it is necessary to transport identities as part of the AKE run in order to provide authentication of an entity not identified beforehand. In the case of constrained devices, the identity may contain sensitive information on the manufacturer of the device, the batch, default firmware version, etc. Protecting identifying information from passive and active attacks is important from a privacy point of view, but needs to be balanced with the other requirements, including security and lightweightness. For certain data we therefore need to make an exemption in order to obtain an efficient protocol.<a href="#section-2.6-1" class="pilcrow">¶</a></p>
 <p id="section-2.6-2">In the case of public key identities, the AKE is required to protect the identity of one of the peers against active attackers and the identity of the other peer against passive attackers.<a href="#section-2.6-2" class="pilcrow">¶</a></p>
-<p id="section-2.6-3">In case of a PSK identifier, this may be protected against passive attackers, for example with a key derived from a Diffie-Hellman shared secret at the earliest in message 3. As a consequence, in order to authenticate the responder within the AKE, at least four protocol messages are needed in case of symmetric key authentication with identity protection. Considering the need to keep the number of messages at a minimum (see <a href="#disc" class="xref">Section 2.10.4</a>), unless there are other good reasons for having more than 3 messages, it is not required to protect the PSK identifier, and it may thus be sent in the first message.<a href="#section-2.6-3" class="pilcrow">¶</a></p>
-<p id="section-2.6-4">Other identifying information that needs to be transported in plain text is cipher suites and connection identifiers. Encrypting crypto algorithms does not allow negotiation of cipher suite within 3 messages. Encryption of connection identifiers only works in asymmetric case and does not enable arbitrarily short identifiers (see <a href="#AKE-OSCORE" class="xref">Section 2.1</a>).<a href="#section-2.6-4" class="pilcrow">¶</a></p>
+<p id="section-2.6-3">In case of a PSK identifier, this may be protected against passive attackers, for example with a key derived from a Diffie-Hellman shared secret at the earliest in flight 3. As a consequence, in order to authenticate the responder within the AKE, at least four protocol flights are needed in case of symmetric key authentication with identity protection. Considering the need to keep the number of round-trips at a minimum (see <a href="#disc" class="xref">Section 2.10.4</a>), unless there are other good reasons for having more than 3 flights, it is not required to protect the PSK identifier, and it may thus be sent in the first flight.<a href="#section-2.6-3" class="pilcrow">¶</a></p>
+<p id="section-2.6-4">Other identifying information that needs to be transported in plain text is cipher suites and connection identifiers. Encrypting crypto algorithms does not allow negotiation of cipher suite within 3 flight. Encryption of connection identifiers only works in asymmetric case and does not enable arbitrarily short identifiers (see <a href="#AKE-OSCORE" class="xref">Section 2.1</a>).<a href="#section-2.6-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="auxiliary-data">
@@ -1111,19 +1112,19 @@ The AKE must support different credentials for authentication in different direc
         <h3 id="name-auxiliary-data">
 <a href="#section-2.7" class="section-number selfRef">2.7. </a><a href="#name-auxiliary-data" class="section-name selfRef">Auxiliary Data</a>
         </h3>
-<p id="section-2.7-1">In order to reduce round trips and number of messages, and in some cases also streamline processing, certain security features may be  integrated into the AKE by transporting auxiliary data together with the AKE messages.<a href="#section-2.7-1" class="pilcrow">¶</a></p>
+<p id="section-2.7-1">In order to reduce round trips and the number of messages, and in some cases also streamline processing, certain security features may be  integrated into the AKE by transporting auxiliary data together with the AKE messages.<a href="#section-2.7-1" class="pilcrow">¶</a></p>
 <p id="section-2.7-2">One example is the transport of third-party authorization information such as an access token or a voucher from initiator to responder or vice versa. Such a scheme could enable the party receiving the authorization information to make a decision about whether the party being authenticated is also authorized before the protocol is completed, and if not then discontinue the protocol before it is complete, thereby saving time, message processing and data transmission. This application can be further optimized by using an AKE with static DH keys <span>[<a href="#I-D.selander-ace-ake-authz" class="xref">I-D.selander-ace-ake-authz</a>]</span>.<a href="#section-2.7-2" class="pilcrow">¶</a></p>
 <p id="section-2.7-3">Another example is the embedding of a certificate enrolment request or a newly issued certificate.<a href="#section-2.7-3" class="pilcrow">¶</a></p>
 <p id="section-2.7-4">The AKE must support the transport of such auxiliary data together with the protocol messages.<a href="#section-2.7-4" class="pilcrow">¶</a></p>
 <p id="section-2.7-5">Auxiliary data may contain privacy sensitive information. The auxiliary data must not violate the AKE security properties.
 The AKE needs to provide clear guidance on the level of security provided to auxiliary data at different stages of the protocol.<a href="#section-2.7-5" class="pilcrow">¶</a></p>
-<p id="section-2.7-6">For example, for a SIGMA-I AKE it is expected that the 3 messages will provide the following protection of the auxiliary data:<a href="#section-2.7-6" class="pilcrow">¶</a></p>
+<p id="section-2.7-6">For example, for a SIGMA-I AKE it is expected that the 3 flights will provide the following protection of the auxiliary data:<a href="#section-2.7-6" class="pilcrow">¶</a></p>
 <ul>
-<li id="section-2.7-7.1">Auxiliary data in the first message is unprotected<a href="#section-2.7-7.1" class="pilcrow">¶</a>
+<li id="section-2.7-7.1">Auxiliary data in the first flight is unprotected<a href="#section-2.7-7.1" class="pilcrow">¶</a>
 </li>
-<li id="section-2.7-7.2">Auxiliary data in the second message is confidentiality protected against passive attackers and integrity protected against active attackers<a href="#section-2.7-7.2" class="pilcrow">¶</a>
+<li id="section-2.7-7.2">Auxiliary data in the second flight is confidentiality protected against passive attackers and integrity protected against active attackers<a href="#section-2.7-7.2" class="pilcrow">¶</a>
 </li>
-<li id="section-2.7-7.3">Auxiliary data in the third message is confidentiality and integrity protected against active attackers<a href="#section-2.7-7.3" class="pilcrow">¶</a>
+<li id="section-2.7-7.3">Auxiliary data in the third flight is confidentiality and integrity protected against active attackers<a href="#section-2.7-7.3" class="pilcrow">¶</a>
 </li>
 </ul>
 </section>
@@ -1203,7 +1204,7 @@ OSCORE stack<a href="#section-2.10-2.2" class="pilcrow">¶</a>
             <h5 id="name-round-trips-and-number-of-m">
 <a href="#section-2.10.1.3" class="section-number selfRef">2.10.1.3. </a><a href="#name-round-trips-and-number-of-m" class="section-name selfRef">Round trips and number of messages</a>
             </h5>
-<p id="section-2.10.1.3-1">Considering the duty cycle of LoRaWAN and associated unavailable times, the round trips and number of messages needs to be reduced as much as possible.<a href="#section-2.10.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.10.1.3-1">Considering the duty cycle of LoRaWAN and associated unavailable times, the round trips and number of LoRaWAN packets needs to be reduced as much as possible.<a href="#section-2.10.1.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="power">
@@ -1317,7 +1318,7 @@ Network formation time directly affects the time installers need to spend on sit
             <h5 id="name-round-trips-and-number-of-mes">
 <a href="#section-2.10.3.3" class="section-number selfRef">2.10.3.3. </a><a href="#name-round-trips-and-number-of-mes" class="section-name selfRef">Round trips and number of messages</a>
             </h5>
-<p id="section-2.10.3.3-1">As indicated in <a href="#nbiot-time" class="xref">Section 2.10.3.2</a>, the number of messages and round-trips is one limiting factor for protocol completion time.<a href="#section-2.10.3.3-1" class="pilcrow">¶</a></p>
+<p id="section-2.10.3.3-1">As indicated in <a href="#nbiot-time" class="xref">Section 2.10.3.2</a>, the number of frames and round-trips is one limiting factor for protocol completion time.<a href="#section-2.10.3.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="nbiot-power">
@@ -1339,7 +1340,7 @@ Network formation time directly affects the time installers need to spend on sit
           </h4>
 <p id="section-2.10.4-1">While "as small protocol messages as possible" does not lend itself to a sharp boundary threshold, "as few protocol messages as possible" does and is relevant in all settings above.<a href="#section-2.10.4-1" class="pilcrow">¶</a></p>
 <p id="section-2.10.4-2">The penalty is high for not fitting into the frame sizes of 6TiSCH and LoRaWAN networks. Fragmentation is not defined within these technologies so requires fragmentation scheme on a higher layer in the stack. With fragmentation increases the number of frames per message, each with its associated overhead in terms of power consumption and latency. Additionally the probability for errors increases, which leads to retransmissions of frames or entire messages that in turn increases the power consumption and latency.<a href="#section-2.10.4-2" class="pilcrow">¶</a></p>
-<p id="section-2.10.4-3">There are trade-offs between "few messages" and "few frames"; if overhead is spread out over more messages such that each message fits into a particular frame this may reduce the overall power consumption. While it may be possible to engineer such a solution for a particular radio technology and signature algorithm, the benefits in terms of fewer messages/round trips in general and for NB-IoT in particular (see <a href="#nb-iot" class="xref">Section 2.10.3</a>) are considered more important than optimizing for a specific scenario. Hence an optimal AKE protocol has 3 messages and each message fits into as few frames as possible, ideally 1 frame per message.<a href="#section-2.10.4-3" class="pilcrow">¶</a></p>
+<p id="section-2.10.4-3">There are trade-offs between "few messages" and "few frames"; if overhead is spread out over more messages such that each message fits into a particular frame this may reduce the overall power consumption. While it may be possible to engineer such a solution for a particular radio technology and signature algorithm, the benefits in terms of fewer messages/round trips in general and for NB-IoT in particular (see <a href="#nb-iot" class="xref">Section 2.10.3</a>) are considered more important than optimizing for a specific scenario. Hence an optimal AKE protocol has 3 messages and each messages fits into as few frames as possible, ideally 1 frame per messages.<a href="#section-2.10.4-3" class="pilcrow">¶</a></p>
 <p id="section-2.10.4-4">The difference between uplink and downlink performance should not be engineered into the protocol since it cannot be assumed that a particular protocol message will be sent uplink or downlink.<a href="#section-2.10.4-4" class="pilcrow">¶</a></p>
 </section>
 </div>
