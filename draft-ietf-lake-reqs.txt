@@ -436,7 +436,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    Other identifying information that needs to be transported in plain
    text is cipher suites and connection identifiers.  Encrypting crypto
    algorithms does not allow negotiation of cipher suite within 3
-   flight.  Encryption of connection identifiers only works in
+   flights.  Encryption of connection identifiers only works in
    asymmetric case and does not enable arbitrarily short identifiers
    (see Section 2.1).
 
@@ -452,10 +452,10 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 2.7.  Auxiliary Data
 
-   In order to reduce round trips and the number of messages, and in
-   some cases also streamline processing, certain security features may
-   be integrated into the AKE by transporting auxiliary data together
-   with the AKE messages.
+   In order to reduce round trips and the number of flights, and in some
+   cases also streamline processing, certain security features may be
+   integrated into the AKE by transporting auxiliary data together with
+   the AKE messages.
 
    One example is the transport of third-party authorization information
    such as an access token or a voucher from initiator to responder or
@@ -585,7 +585,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    endpoint can start sending protected traffic data is as small as
    possible, since this reduces completion time.  See Section 2.10.4 for
    a discussion about the tradeoff between message size and number of
-   messages.
+   flights.
 
    Per 'power', it is desirable for the transmission of AKE messages and
    crypto to draw as little power as possible.  The best mechanism for
@@ -678,7 +678,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    next use, which encourages the reduction of the message size as much
    as possible.
 
-2.10.1.3.  Round trips and number of messages
+2.10.1.3.  Round trips and number of flights
 
    Considering the duty cycle of LoRaWAN and associated unavailable
    times, the round trips and number of LoRaWAN packets needs to be
@@ -688,8 +688,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
    The calculation of the power consumption in LoRaWAN is dependent on
    several factors, such as the spreading factor used and the length of
-   the message sent, both having a clear dependency with the time it
-   takes to transmit the message.  The communication model (inherent to
+   the messages sent, both having a clear dependency with the time it
+   takes to transmit the messages.  The communication model (inherent to
    the different LoRaWAN classes of devices) also has an impact on the
    energy consumption, but overall the Time-on-Air is an important
    indication of the performance.
@@ -748,7 +748,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    join the network.  Network formation time directly affects the time
    installers need to spend on site at deployment time.
 
-2.10.2.3.  Round trips and number of messages
+2.10.2.3.  Round trips and number of flights
 
    Given the mesh nature of the 6TiSCH network, and given that each
    message may travel several hops before reaching its destination, it
@@ -810,16 +810,16 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    Coverage significantly impacts the available bit rate and thereby the
    time for transmitting a message, and there is also a difference
    between downlink and uplink transmissions (see Section 2.10.3.4).
-   The transmission time for the message is essentially proportional to
+   The transmission time for a message is essentially proportional to
    the number of bytes.
 
    Since NB-IoT is operating in licensed spectrum, in contrast to e.g.
    LoRaWAN, the packets on the radio interface can be transmitted back-
    to-back, so the time before sending OSCORE protected data is limited
-   by the number of round trips/messages of the AKE and not by a duty
+   by the number of round trips/flights of the AKE and not by a duty
    cycle.
 
-2.10.3.3.  Round trips and number of messages
+2.10.3.3.  Round trips and number of flights
 
    As indicated in Section 2.10.3.2, the number of frames and round-
    trips is one limiting factor for protocol completion time.
@@ -858,8 +858,8 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 2.10.4.  Discussion
 
    While "as small protocol messages as possible" does not lend itself
-   to a sharp boundary threshold, "as few protocol messages as possible"
-   does and is relevant in all settings above.
+   to a sharp boundary threshold, "as few flights as possible" does and
+   is relevant in all settings above.
 
    The penalty is high for not fitting into the frame sizes of 6TiSCH
    and LoRaWAN networks.  Fragmentation is not defined within these
@@ -873,23 +873,23 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    There are trade-offs between "few messages" and "few frames"; if
    overhead is spread out over more messages such that each message fits
    into a particular frame this may reduce the overall power
-   consumption.  While it may be possible to engineer such a solution
-   for a particular radio technology and signature algorithm, the
-   benefits in terms of fewer messages/round trips in general and for
-   NB-IoT in particular (see Section 2.10.3) are considered more
-   important than optimizing for a specific scenario.  Hence an optimal
-   AKE protocol has 3 messages and each messages fits into as few frames
-   as possible, ideally 1 frame per messages.
+   consumption.  For example, with a frame size of 50 bytes, two 60-byte
+   messages will fragment into 4 frames in total, whereas three 40-byte
+   messages fragment into 3 frames in total.  While it may be possible
+   to engineer such a solution for a particular radio technology and
+   signature algorithm, the benefits in terms of fewer flights/round
+   trips in general and for NB-IoT in particular (see Section 2.10.3)
+   are considered more important than optimizing for a specific
+   scenario.  Considering that an AKE protocol complying with these
+   requirements is expected to have at least 3 messages, the optimal AKE
+   has 3 messages and each message fits into as few frames as possible,
+   ideally 1 frame per message.
 
    The difference between uplink and downlink performance should not be
    engineered into the protocol since it cannot be assumed that a
    particular protocol message will be sent uplink or downlink.
 
-2.10.5.  AKE frequency
 
-   One question that has been asked in the context of lightweightness
-   is: - How often is the AKE executed?  While it may be impossible to
-   give a precise answer there are other perspectives to this question.
 
 
 
@@ -897,6 +897,12 @@ Vucinic, et al.          Expires 20 August 2020                [Page 16]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
+
+2.10.5.  AKE frequency
+
+   One question that has been asked in the context of lightweightness
+   is: - How often is the AKE executed?  While it may be impossible to
+   give a precise answer there are other perspectives to this question.
 
    1.  For some use cases, already one execution of the AKE is heavy,
        for example, because
@@ -921,7 +927,7 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
        is obtained from a previous asymmetric key based run of the AKE.
 
    To summarize, even if it we are unable to give precise numbers for
-   AKE frequency, a lightweight AKE
+   AKE frequency, a lightweight AKE:
 
    *  reduces the time for network formation and AKE runs in challenging
       radio technologies,
@@ -929,22 +935,16 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
    *  allows devices to quickly re-establish security in case of
       reboots, and
 
-   *  enables support for recommendations of frequent key renewal
+   *  enables support for recommendations of frequent key renewal.
 
 3.  Requirements Summary
 
    *  The AKE must support PSK, RPK and certificate based authentication
-      with PFS and crypto agility for AKE as well as OSCORE, be 3-pass
-      and support transport over CoAP.  It is required to support
-      different schemes for transporting and identifying credentials.
+      with PFS and crypto agility for AKE as well as OSCORE, have 3
+      flights and support transport over CoAP.  It is required to
+      support different schemes for transporting and identifying
+      credentials.
 
-   *  After the AKE run, the peers must be mutually authenticated, agree
-      on a shared secret with PFS and good amount of randomness, peer
-      identifiers (potentially short), and COSE algorithms to use.
-
-   *  The AKE must reuse CBOR, CoAP and COSE primitives and algorithms
-      for low code complexity and to avoid duplicate maintenance of a
-      combined OSCORE and AKE implementation.
 
 
 
@@ -953,6 +953,14 @@ Vucinic, et al.          Expires 20 August 2020                [Page 17]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
+
+   *  After the AKE run, the peers must be mutually authenticated, agree
+      on a shared secret with PFS and good amount of randomness, peer
+      identifiers (potentially short), and COSE algorithms to use.
+
+   *  The AKE must reuse CBOR, CoAP and COSE primitives and algorithms
+      for low code complexity and to avoid duplicate maintenance of a
+      combined OSCORE and AKE implementation.
 
    *  The messages should be as small as reasonably achievable.  The
       messages shall fit into as few LoRaWAN packets and 6TiSCH frames
@@ -995,14 +1003,6 @@ Acknowledgments
               alliance.org/data/downloadables/1/9/
               fairhair_security_wp_march-2018.pdf>.
 
-   [HKDF]     Krawczyk, H., "Cryptographic Extraction and Key
-              Derivation: The HKDF Scheme", May 2010,
-              <https://eprint.iacr.org/2010/264.pdf>.
-
-   [I-D.ietf-6tisch-minimal-security]
-              Vucinic, M., Simon, J., Pister, K., and M. Richardson,
-              "Constrained Join Protocol (CoJP) for 6TiSCH", Work in
-
 
 
 Vucinic, et al.          Expires 20 August 2020                [Page 18]
@@ -1010,6 +1010,13 @@ Vucinic, et al.          Expires 20 August 2020                [Page 18]
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
+   [HKDF]     Krawczyk, H., "Cryptographic Extraction and Key
+              Derivation: The HKDF Scheme", May 2010,
+              <https://eprint.iacr.org/2010/264.pdf>.
+
+   [I-D.ietf-6tisch-minimal-security]
+              Vucinic, M., Simon, J., Pister, K., and M. Richardson,
+              "Constrained Join Protocol (CoJP) for 6TiSCH", Work in
               Progress, Internet-Draft, draft-ietf-6tisch-minimal-
               security-15, 10 December 2019, <http://www.ietf.org/
               internet-drafts/draft-ietf-6tisch-minimal-security-
@@ -1050,13 +1057,6 @@ Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
               Richardson, "Lightweight Authorization for Authenticated
               Key Exchange.", Work in Progress, Internet-Draft, draft-
               selander-ace-ake-authz-00, 6 February 2020,
-              <http://www.ietf.org/internet-drafts/draft-selander-ace-
-              ake-authz-00.txt>.
-
-   [LoRaWAN]  "LoRaWAN Regional Parameters v1.0.2rB", February 2017,
-              <https://lora-alliance.org/resource-hub/lorawantm-
-              regional-parameters-v102rb>.
-
 
 
 
@@ -1065,6 +1065,13 @@ Vucinic, et al.          Expires 20 August 2020                [Page 19]
 
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
+
+              <http://www.ietf.org/internet-drafts/draft-selander-ace-
+              ake-authz-00.txt>.
+
+   [LoRaWAN]  "LoRaWAN Regional Parameters v1.0.2rB", February 2017,
+              <https://lora-alliance.org/resource-hub/lorawantm-
+              regional-parameters-v102rb>.
 
    [LwM2M]    "OMA SpecWorks LwM2M", August 2018,
               <http://www.openmobilealliance.org/release/LightweightM2M/
@@ -1106,13 +1113,6 @@ Authors' Addresses
    Email: goran.selander@ericsson.com
 
 
-   John Preuss Mattsson
-   Ericsson AB
-
-   Email: john.mattsson@ericsson.com
-
-
-   Dan Garcia-Carrillo
 
 
 
@@ -1122,16 +1122,16 @@ Vucinic, et al.          Expires 20 August 2020                [Page 20]
 Internet-Draft            Reqs-LAKE-for-OSCORE             February 2020
 
 
+   John Preuss Mattsson
+   Ericsson AB
+
+   Email: john.mattsson@ericsson.com
+
+
+   Dan Garcia-Carrillo
    Odin Solutions S.L.
 
    Email: dgarcia@odins.es
-
-
-
-
-
-
-
 
 
 
